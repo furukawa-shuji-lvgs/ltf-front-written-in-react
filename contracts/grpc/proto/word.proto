@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package ltf.word;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/pagination.proto";
+
+/**
+ * おすすめキーワード一覧 サービス
+ */
+service Word {
+  /**
+   * キーワード一覧の取得
+   */
+  rpc GetWords(GetWordsRequest) returns (GetWordsResponse);
+}
+
+/**
+ * キーワード一覧の取得用のリクエスト
+ */
+message GetWordsRequest {
+  int32 page = 1;
+}
+
+/**
+ * キーワード一覧の取得用のレスポンス
+ */
+message GetWordsResponse {
+  repeated WordData words = 1;
+  shared.pagination.PaginationMeta pagination_meta = 2;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * WordData
+ */
+message WordData {
+  int32 id = 1; // ワードID
+  string keyword_first = 2; // キーワード（第一）
+  string keyword_second = 3; // キーワード（第二）
+  string keyword_third = 4; // キーワード（第三）
+}

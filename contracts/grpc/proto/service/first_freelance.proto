@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package ltf.service.first_freelance;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/project.proto";
+
+/**
+ * 新規フリーランス向けページサービス
+ */
+service ServiceFirstFreelance {
+  /**
+   * 新規フリーランス向けページに表示する案件取得
+   */
+  rpc GetProjectsForFirstFreelance(GetProjectsForFirstFreelanceRequest) returns (GetProjectsForFirstFreelanceResponse);
+}
+
+/**
+ * 新規フリーランス向けページに表示する案件取得リクエスト
+ */
+message GetProjectsForFirstFreelanceRequest {}
+
+/**
+ * 新規フリーランス向けページに表示する案件取得レスポンス
+ */
+message GetProjectsForFirstFreelanceResponse {
+  repeated FirstFreelanceSuggestProjectItems project_items = 1; // 表示する案件グループの配列
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 新規フリーランス向けページに表示する案件グループ
+ */
+message FirstFreelanceSuggestProjectItems {
+  string position_name = 1; // 職種名
+  int32 total = 2; // 案件総数
+  repeated ltf.shared.project.ProjectBaseData projects = 3; // 案件情報
+}

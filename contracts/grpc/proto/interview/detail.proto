@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package ltf.interview.detail;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/entry.proto";
+
+/**
+ * インタビュー（詳細） サービス
+ */
+service InterviewDetail {
+  /**
+   * 詳細の取得
+   */
+  rpc GetInterviewDetail(GetInterviewDetailRequest) returns (GetInterviewDetailResponse);
+}
+
+/**
+ * インタビュー詳細の取得用のリクエスト
+ */
+message GetInterviewDetailRequest {
+  int32 interview_id = 1; // インタビューID
+}
+
+/**
+ * インタビュー詳細取得のレスポンス
+ */
+message GetInterviewDetailResponse {
+  InterviewDetailData interview_detail = 1; // インタビュー詳細
+  InterviewDetailPagerData prev_data = 2;
+  InterviewDetailPagerData next_data = 3;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * PagerData
+ */
+message InterviewDetailPagerData {
+  int32 id = 1;
+  string title = 2;
+}
+
+/**
+ * InterviewDetailData
+ */
+message InterviewDetailData {
+  int32 id = 1;
+  string title = 2; // タイトル
+  string content = 3; // 本文
+  string meta_title = 4; // メタタイトル
+  string meta_description = 5; // メタディスクリプション
+  string meta_keyword = 6; // キーワード
+  string h1 = 7; // h1
+  string pc_image_url = 8; // PC向けメイン画像
+  string sp_image_url = 9; // SP向けメイン画像
+  Profile profile = 10; // ご利用者プロフィール
+  repeated shared.entry.ContractType contract_types = 11; // 契約形態
+}
+
+/**
+ * プロフィール
+ */
+message Profile {
+  string pc_image_url = 1; // PC向けご利用者プロフィール画像
+  string sp_image_url = 2; // SP向けご利用者プロフィール画像
+  string name = 3; // ご利用者名
+  int32 age = 4; // ご利用者年齢
+  string skill = 5; // メインスキル
+  string freelance_career = 6; // フリーランス歴
+  string experience = 7; // エンジニア歴
+  string family = 8; // 家族構成
+}

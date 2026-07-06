@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package ltf.shared.project_search;
+
+import "google/protobuf/wrappers.proto";
+import "shared/project.proto";
+
+/**
+ * デフォルトの条件群
+ */
+message ConditionCommon {
+  int32 id = 1; // ID
+  string name = 2; // 条件名
+}
+
+/**
+ * エリアの条件群
+ */
+message ConditionRegion {
+  string name = 1; // 関東、関西など地域区分
+  repeated ConditionPref prefs = 2;
+}
+
+/**
+ * 都道府県の条件群
+ */
+message ConditionPref {
+  int32 id = 1; // ID
+  string name = 2; // 都道府県名
+  repeated ConditionDistrict districts = 3; // 市区町村一覧
+}
+
+/**
+ * 市区町村の条件群
+ */
+message ConditionDistrict {
+  int32 id = 1; // ID
+  string name = 2; // 地域名
+  repeated ConditionArea areas = 3; // 町域一覧
+}
+
+/**
+ * 町域の条件群
+ */
+message ConditionArea {
+  int32 id = 1; // ID
+  string name = 2; // 町域名
+}
+
+/**
+ * スキル・言語の条件群
+ */
+message SkillCondition {
+  string category_name = 1; // カテゴリ名
+  repeated ConditionCommon conditions = 2; // スキル・言語一覧
+}
+
+/**
+ * 一覧案件
+ */
+message SearchProjectData {
+  ltf.shared.project.ProjectBaseData base_data = 1; // 案件基本情報
+  ltf.shared.project.RemoteWorkAcceptable remote_work_acceptable = 2; // リモートワーク可否
+  ltf.shared.project.WeekWorkDaysCondition week_work_days_condition = 3; // 最低稼働日数
+  repeated string job_type_names = 4; // 募集職種
+  repeated string position_names = 5; // ポジション
+  repeated ltf.shared.project.Fit fits = 6; // 特徴
+  string request_skill_necessary = 7; // 求めるスキル
+  bool is_closed = 8; // 終了公開案件の判定
+  google.protobuf.Int32Value remote_work_type_id = 9; // リモートワーク形態ID
+}

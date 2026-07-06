@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package ltf.project.undecided.v1;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/project_search.proto";
+
+service ProjectUndecided {
+  rpc GetProjectCountByLogicalSum(GetProjectCountByLogicalSumRequest) returns (GetProjectCountByLogicalSumResponse);
+}
+
+message GetProjectCountByLogicalSumRequest {
+  repeated int32 project_ids = 1;
+}
+
+message GetProjectCountByLogicalSumResponse {
+  ltf.results.Result result = 1;
+  oneof body {
+    ltf.common.response.Error error = 2;
+    ProjectCountWithCondition project_count_with_condition = 3;
+  }
+}
+
+message ProjectCountWithCondition {
+  int32 project_count = 1;
+  repeated ltf.shared.project_search.SearchProjectData projects = 2;
+  GetProjectCountCondition condition = 3;
+}
+
+/*
+ * 各項目は最大3件まで絞り込んで返却する
+ */
+message GetProjectCountCondition {
+  repeated ltf.shared.project_search.ConditionCommon job_types = 1;
+  repeated ltf.shared.project_search.ConditionCommon remote_work_types = 2;
+  repeated ltf.shared.project_search.ConditionCommon prefectures = 3;
+  repeated ltf.shared.project_search.ConditionCommon week_work_days = 4;
+}

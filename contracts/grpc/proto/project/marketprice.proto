@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package ltf.project.marketprice;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * 単価相場一覧サービス
+ */
+service ProjectMarketprice {
+  /**
+   * 単価相場一覧取得
+   */
+  rpc GetProjectMarketprices(GetProjectMarketpricesRequest) returns (GetProjectMarketpricesResponse);
+}
+
+/**
+ * 単価相場一覧取得リクエスト
+ */
+message GetProjectMarketpricesRequest {}
+
+/**
+ * 単価相場一覧取得レスポンス
+ */
+message GetProjectMarketpricesResponse {
+  /**
+   * カテゴリ毎の単価相場一覧
+   */
+  repeated MarketpricesGroupedByCategoryEntry marketprices_grouped_by_category_entries = 1;
+
+  ltf.results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * カテゴリと単価相場一覧の組
+ */
+message MarketpricesGroupedByCategoryEntry {
+  /**
+   * カテゴリ名
+   */
+  string category = 1;
+  /**
+   * 単価相場一覧
+   */
+  repeated Marketprice marketprices = 2;
+}
+
+/**
+ * 単価相場
+ */
+message Marketprice {
+  string skill_name = 1; // 言語名
+  int32 project_count = 2; // 案件数
+  repeated PriceDistribution price_distributions = 3; // 単価ごとの案件数分布
+  string uri = 4; // 案件一覧検索のURL
+  int32 average_price = 5;
+  int32 max_price = 6;
+}
+
+/**
+ * 単価ごとの案件数分布
+ */
+message PriceDistribution {
+  string price_division = 1; // ○万〜の文字列
+  int32 project_count = 2; // 単価ごとの案件数
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package ltf.sitemap;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * サイトマップ用サービス
+ */
+service Sitemap {
+  /**
+   * 案件一覧の取得
+   */
+  rpc GetCases(GetCasesRequest) returns (GetCasesResponse);
+
+  /**
+   * sitemap.xmlに表示するURLの生成に必要な情報の取得
+   */
+  rpc GetCategoriesForSitemapXml(GetCategoriesForSitemapXmlRequest) returns (GetCategoriesForSitemapXmlResponse);
+}
+
+/**
+ * サイトマップ用案件一覧の取得用のリクエスト
+ */
+message GetCasesRequest {}
+
+/**
+ * sitemap.xmlに表示するURLの生成に必要な情報の取得用のリクエスト
+ */
+message GetCategoriesForSitemapXmlRequest {}
+
+/**
+ * サイトマップ用案件一覧の取得用のレスポンス
+ */
+message GetCasesResponse {
+  repeated CaseCategory case_categories = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * サイトマップ用案件カテゴリー
+ */
+message CaseCategory {
+  string name = 1;
+  repeated Case cases = 2;
+}
+
+/**
+ * サイトマップ用案件
+ */
+message Case {
+  int32 id = 1;
+  string name = 2;
+  string link = 3;
+}
+
+/**
+ * sitemap.xmlに表示するURLの生成に必要な情報の取得用のレスポンス
+ */
+message GetCategoriesForSitemapXmlResponse {
+  repeated SitemapXmlCategory categories = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * カテゴリごとのURLの組み合わせ
+ */
+message SitemapXmlCategory {
+  string category_name = 1; // skillやos,dbなどのカテゴリ名
+  repeated string urls = 2;
+}

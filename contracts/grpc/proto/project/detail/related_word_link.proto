@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+import "google/protobuf/wrappers.proto";
+
+/* 関連するワードへのリンク */
+message RelatedWordLink {
+  // リンク先URI
+  string uri = 1;
+  // キーワード(第一)
+  google.protobuf.StringValue keyword_1 = 2;
+  // キーワード(第二)
+  google.protobuf.StringValue keyword_2 = 3;
+  // キーワード(第三)
+  google.protobuf.StringValue keyword_3 = 4;
+}

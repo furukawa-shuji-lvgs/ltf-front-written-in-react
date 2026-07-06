@@ -1,0 +1,34 @@
+// 移行元: app/components/Molecules/BreadcrumbsSp.vue
+.breadcrumbList {
+    display: flex;
+    gap: $space-24;
+    padding: $space-8 $space-12;
+    overflow: auto;
+    white-space: nowrap;
+
+    &.silver {
+        background: colors(gray, grayscale, silver);
+    }
+
+    > .item {
+        color: $text-light-gray;
+
+        @include typography($typography-12px-function-regular);
+    }
+
+    > .item > .link {
+        position: relative;
+
+        &:before {
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            width: 6px;
+            height: 6px;
+            content: "";
+            border-right: $border-width-2 solid $text-light-gray;
+            border-bottom: $border-width-2 solid $text-light-gray;
+            transform: translateY(-50%) rotate(315deg);
+        }
+    }
+}

@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+package ltf.guide_detail;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/date.proto";
+import "shared/guide.proto";
+import "shared/project.proto";
+
+/**
+ * 記事（詳細） サービス
+ */
+service GuideDetail {
+  /**
+   * 記事詳細の取得
+   */
+  rpc GetGuideDetail(GetGuideDetailRequest) returns (GetGuideDetailResponse);
+  /**
+   * 関連する記事の取得
+   */
+  rpc GetRelatedGuides(GetRelatedGuidesRequest) returns (GetRelatedGuidesResponse);
+  /**
+   * 人気記事の取得
+   */
+  rpc GetPopularGuides(GetPopularGuidesRequest) returns (GetPopularGuidesResponse);
+  /**
+   * 関連案件の取得
+   */
+  rpc GetRelatedProjects(GetRelatedProjectsRequest) returns (GetRelatedProjectsResponse);
+  /**
+   * 言語と経験年数の選択肢の取得
+   */
+  rpc GetExpectedAssessesSelect(GetExpectedAssessesSelectRequest) returns (GetExpectedAssessesSelectResponse);
+  /**
+   * 予想収入の取得
+   */
+  rpc GetExpectedAssesses(GetExpectedAssessesRequest) returns (GetExpectedAssessesResponse);
+  /**
+   * 新着記事の取得
+   */
+  rpc GetNewGuides(GetNewGuidesRequest) returns (GetNewGuidesResponse);
+  /**
+   * タグ一覧の取得
+   */
+  rpc GetGuideTags(GetGuideTagsRequest) returns (GetGuideTagsResponse);
+}
+
+/**
+ * 記事詳細の取得用のリクエスト
+ */
+message GetGuideDetailRequest {
+  int32 guide_id = 1; // 記事ID
+}
+
+/**
+ * 関連する記事の取得用のリクエスト
+ */
+message GetRelatedGuidesRequest {
+  int32 guide_id = 1;
+}
+
+/**
+ * 人気記事の取得用のリクエスト
+ */
+message GetPopularGuidesRequest {
+  int32 guide_id = 1;
+}
+
+/**
+ * 関連案件の取得用のリクエスト
+ */
+message GetRelatedProjectsRequest {
+  int32 guide_id = 1;
+}
+
+/**
+ * 言語と経験年数の選択肢のリクエスト
+ */
+message GetExpectedAssessesSelectRequest {}
+
+/**
+ * 予想収入の取得用のリクエスト
+ */
+message GetExpectedAssessesRequest {
+  int32 skill_id = 1; // スキルID
+  int32 experience_year = 2; // 経験年数
+}
+
+/**
+ * 新着記事の取得用のリクエスト
+ */
+message GetNewGuidesRequest {
+  int32 guide_id = 1;
+}
+
+/**
+ * タグ一覧の取得用のリクエスト
+ */
+message GetGuideTagsRequest {}
+
+/**
+ * 記事詳細取得のレスポンス
+ */
+message GetGuideDetailResponse {
+  GuideDetailData guide_detail = 1; // 記事詳細
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 関連する記事の取得用のレスポンス
+ */
+message GetRelatedGuidesResponse {
+  repeated SuggestGuideData related_guides = 1; // 関連記事
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 人気記事の取得用のレスポンス
+ */
+message GetPopularGuidesResponse {
+  repeated SuggestGuideData popular_guides = 1; // 人気記事
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 関連案件の取得用のレスポンス
+ */
+message GetRelatedProjectsResponse {
+  repeated RelatedProjectData related_projects = 1; // 関連案件
+  string more_link_text = 2; // もっと見るリンクアンカーテキスト
+  string more_link_url = 3; // もっと見るリンクURL
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 新着記事の取得用のレスポンス
+ */
+message GetNewGuidesResponse {
+  repeated SuggestGuideData new_guides = 1; // 新着記事
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * タグ一覧取得のレスポンス
+ */
+message GetGuideTagsResponse {
+  repeated shared.guide.TagData tags = 1; // タグ一覧
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * GuideDetailData
+ */
+message GuideDetailData {
+  int32 id = 1;
+  string title = 2; // タイトル
+  string h1 = 3; // h1
+  google.type.Date modified = 4; // 更新日時
+  repeated shared.guide.TagData tags = 5; // タグ
+  string meta_title = 6; // メタタイトル
+  string meta_description = 7; // メタディスクリプション
+  string meta_keyword = 8; // キーワード
+  string lead = 9; // リード文
+  string profile = 10; // プロフィール
+  string content = 11; // 本文
+  string project_url = 12; // 案件検索URL
+  string profile_name = 13; // プロフィール名
+  string profile_dept_name = 14; // プロフィール所属
+}
+
+/**
+ * SuggestGuideData
+ */
+message SuggestGuideData {
+  int32 id = 1;
+  string title = 2; // タイトル
+  string image_url = 3; // 画像URL(サムネイル)
+}
+
+/**
+ * RelatedProjectData
+ */
+message RelatedProjectData {
+  int32 id = 1;
+  string name = 2; // タイトル
+  int32 pay_upper_limit = 3; // 単価上限
+  shared.project.ProjectPayType pay_type = 4; // 単価の支払い種別
+  shared.project.ProjectContractType contract_type = 5; // 契約種別
+  repeated string skill_names = 6; // 開発環境名リスト
+  string station = 7; // 最寄り駅
+  string station_prefecture_name = 8; // 最寄り駅の都道府県名
+  bool is_new = 9; // 新着案件かどうか(「登録日」が1週間以内ならNEW)
+  shared.project.RemoteWorkAcceptable remote_work_acceptable = 10; // リモートOKかどうか
+  bool is_long_term = 11; // 長期案件かどうか
+  bool is_transaction_result = 12; // 稼働実績ありかどうか
+}
+
+/**
+ * 言語と経験年数の選択肢のレスポンス
+ */
+message GetExpectedAssessesSelectResponse {
+  repeated ExpectedAssessesSelect skills = 1;
+  repeated ExpectedAssessesSelect experiences = 2;
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+message ExpectedAssessesSelect {
+  int32 id = 1;
+  string name = 2;
+}
+
+/**
+ * 予想収入取得のレスポンス
+ */
+message GetExpectedAssessesResponse {
+  int32 assess = 1; // 今年の予想収入
+  oneof after_one_year {
+    int32 after_one_year_assess = 2; // 1年後の予想収入
+    string after_one_year_assess_message = 3; // 1年後の予想収入(文言で返すケース)
+  }
+  oneof after_two_years {
+    int32 after_two_years_assess = 4; // 2年後の予想収入
+    string after_two_years_assess_message = 5; // 2年後の予想収入(文言で返すケース)
+  }
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

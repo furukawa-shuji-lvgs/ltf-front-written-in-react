@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ltf.interview;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/interview.proto";
+import "shared/pagination.proto";
+
+/**
+ * ご利用者インタビュー（一覧） サービス
+ */
+service Interview {
+  /**
+   * 一覧の取得
+   */
+  rpc GetInterviews(GetInterviewsRequest) returns (GetInterviewsResponse);
+}
+
+/**
+ * ご利用者インタビュー一覧の取得用のリクエスト
+ */
+message GetInterviewsRequest {
+  int32 page = 1;
+}
+
+/**
+ * ご利用者インタビュー一覧取得のレスポンス
+ */
+message GetInterviewsResponse {
+  repeated shared.interview.InterviewData interviews = 1; // 一覧データ
+  shared.pagination.PaginationMeta pagination_meta = 2; // ページネーション情報
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}

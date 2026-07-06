@@ -1,0 +1,176 @@
+// 移行元: app/components/Molecules/Pagination/PaginationList.vue
+.paginationWrapper {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.paginationList {
+    display: flex;
+    gap: 8px;
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.operateButton {
+    display: block;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 4px 8px;
+    font-size: 1.4rem;
+    color: colors(gray, grayscale, black);
+    text-align: center;
+    text-decoration: none;
+    background: colors(gray, grayscale, white);
+    border: 1px solid colors(gray, grayscale, gray_light);
+    border-radius: 4px;
+
+    @include mq {
+        box-sizing: border-box;
+        min-width: 30px;
+        min-height: 30px;
+        padding: 4px;
+        font-weight: bold;
+        color: colors(f, primary, default);
+        border: 1px solid colors(f, primary, default);
+    }
+
+    &.current {
+        color: colors(gray, grayscale, white);
+        background: colors(f, primary, default);
+        border-color: colors(f, primary, default);
+    }
+
+    &.disabled {
+        color: colors(gray, grayscale, gray_dark);
+        pointer-events: none;
+        border-color: colors(gray, grayscale, gray_light);
+
+        &.prev,
+        &.next {
+            &:before,
+            &:after {
+                border-color: colors(gray, grayscale, gray_dark);
+            }
+        }
+    }
+
+    &.first,
+    &.last {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:before,
+        &:after {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            content: "";
+            border-top: 1px solid colors(gray, grayscale, black);
+            border-right: 1px solid colors(gray, grayscale, black);
+
+            @include mq {
+                width: 5px;
+                height: 5px;
+                border-color: colors(f, primary, default);
+            }
+        }
+    }
+
+    &.first {
+        &:before,
+        &:after {
+            transform: rotate(-135deg);
+
+            @include mq {
+                transform: translateX(1px) rotate(-135deg);
+            }
+        }
+
+        &:before {
+            margin-left: 2px;
+        }
+    }
+
+    &.last {
+        &:before,
+        &:after {
+            transform: rotate(45deg);
+
+            @include mq {
+                transform: translateX(-1px) rotate(45deg);
+            }
+        }
+
+        &:after {
+            margin-right: 2px;
+        }
+    }
+
+    &.prev,
+    &.next {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+
+        &:before,
+        &:after {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-top: 1px solid colors(gray, grayscale, black);
+            border-right: 1px solid colors(gray, grayscale, black);
+
+            @include mq {
+                width: 5px;
+                height: 5px;
+                border-color: colors(f, primary, default);
+            }
+        }
+    }
+
+    &.prev {
+        &:before {
+            content: "";
+            transform: rotate(-135deg);
+
+            @include mq {
+                transform: translateX(1px) rotate(-135deg);
+            }
+        }
+    }
+
+    &.next {
+        &:after {
+            content: "";
+            transform: rotate(45deg);
+
+            @include mq {
+                transform: translateX(-1px) rotate(45deg);
+            }
+        }
+    }
+
+    &:hover {
+        color: colors(gray, grayscale, white);
+        background: colors(f, primary, default);
+        border-color: colors(f, primary, default);
+
+        &:before,
+        &:after {
+            border-color: colors(gray, grayscale, white);
+        }
+    }
+}

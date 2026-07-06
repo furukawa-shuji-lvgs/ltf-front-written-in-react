@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+/* フリーランス経験談 */
+message ExperienceStory {
+  // タイトル
+  string title = 1;
+  // 本文
+  string text = 2;
+}

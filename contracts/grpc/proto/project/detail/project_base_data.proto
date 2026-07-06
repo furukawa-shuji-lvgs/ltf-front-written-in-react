@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+import "shared/date.proto";
+import "shared/project.proto";
+
+/**
+ * 案件基本情報
+ */
+message ProjectBaseData {
+  // ID
+  int32 id = 1;
+  // 案件名
+  string name = 2;
+  // 登録日
+  google.type.Date published_at = 3;
+  // 新着案件かどうか
+  bool is_new = 4;
+  // リモートワーク可否
+  ltf.shared.project.RemoteWorkAcceptable remote_work_acceptable = 5;
+  // 副業・複業可否
+  bool side_job_acceptable = 6;
+  // オンライン商談可否
+  bool online_business_meeting_acceptable = 7;
+  // 支払金（単価）上限
+  int32 payment_upper_limit = 8;
+  // 支払い精算種別
+  ltf.shared.project.ProjectPayType pay_type = 9;
+  // 契約形態（リスト）
+  ContractType contract_type = 10;
+  // 最寄駅（リスト）
+  string station_name = 11;
+  // 最寄り駅の都道府県名
+  string station_prefecture_name = 12;
+  // 業界（リスト）
+  repeated ltf.shared.project.ProjectSearchLink industries = 13;
+  // 職種（リスト）
+  repeated Occupation occupations = 14;
+  // ポジション（リスト）
+  repeated ltf.shared.project.ProjectSearchLink positions = 15;
+  // 最寄駅の市区町村名
+  string station_ward_name = 16;
+  // 業務内容（リスト）
+  repeated string job_descriptions = 17;
+  // 担当領域（リスト）
+  repeated string charge_domains = 18;
+  // GFJ（Google for Jobs）用に動的生成したタイトル
+  string gfj_title = 19;
+}
+
+/* 契約形態 */
+message ContractType {
+  // 契約形態ID
+  int32 id = 1;
+  // 契約形態名
+  string name = 2;
+}
+
+/* 職種 */
+message Occupation {
+  // リンク先URI
+  string uri = 1;
+  // リンクテキスト
+  string anchor_text = 2;
+  // デザイナーフラグ
+  bool designer_flag = 3;
+}

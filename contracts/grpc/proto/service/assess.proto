@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package ltf.service.assess;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * 単価診断サービス
+ */
+service ServiceAssess {
+  /**
+   * 単価診断選択項目の取得
+   */
+  rpc GetAssessmentOptions(GetAssessmentOptionsRequest) returns (GetAssessmentOptionsResponse);
+}
+
+/**
+ * デフォルトの選択肢
+ */
+message AssessmentOption {
+  int32 id = 1; // ID
+  string name = 2; // 選択肢名
+}
+
+/**
+ * スキル・言語の選択肢カテゴリ
+ */
+message SkillOptions {
+  int32 category_id = 1; // カテゴリID
+  string category_name = 2; // カテゴリ名
+  repeated AssessmentOption options = 3; // スキル・言語の選択肢一覧
+}
+
+/**
+ * 単価診断選択項目の取得用のリクエスト
+ */
+message GetAssessmentOptionsRequest {}
+
+/**
+ * 単価診断選択項目の取得用のレスポンス
+ */
+message GetAssessmentOptionsResponse {
+  repeated SkillOptions skills = 1; // スキルカテゴリごとの選択肢
+  repeated AssessmentOption experience_years = 2; // 経験年数の選択肢
+  repeated AssessmentOption current_monthly_incomes = 3; // 現在の月収の選択肢
+  repeated AssessmentOption freelance_aspirations = 4; // フリーランス活動に求めるもの
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

@@ -1,0 +1,420 @@
+@use "@shared/styles/volt-tokens.scss" as *;
+@use "@shared/styles/variables.scss" as *;
+
+.friendCompleteMain {
+    min-height: var(--legacy-target-height);
+    color: $text-black;
+    background: colors(gray, grayscale, white_dark);
+}
+
+.friendCompleteLogo {
+    height: 26px;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+
+    @include typography($typography-10px-function-regular);
+}
+
+.friendCompleteHeader {
+    padding: $space-32 calc((100% - $layout-width-main-l) / 2);
+    color: $text-white;
+    background: $ltf-primary-default;
+
+    @include typography($typography-32px-read-bold);
+}
+
+.friendCompleteCard,
+.friendCompleteFlow,
+.friendCompleteContact {
+    width: $layout-width-main-l;
+    padding: $space-24;
+    margin: $space-32 auto 0;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+}
+
+.triangleDown {
+    width: 0;
+    height: 0;
+    margin: $space-20 auto;
+    border-top: 16px solid $neutral-black;
+    border-right: 16px solid transparent;
+    border-left: 16px solid transparent;
+}
+
+.friendCompleteButtons {
+    display: flex;
+    justify-content: center;
+    gap: $space-20;
+    margin-bottom: $space-20;
+
+    button {
+        min-width: 200px;
+        min-height: 44px;
+        color: $text-white;
+        background: $ltf-primary-default;
+        border: 0;
+        border-radius: $radius-4;
+
+        + button {
+            background: #d52f35;
+        }
+    }
+}
+
+.friendCompleteContact strong {
+    display: block;
+    width: fit-content;
+    padding: $space-16 $space-48;
+    margin: $space-16 auto;
+    background: colors(gray, grayscale, white_dark);
+
+    @include typography($typography-24px-function-bold);
+}
+
+.friendCompleteContact small {
+    display: block;
+    color: $ltf-primary-default;
+}
+
+.friendCompleteFooter {
+    padding: $space-40 0;
+    margin-top: $space-40;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+
+    strong {
+        display: block;
+        font-size: 3.2rem;
+    }
+}
+
+.wordPage,
+.sitemapPage {
+    flex: 1;
+    padding: $space-56 0 $space-48;
+    background: colors(gray, grayscale, white);
+
+    h2 {
+        margin-bottom: $space-28;
+        text-align: center;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.wordPage p {
+    max-width: 920px;
+    margin: 0 auto $space-48;
+
+    @include typography($typography-16px-read-regular);
+}
+
+.keywordGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-20 $space-80;
+    max-width: 760px;
+    margin: 0 auto;
+
+    a {
+        color: $ltf-primary-default;
+        text-decoration: none;
+
+        @include typography($typography-14px-function-bold);
+    }
+}
+
+.sitemapGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-20 $space-40;
+
+    a {
+        color: $ltf-primary-default;
+    }
+
+    a:nth-child(n + 16) {
+        display: none;
+    }
+}
+
+.friendHero,
+.friendCampaignHero {
+    padding: $space-80 0;
+    color: $text-white;
+    text-align: center;
+    background: $ltf-primary-default;
+
+    h2 {
+        @include typography($typography-40px-read-bold);
+    }
+
+    p {
+        margin-top: $space-16;
+    }
+}
+
+.standaloneShell .friendHero,
+.standaloneShell .friendCampaignHero {
+    padding: $space-64 0;
+}
+
+.standaloneShell .friendHero {
+    min-height: 620px;
+    color: $text-black;
+    background: #8bd8e3;
+}
+
+.standaloneShell .sectionBand {
+    padding: $space-56 0;
+}
+
+.friendCampaignHero {
+    background: linear-gradient(135deg, $red-50, $ltf-primary-default);
+}
+
+.formShell {
+    background: colors(gray, grayscale, white);
+}
+
+.formInputMain {
+    display: grid;
+    flex: 1;
+    place-items: center;
+    min-height: var(--legacy-target-height);
+    background: colors(gray, grayscale, white);
+}
+
+.formInputBox {
+    width: min(720px, calc(100% - 40px));
+    text-align: center;
+
+    h1 {
+        margin-bottom: $space-12;
+
+        @include typography($typography-24px-read-bold);
+    }
+
+    button {
+        min-height: 48px;
+        padding: 0 $space-28;
+        margin: $space-24 0;
+        color: $text-white;
+        background: $red-50;
+        border: 0;
+        border-radius: $radius-full;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.chatPanel,
+.noticeBox {
+    padding: $space-16;
+    margin-top: $space-24;
+    text-align: left;
+    background: #eff8fb;
+    border-radius: $radius-4;
+}
+
+.completeMain {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: $space-32;
+    min-height: var(--legacy-target-height);
+    padding-bottom: $space-40;
+    background: colors(gray, grayscale, white_dark);
+}
+
+.completeHeader {
+    padding: $space-28 0;
+    color: $text-white;
+    background: $ltf-primary-default;
+
+    p {
+        width: $layout-width-main-l;
+        margin: 0 auto;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.completeCard,
+.flowCard {
+    width: $layout-width-main-l;
+    padding: $space-32;
+    margin: 0 auto;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+}
+
+.maintenanceShell {
+    background: colors(gray, grayscale, white);
+}
+
+.standaloneShell {
+    background: colors(gray, grayscale, white);
+}
+
+.undecidedMain {
+    min-height: var(--legacy-target-height);
+    background: colors(gray, grayscale, white_dark);
+}
+
+.undecidedHero {
+    padding: $space-48 0;
+    color: $ltf-primary-default;
+    text-align: center;
+    background: #edf8fb;
+
+    h1 {
+        max-width: 720px;
+        margin: 0 auto;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.undecidedCard {
+    width: 960px;
+    padding: $space-32;
+    margin: $space-24 auto;
+    text-align: center;
+    background: $neutral-white;
+    border: 1px solid $neutral-light-gray;
+    box-shadow: $box-shadow-1;
+
+    strong {
+        display: block;
+        margin: $space-8 0 $space-20;
+        color: $red-50;
+
+        @include typography($typography-32px-function-bold);
+    }
+}
+
+.undecidedCta {
+    padding: $space-48 0;
+    text-align: center;
+    background: #edf8fb;
+
+    h2 {
+        color: $ltf-primary-default;
+
+        @include typography($typography-24px-read-bold);
+    }
+
+    button {
+        min-width: 300px;
+        min-height: 48px;
+        margin-top: $space-24;
+        color: $text-white;
+        background: $red-50;
+        border: 0;
+        border-radius: $radius-4;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.standaloneLogo {
+    padding: $space-24 $space-64;
+    font-size: 3.2rem;
+    font-weight: $font-weights-bold;
+    text-align: right;
+    background: $neutral-white;
+}
+
+.assessMain,
+.assessCompleteMain {
+    min-height: var(--legacy-target-height);
+    background: #edf8fb;
+}
+
+.assessHero {
+    display: grid;
+    min-height: 620px;
+    color: $text-white;
+    text-align: center;
+    place-content: center;
+    background:
+        linear-gradient(rgb(0, 20, 38, 0.58), rgb(0, 20, 38, 0.72)),
+        radial-gradient(circle at center, #1c8ead 0, #001426 55%, #000 100%);
+
+    h1 {
+        margin-bottom: $space-20;
+
+        @include typography($typography-56px-read-bold);
+    }
+
+    p {
+        margin-bottom: $space-32;
+
+        @include typography($typography-20px-read-bold);
+    }
+
+    button {
+        min-width: 420px;
+        min-height: 56px;
+        color: $text-white;
+        background: $red-50;
+        border: 2px solid $neutral-white;
+        border-radius: $radius-full;
+
+        @include typography($typography-20px-function-bold);
+    }
+}
+
+.assessCompleteMain .assessHero {
+    min-height: 560px;
+}
+
+.assessResultCard,
+.assessCta {
+    width: 720px;
+    padding: $space-32;
+    margin: $space-48 auto;
+    text-align: center;
+    background: $neutral-white;
+    border-radius: $radius-8;
+    box-shadow: $box-shadow-1;
+}
+
+.assessCta button {
+    min-width: 240px;
+    min-height: 48px;
+    margin-top: $space-20;
+    color: $text-white;
+    background: $red-50;
+    border: 0;
+    border-radius: $radius-full;
+}
+
+.maintenanceMain {
+    display: grid;
+    min-height: var(--legacy-target-height);
+    text-align: center;
+    place-content: center;
+
+    h1 {
+        padding: $space-40 0;
+        margin: 0 0 $space-48;
+        color: $ltf-primary-default;
+        background: colors(gray, grayscale, white_dark);
+
+        @include typography($typography-40px-read-bold);
+    }
+
+    p {
+        margin-bottom: $space-48;
+    }
+
+    strong,
+    span {
+        color: $ltf-primary-default;
+    }
+}

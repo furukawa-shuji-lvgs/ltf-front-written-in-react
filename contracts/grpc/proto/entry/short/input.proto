@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ltf.entry.short.input;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * 案件簡易EF入力サービス
+ */
+service EntryShortInput {
+  /**
+   * 応募対象の案件情報取得
+   */
+  rpc GetProjectInfo(GetProjectInfoRequest) returns (GetProjectInfoResponse);
+}
+
+/**
+ * 応募対象の案件情報取得のリクエスト
+ */
+message GetProjectInfoRequest {
+  int32 project_id = 1; // 案件ID
+  string hash = 2; // hash値
+}
+
+/**
+ * 応募対象の案件情報取得のレスポンス
+ */
+message GetProjectInfoResponse {
+  string project_name = 1; //案件名
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

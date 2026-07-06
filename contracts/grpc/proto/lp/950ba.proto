@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package ltf.lp.lp950ba; // 950baだと 'Need space between number and identifier' とエラーが出るため、lp950baと定義
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * Lp950ba用単価診断結果の取得サービス
+ */
+service Lp950ba {
+  /**
+   * Lp950ba用単価診断結果の取得
+   */
+  rpc GetAssessmentResults(GetAssessmentResultsRequest) returns (GetAssessmentResultsResponse);
+}
+
+/**
+ * Lp950ba用単価診断結果の取得用のリクエスト
+ */
+message GetAssessmentResultsRequest {
+  int32 skill_id = 1; // スキル
+  int32 experience_year = 2; // 経験年数
+  repeated int32 experience_works = 3; // 経験工程
+}
+
+/**
+ * Lp950ba用単価診断結果の取得用のレスポンス
+ */
+message GetAssessmentResultsResponse {
+  int32 assess = 1; // 今年の予想収入
+  int32 annual_income = 2; // 年収
+  oneof after_one_year {
+    int32 after_one_year_assess = 3; // 1年後の予想収入
+    string after_one_year_assess_message = 4; // 1年後の予想収入(文言で返すケース)
+  }
+  oneof after_two_years {
+    int32 after_two_years_assess = 5; // 2年後の予想収入
+    string after_two_years_assess_message = 6; // 2年後の予想収入(文言で返すケース)
+  }
+  // リプレイスのスコープから外れるので、後日実装時まで一旦コメントアウト
+  // string skill_name = 7; // 言語名
+  // int32 project_count = 8; // 案件数
+  // repeated PriceDistribution price_distributions = 9; // 単価ごとの案件数分布
+  // int32 max_price = 10; //最高単価
+  // int32 average_price = 11; //平均単価
+  // string project_search_url = 12; // 案件検索URL
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * 単価ごとの案件数分布
+ */
+message PriceDistribution {
+  string price_division = 1; // ○万〜の文字列
+  int32 project_count = 2; // 単価ごとの案件数
+}

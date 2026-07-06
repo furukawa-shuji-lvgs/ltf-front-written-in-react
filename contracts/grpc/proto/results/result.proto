@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ltf.results;
+
+/**
+ * Resultオブジェクト
+ */
+enum Result {
+  Unknown = 0; // 固定
+  Success = 1; // 固定
+  BadRequest = 2;
+  NotFound = 3;
+  Internal = 4;
+}

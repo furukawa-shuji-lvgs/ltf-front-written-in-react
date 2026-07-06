@@ -1,0 +1,105 @@
+// 移行元: app/components/Molecules/Pagination/PaginationListEllipsis.vue
+.paginationWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operateButton {
+    position: relative;
+    display: inline-block;
+    min-width: 32px;
+    height: 32px;
+    color: colors(gray, grayscale, black);
+    background: colors(gray, grayscale, silver_dark);
+    border-radius: 50%;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+        background: colors(gray, grayscale, gray);
+    }
+
+    &.isUnavailable {
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.3;
+    }
+}
+
+.leftIcon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+}
+
+.rightIcon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+}
+
+.paginationList {
+    display: flex;
+    margin: 0 24px;
+    font-size: 1.6rem;
+
+    &.narrow {
+        margin: 0 12px;
+    }
+
+    @include mq {
+        margin: 0 16px;
+    }
+}
+
+.paginationItem {
+    display: inline-block;
+    width: 32px;
+    line-height: 25px;
+    text-align: center;
+    transition: opacity 0.2s ease-out;
+
+    > .link {
+        display: inline-block;
+        width: 100%;
+        color: colors(gray, grayscale, black);
+        text-decoration: none;
+    }
+
+    > .here {
+        display: inline-block;
+        width: 100%;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.ellipsis {
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &.isCurrent {
+        &:hover {
+            opacity: 1;
+        }
+
+        > .here {
+            color: colors(f, primary, default);
+            pointer-events: none;
+            border-bottom: 2px solid colors(f, primary, default);
+        }
+    }
+}

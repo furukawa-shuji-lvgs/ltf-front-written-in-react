@@ -1,0 +1,298 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+  "root": true,
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "maxSize": 1048576,
+    "includes": [
+      "**/*.cjs",
+      "**/*.cts",
+      "**/*.css",
+      "**/*.gql",
+      "**/*.graphql",
+      "**/*.html",
+      "**/*.js",
+      "**/*.json",
+      "**/*.jsonc",
+      "**/*.jsx",
+      "**/*.mjs",
+      "**/*.mts",
+      "**/*.ts",
+      "**/*.tsx",
+      "!!**/.next",
+      "!!**/.turbo",
+      "!!**/build",
+      "!!**/coverage",
+      "!!**/dist",
+      "!!**/generated",
+      "!!**/out",
+      "!public/browserMonitoringPrd.js",
+      "!public/browserMonitoringStg.js"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "multiline",
+    "bracketSpacing": true,
+    "delimiterSpacing": false,
+    "expand": "auto",
+    "trailingNewline": true,
+    "useEditorconfig": true
+  },
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "react": "recommended",
+      "next": "recommended",
+      "project": "recommended",
+      "types": "recommended",
+      "test": "recommended"
+    },
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noNodejsModules": "off",
+        "noSolidDestructuredProps": "off",
+        "noUndeclaredDependencies": "off",
+        "noUnresolvedImports": "off",
+        "useQwikValidLexicalScope": "off"
+      },
+      "performance": {
+        "noAccumulatingSpread": "error",
+        "noBarrelFile": "warn",
+        "noImgElement": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "error",
+        "noDangerouslySetInnerHtmlWithChildren": "error",
+        "noSecrets": "off"
+      },
+      "style": {
+        "noDefaultExport": "warn",
+        "noNonNullAssertion": "error",
+        "noProcessEnv": "warn",
+        "noTernary": "off",
+        "useExportsLast": "off",
+        "useNamingConvention": "off"
+      },
+      "suspicious": {
+        "noConsole": "error",
+        "noDebugger": "error",
+        "noExplicitAny": "warn"
+      },
+      "nursery": {
+        "recommended": false,
+        "noFloatingPromises": "error",
+        "noMisusedPromises": "error",
+        "noReactStringRefs": "error"
+      }
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "recommended": true,
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "jsxRuntime": "transparent",
+    "experimentalEmbeddedSnippetsEnabled": true,
+    "parser": {
+      "jsxEverywhere": false
+    },
+    "formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "delimiterSpacing": false,
+      "attributePosition": "multiline",
+      "operatorLinebreak": "after",
+      "trailingNewline": true
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": false,
+      "allowTrailingCommas": false
+    },
+    "formatter": {
+      "enabled": true,
+      "trailingCommas": "none",
+      "bracketSpacing": true,
+      "delimiterSpacing": false,
+      "expand": "auto",
+      "trailingNewline": true
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "double",
+      "delimiterSpacing": false,
+      "trailingNewline": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "assist": {
+      "enabled": true
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true,
+      "attributePosition": "multiline",
+      "bracketSameLine": false,
+      "whitespaceSensitivity": "css",
+      "indentScriptAndStyle": false,
+      "selfCloseVoidElements": "never",
+      "trailingNewline": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "assist": {
+      "enabled": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/shared/lib/logger.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["env/**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off",
+            "useNamingConvention": "off"
+          },
+          "security": {
+            "noSecrets": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "*.config.cjs",
+        "*.config.js",
+        "*.config.mjs",
+        "*.config.ts",
+        "**/*.config.cjs",
+        "**/*.config.js",
+        "**/*.config.mjs",
+        "**/*.config.ts",
+        "next.config.cjs",
+        "next.config.js",
+        "next.config.mjs",
+        "next.config.ts",
+        "instrumentation.js",
+        "instrumentation.ts",
+        "middleware.js",
+        "middleware.ts",
+        "src/shared/lib/runtimeEnv.ts",
+        "scripts/**/*.cjs",
+        "scripts/**/*.cts",
+        "scripts/**/*.js",
+        "scripts/**/*.mjs",
+        "scripts/**/*.mts",
+        "scripts/**/*.ts",
+        "app/**/route.js",
+        "app/**/route.ts",
+        "pages/api/**/*.js",
+        "pages/api/**/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off"
+          },
+          "style": {
+            "noDefaultExport": "off",
+            "noProcessEnv": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "app/**/default.jsx",
+        "app/**/default.tsx",
+        "app/**/error.jsx",
+        "app/**/error.tsx",
+        "app/**/global-error.jsx",
+        "app/**/global-error.tsx",
+        "app/**/layout.jsx",
+        "app/**/layout.tsx",
+        "app/**/loading.jsx",
+        "app/**/loading.tsx",
+        "app/**/not-found.jsx",
+        "app/**/not-found.tsx",
+        "app/**/page.jsx",
+        "app/**/page.tsx",
+        "app/**/template.jsx",
+        "app/**/template.tsx",
+        "src/app/**/default.jsx",
+        "src/app/**/default.tsx",
+        "src/app/**/error.jsx",
+        "src/app/**/error.tsx",
+        "src/app/**/global-error.jsx",
+        "src/app/**/global-error.tsx",
+        "src/app/**/layout.jsx",
+        "src/app/**/layout.tsx",
+        "src/app/**/loading.jsx",
+        "src/app/**/loading.tsx",
+        "src/app/**/not-found.jsx",
+        "src/app/**/not-found.tsx",
+        "src/app/**/page.jsx",
+        "src/app/**/page.tsx",
+        "src/app/**/template.jsx",
+        "src/app/**/template.tsx",
+        "src/types/**/*.d.ts",
+        "pages/**/*.js",
+        "pages/**/*.jsx",
+        "pages/**/*.ts",
+        "pages/**/*.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    }
+  ]
+}

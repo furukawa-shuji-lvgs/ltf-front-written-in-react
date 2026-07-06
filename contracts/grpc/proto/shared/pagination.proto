@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ltf.shared.pagination;
+
+/**
+ * PaginationMeta
+ */
+message PaginationMeta {
+  int32 item_count = 1; // 要素数
+  int32 total_items = 2; // 総要素数
+  int32 items_per_page = 3; // 1ページあたりの要素数
+  int32 total_pages = 4; // 総ページ数
+  int32 current_page = 5; // 現在のページ数
+}

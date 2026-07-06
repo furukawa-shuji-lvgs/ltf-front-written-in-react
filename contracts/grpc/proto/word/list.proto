@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package ltf.word.list;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/pagination.proto";
+import "shared/project.proto";
+
+/**
+ * キーワード案件一覧サービス
+ */
+service WordList {
+  /**
+   * SEOテキストの取得
+   */
+  rpc GetSeoText(GetSeoTextRequest) returns (GetSeoTextResponse);
+
+  /**
+   * 案件一覧取得
+   */
+  rpc GetProjects(GetProjectsRequest) returns (GetProjectsResponse);
+
+  /**
+   * 他のキーワードから案件を探す
+   */
+  rpc GetKeywordLinks(GetKeywordLinksRequest) returns (GetKeywordLinksResponse);
+}
+
+/**
+ * SEOテキストの取得用のリクエスト
+ */
+message GetSeoTextRequest {
+  int32 word_id = 1;
+}
+
+/**
+ * SEOテキストの取得用のレスポンス
+ */
+message GetSeoTextResponse {
+  // SEOテキスト
+  SeoText seo_text = 1;
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * SEOテキスト
+ */
+message SeoText {
+  // SEOキーワード1
+  google.protobuf.StringValue keyword_1 = 1;
+  // SEOキーワード2
+  google.protobuf.StringValue keyword_2 = 2;
+  // SEOキーワード3
+  google.protobuf.StringValue keyword_3 = 3;
+  // SEOタイトル
+  google.protobuf.StringValue seo_title_1 = 4;
+  // SEO文言
+  google.protobuf.StringValue seo_text_1 = 5;
+  // 第二SEOタイトル
+  google.protobuf.StringValue seo_title_2 = 6;
+  // 第二SEO文言
+  google.protobuf.StringValue seo_text_2 = 7;
+}
+
+/**
+ * 案件一覧取得リクエスト
+ */
+message GetProjectsRequest {
+  int32 word_id = 1;
+  int32 page = 2;
+}
+
+/**
+ * 案件一覧取得レスポンス
+ */
+message GetProjectsResponse {
+  repeated KeywordProjectData projects = 1; // キーワード案件一覧
+  shared.pagination.PaginationMeta pagination_meta = 2; // ページネーション情報
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * キーワードに関連する案件
+ */
+message KeywordProjectData {
+  ltf.shared.project.ProjectBaseData base_data = 1; // 案件基本情報
+  repeated string job_type_names = 2; // 募集職種
+  repeated string position_names = 3; // ポジション
+  string request_skill_necessary = 4; // 求めるスキル
+  bool is_closed = 5; // 終了公開案件の判定
+}
+
+/**
+ * 他のキーワードから案件を探すリクエスト
+ */
+message GetKeywordLinksRequest {
+  int32 word_id = 1;
+}
+
+/**
+ * 他のキーワードから案件を探すレスポンス
+ */
+message GetKeywordLinksResponse {
+  repeated ltf.shared.project.ProjectSearchLink links = 1; // 他のキーワードに関連する案件一覧のリンク
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

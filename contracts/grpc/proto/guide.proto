@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package ltf.guide;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/guide.proto";
+import "shared/pagination.proto";
+
+/**
+ * 記事（一覧） サービス
+ */
+service Guide {
+  /**
+   * 記事一覧の取得
+   */
+  rpc GetGuides(GetGuidesRequest) returns (GetGuidesResponse);
+  /**
+   * タグ一覧の取得
+   */
+  rpc GetGuideTags(GetGuideTagsRequest) returns (GetGuideTagsResponse);
+}
+
+/**
+ * 記事一覧の取得用のリクエスト
+ */
+message GetGuidesRequest {
+  google.protobuf.Int32Value page = 1;
+  google.protobuf.Int32Value tag_id = 2;
+}
+
+/**
+ * タグ一覧の取得用のリクエスト
+ */
+message GetGuideTagsRequest {}
+
+/**
+ * 記事一覧取得のレスポンス
+ */
+message GetGuidesResponse {
+  repeated GuideData guides = 1; // 記事一覧
+  shared.pagination.PaginationMeta pagination_meta = 2; // ページネーション情報
+  TagInfo tag_info = 3; // タグで絞り込まれた際のタグ情報
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * GuideData
+ */
+message GuideData {
+  int32 id = 1;
+  string title = 2; // タイトル
+  string image_url = 3; // 画像URL
+  string sub_title = 4; // サブタイトル
+  string meta_description = 5; // 説明文
+  repeated shared.guide.TagData tags = 6; // タグリスト
+}
+
+/**
+ * タグ一覧取得のレスポンス
+ */
+message GetGuideTagsResponse {
+  repeated shared.guide.TagData tags = 1; // タグ一覧
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * タグで絞り込まれた際のタグ情報
+ */
+message TagInfo {
+  google.protobuf.Int32Value id = 1;
+  google.protobuf.StringValue name = 2;
+}

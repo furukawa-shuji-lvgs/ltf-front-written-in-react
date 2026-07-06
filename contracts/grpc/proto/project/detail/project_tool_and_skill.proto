@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+/*
+ * 言語・ツール
+ */
+message ProjectToolAndSkill {
+  repeated ProjectSkill skills = 1;
+}
+
+message ProjectSkill {
+  // スキルカテゴリ
+  SkillCategoryType skill_category_type = 1;
+  // 画面表示用スキル名
+  string anchor_text = 2;
+  // 遷移先リンクURI
+  string uri = 3;
+}
+
+/* スキルカテゴリ */
+enum SkillCategoryType {
+  SKILL_CATEGORY_TYPE_UNKNOWN = 0; // 不明
+  SKILL_CATEGORY_TYPE_LANGUAGE = 1; // 言語
+  SKILL_CATEGORY_TYPE_FRAMEWORK = 2; // フレームワーク
+  SKILL_CATEGORY_TYPE_DB = 3; // DB
+  SKILL_CATEGORY_TYPE_OS = 4; // OS
+  SKILL_CATEGORY_TYPE_DESIGN_TOOL = 5; // デザインツール
+  // 「その他のツール」は ms_skill_category には存在しないはずだが、なぜか enum 定義されていた。思わぬ障害を防ぐために一応残しておく
+  SKILL_CATEGORY_TYPE_OTHER_TOOL = 6; // その他ツール
+  SKILL_CATEGORY_TYPE_CLOUD = 7; // クラウド
+  SKILL_CATEGORY_TYPE_WEB_SERVER = 8; // WEBサーバー
+  SKILL_CATEGORY_TYPE_APPLICATION_SERVER = 9; // アプリケーションサーバー
+  SKILL_CATEGORY_TYPE_GAME_ENGINE = 10; // ゲームエンジン
+  SKILL_CATEGORY_TYPE_IDE = 11; // 統合開発環境
+  SKILL_CATEGORY_TYPE_DEVELOP_TOOL = 12; // 開発ツール
+}

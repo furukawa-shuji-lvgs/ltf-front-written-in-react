@@ -1,0 +1,54 @@
+@use "./variables" as *;
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+:root,
+.ltf-root-fonts {
+    --font-roboto: "Roboto";
+    --font-noto-sans-jp: "Noto Sans JP";
+}
+
+body {
+    width: 100%;
+    min-width: 960px;
+    line-height: 1.6;
+    color: colors(gray, grayscale, black);
+    background-color: colors(gray, grayscale, white);
+    font-family: var(--font-roboto), var(--font-noto-sans-jp), "游ゴシック体", "Yu Gothic", Arial,
+        sans-serif;
+    font-size: 1.2rem;
+    font-feature-settings: "pkna";
+    text-align: left;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @include mq {
+        min-width: auto;
+    }
+}
+
+a {
+    color: colors(f, primary, default);
+    text-decoration: underline;
+
+    &:visited {
+        color: #8f3dba;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    * {
+        pointer-events: none;
+    }
+}
+
+button {
+    * {
+        pointer-events: none;
+    }
+}

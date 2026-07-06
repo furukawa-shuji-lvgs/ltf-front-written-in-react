@@ -1,0 +1,213 @@
+syntax = "proto3";
+
+package ltf.project.search;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/pagination.proto";
+import "shared/project_search.proto";
+
+/**
+ * 案件一覧サービス
+ */
+service ProjectSearch {
+  /**
+   * 検索項目取得
+   */
+  rpc GetConditions(GetProjectsConditionsRequest) returns (GetConditionsResponse);
+
+  /**
+   * キーワードから探す項目取得
+   */
+  rpc GetSearchByKeywordItems(GetSearchByKeywordItemsRequest) returns (GetSearchByKeywordItemsResponse);
+
+  /**
+   * 案件数取得
+   */
+  rpc GetProjectCount(GetProjectCountRequest) returns (GetProjectCountResponse);
+
+  /**
+   * 案件一覧取得
+   */
+  rpc GetProjects(GetProjectsRequest) returns (GetProjectsResponse);
+
+  /**
+   * カテゴリ名取得
+   */
+  rpc GetCategoryName(GetCategoryNameRequest) returns (GetCategoryNameResponse);
+}
+
+/**
+ * 検索条件取得リクエスト
+ */
+message GetProjectsConditionsRequest {
+  /* 検索関連 */
+  SearchRequest search_request = 1;
+}
+
+/**
+ * 検索条件取得レスポンス
+ */
+message GetConditionsResponse {
+  repeated ltf.shared.project_search.ConditionCommon pickup_features = 1; // 注目条件
+  repeated ltf.shared.project_search.ConditionCommon pickup_feature_remote_work_types = 2; // 注目条件（リモートワーク種別）
+  repeated ltf.shared.project_search.ConditionCommon pickup_feature_online_business_meeting_acceptables = 3; // 注目条件（オンライン商談OK）
+  repeated ltf.shared.project_search.ConditionCommon contract_types = 4; // 基本条件 - 契約形態
+  repeated ltf.shared.project_search.ConditionRegion regions = 5; // 基本条件 - 都道府県
+  repeated ltf.shared.project_search.SkillCondition skills = 6; // 基本条件 - 言語スキル
+  repeated ltf.shared.project_search.ConditionCommon job_types = 7; // 基本条件 - 職種
+  repeated ltf.shared.project_search.ConditionCommon lowest_prices = 8; // 基本条件 - 単価
+  repeated ltf.shared.project_search.ConditionCommon week_work_days = 9; // 基本条件 - 稼働日数
+  repeated ltf.shared.project_search.ConditionCommon works = 10; // 詳細条件 - 作業内容
+  repeated ltf.shared.project_search.ConditionCommon industries = 11; // 詳細条件 - 業界
+  repeated ltf.shared.project_search.ConditionCommon features = 12; // 詳細条件 - 案件特徴
+  PopularConditions popular_conditions = 13;
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+// MEMO ABテストの寄せ対応かつ、YAGNIの原則に従いCompositeパターンは採用しない
+// 今後、「人気のDB」などを追加する要望が提案された際には改めて検討する
+// 都道府県なども含めてCompositeパターンに変更できると色々整理できるかもしれないので一緒に検討してほしい
+message PopularConditions {
+  TopPopularConditions top = 1;
+  repeated ltf.shared.project_search.ConditionCommon skills = 2;
+  repeated ltf.shared.project_search.ConditionCommon fws = 3;
+}
+
+message TopPopularConditions {
+  repeated ltf.shared.project_search.ConditionCommon job_types = 1;
+  repeated ltf.shared.project_search.ConditionCommon skills = 2;
+}
+
+/**
+ * キーワードから探す項目取得リクエスト
+ */
+message GetSearchByKeywordItemsRequest {}
+
+/**
+ * キーワードから探す項目取得レスポンス
+ */
+message GetSearchByKeywordItemsResponse {
+  repeated SearchByKeywordItemEntry search_by_keyword_items = 1;
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 案件数取得リクエスト
+ */
+message GetProjectCountRequest {
+  /* 検索関連 */
+  SearchRequest search_request = 1;
+}
+
+/**
+ * 案件数取得レスポンス
+ */
+message GetProjectCountResponse {
+  int32 count = 1; // 案件数
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 案件一覧取得リクエスト
+ */
+message GetProjectsRequest {
+  /* 検索関連 */
+  SearchRequest search_request = 1;
+  /* 表示関連 */
+  DisplayRequest display_request = 2;
+}
+
+/**
+ * 案件一覧取得レスポンス
+ */
+message GetProjectsResponse {
+  repeated ltf.shared.project_search.SearchProjectData projects = 1; // 案件一覧
+  shared.pagination.PaginationMeta pagination_meta = 2; // ページネーション情報
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 検索関連リクエスト
+ */
+message SearchRequest {
+  google.protobuf.StringValue free_word = 1; // フリーワード
+  repeated int32 pickup_feature_ids = 2; // 注目条件
+  repeated int32 pickup_feature_remote_work_type_ids = 3; // 注目条件（リモートワーク種別）
+  repeated int32 pickup_feature_online_business_meeting_acceptable_ids = 4; // 注目条件（オンライン商談OK）
+  repeated int32 contract_type_ids = 5; // 基本条件 - 契約形態
+  repeated int32 pref_ids = 6; // 基本条件 - 都道府県 - 都道府県
+  repeated int32 district_ids = 7; // 基本条件 - 都道府県 - 市区町村
+  repeated int32 area_ids = 8; // 基本条件 - 都道府県 - 町域
+  repeated int32 skill_ids = 9; // 基本条件 - 言語・スキル - 言語
+  repeated int32 fw_ids = 10; // 基本条件 - 言語・スキル - フレームワーク
+  repeated int32 db_ids = 11; // 基本条件 - 言語・スキル - データベース
+  repeated int32 os_ids = 12; // 基本条件 - 言語・スキル - OS
+  repeated int32 cld_ids = 13; // 基本条件 - 言語・スキル - クラウド
+  repeated int32 job_type_ids = 14; // 基本条件 - 職種
+  int32 lowest_price_id = 15; // 基本条件 - 単価
+  repeated int32 week_work_day_ids = 16; // 基本条件 - 稼働日数
+  repeated int32 work_ids = 17; // 詳細条件 - 作業内容
+  repeated int32 industry_ids = 18; // 詳細条件 - 業界
+  repeated int32 feature_ids = 19; // 詳細条件 - 案件特徴
+  bool is_only_opened = 20; // 公開案件のみ
+}
+
+/**
+ * ソート
+ */
+enum Sort {
+  NONE = 0; // 指定なし（新着順を1から始めるために定義しています、利用しないでください
+  NEW = 1; // 新着順
+  PAY_UPPER_LIMIT = 2; // 単価順
+  RELEVANCE = 3; // 関連度
+}
+
+/**
+ * 表示関連リクエスト
+ */
+message DisplayRequest {
+  int32 page = 1; // ページ
+  Sort sort = 2; // ソート
+}
+
+/**
+ * キーワードから探すのテキストとリンクの組
+ */
+message KeywordItem {
+  string text = 1;
+  string uri = 2;
+}
+
+/**
+ * キーワードから探すのカテゴリごとの要素
+ */
+message SearchByKeywordItemEntry {
+  string category = 1;
+  repeated KeywordItem keyword_items = 2;
+}
+
+/**
+ * カテゴリ名取得リクエスト
+ */
+message GetCategoryNameRequest {
+  int32 id = 1;
+  string url_key = 2;
+}
+
+/**
+ * カテゴリ名取得レスポンス
+ */
+message GetCategoryNameResponse {
+  string category_name = 1;
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

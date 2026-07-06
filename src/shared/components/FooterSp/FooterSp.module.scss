@@ -1,0 +1,114 @@
+// 移行元: app/components/Organisms/BaseFooterSp.vue / Atoms/FooterCopyright.vue
+.baseFooter {
+    > .content {
+        display: flex;
+        flex-direction: column;
+        gap: $space-32;
+        padding: $space-40 $space-16;
+        color: $neutral-white;
+        background: $neutral-black;
+    }
+}
+
+// 移行メモ: 旧 volt-vue UtilityLink.Text（textColor: TextWhite, size: small）の再実装
+.textLink {
+    color: $text-white;
+    text-decoration: none;
+
+    @include typography($typography-12px-function-regular);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.projectLinkListWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $space-16;
+    padding-bottom: $space-32;
+    border-bottom: $border-width-1 solid $neutral-white;
+
+    > .title {
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.projectLinkListInfo {
+    display: flex;
+    flex-direction: column;
+    gap: $space-16;
+    padding-bottom: $space-16;
+
+    > .title {
+        @include typography($typography-14px-function-bold);
+    }
+
+    &:last-child {
+        padding: 0;
+    }
+}
+
+.linkList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-16 $space-12;
+}
+
+.serviceLinkListWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-16;
+    padding: 0 0 $space-32;
+    color: $neutral-white;
+    border-bottom: $border-width-1 solid $neutral-white;
+
+    > .title {
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.serviceLinkList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-16 $space-12;
+}
+
+.bottomLinkList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-16 $space-12;
+}
+
+.footerBottom {
+    padding: $space-8 $space-16;
+    background: $neutral-white;
+
+    > .content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    > .content > .ismsLogo {
+        display: block;
+        line-height: 0;
+    }
+
+    > .content > .logo {
+        display: flex;
+        flex-direction: column;
+        gap: $space-4;
+        align-items: flex-end;
+        padding-top: $space-8;
+    }
+}
+
+.footerCopyright {
+    display: block;
+    font-size: $font-size-14;
+    line-height: 145%;
+    color: $text-dark-gray;
+    text-align: center;
+    letter-spacing: 0.28px;
+}

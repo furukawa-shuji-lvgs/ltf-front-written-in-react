@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+import "shared/date.proto";
+import "shared/project.proto";
+
+/* その他募集要項 */
+message ProjectOtherRequirement {
+  // 商談回数
+  int32 interview_times = 1;
+  // 募集人数
+  int32 number_of_position = 2;
+  // 作業開始日
+  oneof optional_work_start_day {
+    google.type.Date work_start_day = 3;
+  }
+  // 最低稼働日数(1〜5の場合、各値に変換する。それ以外は項目ごと表示しない)
+  ltf.shared.project.WeekWorkDaysCondition week_work_days_condition = 4;
+}

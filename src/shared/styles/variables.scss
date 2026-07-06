@@ -1,0 +1,192 @@
+@use "sass:meta";
+@use "sass:string";
+@use "sass:map";
+@use "./volt-tokens.scss" as *;
+
+// ------------------------------------------------
+//
+// Colors
+//
+// ------------------------------------------------
+$colors: (
+    gray: (
+        grayscale: (
+            black_dark: #000000,
+            black: #2d2d2d,
+            black_light: #666666,
+            gray_dark: #999999,
+            gray: #b4b4b4,
+            gray_light: #cccccc,
+            gray_super_light: #ddd,
+            silver_dark: $gray-40,
+            silver: #f0f0f0,
+            silver_light: #f5f5f5,
+            white: #ffffff,
+            white_dark: #fafafa
+        )
+    ),
+    f: (
+        primary: (
+            dark: $ltf-primary-dark,
+            default: $ltf-primary-default,
+            light: #e3f5f8,
+            bg_light: #f1f7fa
+        ),
+        secondary: (
+            dark: $ltf-secondary-default-hover,
+            default: $ltf-secondary-default,
+            light: #e6f6e9
+        ),
+        accent: (
+            dark: $ltf-accent-default-hover,
+            default: $ltf-accent-default,
+            light: #ffecef
+        )
+    ),
+    functional: (
+        success: (
+            dark: #007700,
+            default: $success-default,
+            light: $success-light
+        ),
+        alert: (
+            dark: #de2329,
+            default: $error-default,
+            light: $error-light
+        ),
+        warning: (
+            dark: #e3aa18,
+            default: $warning-default,
+            light: $warning-light
+        )
+    ),
+    ltp: (
+        primary: (
+            default: #1e3f75
+        )
+    ),
+    brand: (
+        primary: (
+            default: $lt-brand-primary-default
+        )
+    )
+);
+
+@function colors($group, $property1, $property2) {
+    $target_group: map.get($colors, $group);
+    $target_property1: map.get($target_group, $property1);
+    @return map.get($target_property1, $property2);
+}
+
+// ------------------------------------------------
+//
+// Device Width
+//
+// ------------------------------------------------
+$device_width_xs: 359px;
+$device_width_md: 767px;
+$max_width_mq: $device_width_md;
+$min_width_mq: $device_width_md + 1;
+
+$base_width_sp: 375;
+$base_inner_width_sp: 343;
+
+// Media Query
+// ------------------------------------------------
+$breakpoints: (
+    "mq": "(max-width: " + $max_width_mq + ")",
+    "xs": "(max-width: " + $device_width_xs + ")",
+    "pc": "(min-width: " + $min_width_mq + ")"
+) !default;
+
+// Break Point
+// ------------------------------------------------
+@mixin mq($breakpoint: mq) {
+    @media #{map.get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+// ------------------------------------------------
+//
+// Fonts
+//
+// ------------------------------------------------
+$Roboto: "Roboto";
+$noto_sans_jp: "Noto Sans JP";
+
+$font_family_set: $Roboto, $noto_sans_jp, "游ゴシック体", "Yu Gothic", Arial, sans-serif;
+
+// ------------------------------------------------
+//
+// Container
+//
+// ------------------------------------------------
+$container_width_default: 1000px;
+$container_width_sm: 720px;
+
+$container_width: (
+    "default": $container_width_default,
+    "sm": $container_width_sm
+) !default;
+
+@function container_width($size: default) {
+    @return map.get($container_width, $size);
+}
+
+// ------------------------------------------------
+//
+// Placeholder
+//
+// ------------------------------------------------
+@mixin placeholder_color($color) {
+    &::placeholder {
+        color: $color;
+    }
+}
+
+// ------------------------------------------------
+//
+// Box Shadow
+//
+// ------------------------------------------------
+$box_shadow_level1: 0 1px 4px 0 rgba(colors(gray, grayscale, black_dark), 0.32);
+$box_shadow_level2: 0 2px 10px 0 rgba(colors(gray, grayscale, black_dark), 0.32);
+$box_shadow_level3: 0 4px 16px 0 rgba(colors(gray, grayscale, black_dark), 0.32);
+
+$box_shadow: (
+    "level1": $box_shadow_level1,
+    "level2": $box_shadow_level2,
+    "level3": $box_shadow_level3
+) !default;
+
+@function box_shadow($level: level1) {
+    @return map.get($box_shadow, $level);
+}
+
+// ------------------------------------------------
+//
+// Text Shadow
+//
+// ------------------------------------------------
+$text_shadow_level1: 0 1px 4px rgba(colors(gray, grayscale, black_dark), 0.32);
+$text_shadow_level2: 0 2px 10px rgba(colors(gray, grayscale, black_dark), 0.32);
+
+$text_shadow: (
+    "level1": $text_shadow_level1,
+    "level2": $text_shadow_level2
+) !default;
+
+@function text_shadow($level: level1) {
+    @return map.get($text_shadow, $level);
+}
+
+// ------------------------------------------------
+//
+// Letter Spacing
+//
+// ------------------------------------------------
+@function letter_spacing_calc($design_character_size, $design_font_size) {
+    $result: calc($design_character_size / $design_font_size) + #{"em"};
+    @return $result;
+}

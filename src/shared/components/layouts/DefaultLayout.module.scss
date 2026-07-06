@@ -1,0 +1,10 @@
+// 移行元: app/layouts/default.vue
+.h1Title {
+    padding: 0 8px;
+    overflow: auto;
+    font-size: 1rem;
+    line-height: 20px;
+    color: colors(gray, grayscale, black_light);
+    white-space: nowrap;
+    background: colors(gray, grayscale, silver_light);
+}

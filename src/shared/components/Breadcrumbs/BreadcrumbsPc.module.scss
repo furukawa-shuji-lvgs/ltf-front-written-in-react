@@ -1,0 +1,23 @@
+// 移行元: app/components/Molecules/BreadcrumbsPc.vue
+.breadcrumbList {
+    display: flex;
+    flex-wrap: wrap;
+    width: 960px;
+    margin: $space-8 auto 0;
+
+    > .item {
+        @include typography($typography-12px-read-regular);
+    }
+
+    // 移行メモ: 矢印画像はアセット未移行のため CSS カスタムプロパティ（--icon-arrow）経由で
+    // 旧環境のファイルサーバの URL を参照している
+    > .item > .link {
+        padding-right: $space-16;
+        margin-right: $space-8;
+        background: var(--icon-arrow) no-repeat right center;
+    }
+
+    &.layoutL {
+        width: $layout-width-main-l;
+    }
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package ltf.ltp.guest_jf;
+
+import "common/response.proto";
+import "google/protobuf/timestamp.proto";
+import "results/result.proto";
+import "shared/date.proto";
+
+/**
+ * ゲストJFにて使用するエントリー情報取得サービス
+ */
+service GuestJf {
+  /**
+   * ゲストJF用エントリー情報取得
+   */
+  rpc GetEntryInfo(GetEntryInfoRequest) returns (GetEntryInfoResponse);
+}
+
+/**
+ * ゲストJF用エントリー情報取得のリクエスト
+ */
+message GetEntryInfoRequest {
+  string entry_code = 1; // エントリー情報に紐づくJF用ハッシュコード
+}
+
+/**
+ * ゲストJF用エントリー情報取得のレスポンス
+ */
+message GetEntryInfoResponse {
+  oneof payload {
+    EntryInfo entry_info = 1;
+  }
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * ゲストJF用エントリー情報
+ */
+message EntryInfo {
+  string lastname = 1; // 名字
+  string firstname = 2; // 名前
+  string lastname_kana = 3; // 名字かな
+  string firstname_kana = 4; // 名前かな
+  google.type.Date birthday = 5; // 生年月日
+  string mailaddress = 6; // メールアドレス
+  string phone = 7; // 電話番号
+  google.protobuf.Timestamp created = 8; // 登録日時
+}

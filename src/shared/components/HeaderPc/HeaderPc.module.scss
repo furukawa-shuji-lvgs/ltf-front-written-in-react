@@ -1,0 +1,536 @@
+// 移行元: app/components/Organisms/BaseHeaderPc.vue / HeaderInfo.vue / GlobalNavPc.vue /
+//         Molecules/HeaderProjectDropDown.vue / HeaderCommonDropDown.vue / GlobalNavButtonsPc.vue /
+//         Atoms/Top/LoginButton.vue / RegisterButton.vue
+$ai-label-gradient: linear-gradient(90deg, $purple-50 0%, $blue-purple-60 70%, $blue-50 100%);
+
+.baseHeader {
+    width: 100%;
+    min-width: 960px;
+    background: colors(gray, grayscale, white);
+    border-bottom: 1px solid colors(gray, grayscale, silver_dark);
+
+    &.isFixed {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-100%);
+        transition: 0.1s;
+    }
+
+    &.isFixed.isShow {
+        visibility: visible;
+        box-shadow: $box-shadow-1;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &.isSticky {
+        position: sticky;
+    }
+
+    &.layoutL {
+        min-width: $layout-width-main-l;
+    }
+}
+
+// HeaderInfo
+.headerInfo {
+    background: $neutral-light-gray;
+
+    > .inner {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 960px;
+        min-height: 25px;
+        padding: 0 $space-12;
+        margin: auto;
+
+        &.layoutL {
+            min-width: $layout-width-main-l;
+        }
+    }
+
+    > .inner > .title {
+        flex: 1;
+        width: 500px;
+        font-size: $font-size-10;
+        line-height: 120%;
+    }
+
+    .linkList {
+        display: flex;
+        gap: $space-16;
+
+        > .item {
+            font-size: $font-size-10;
+        }
+
+        > .item > .link {
+            color: $text-dark-gray;
+            text-decoration: none;
+        }
+    }
+}
+
+.headerNav {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: $layout-width-main-l;
+    height: 73px;
+    margin: auto;
+
+    .isFixed & {
+        padding: 0;
+    }
+
+    > .icon {
+        display: flex;
+        align-items: center;
+        width: 150px;
+        transition: 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    &.layoutL {
+        width: $layout-width-main-l;
+    }
+}
+
+.navGroup {
+    display: flex;
+    gap: $space-16;
+    align-items: center;
+}
+
+.border {
+    width: $border-width-1;
+    height: $size-32;
+    background: $neutral-light-gray;
+}
+
+// GlobalNavPc
+.globalNav {
+    display: flex;
+    gap: $space-12;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.menu {
+    z-index: 100;
+}
+
+.labelLinkWrapper {
+    position: relative;
+    height: 100%;
+}
+
+.menu > .link,
+.labelLinkWrapper > .link {
+    position: relative;
+    display: flex;
+    gap: $space-4;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: $space-16 0 $space-8;
+    color: $text-black;
+    text-align: center;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    text-decoration: none;
+
+    @include typography($typography-13px-function-bold);
+
+    &:hover {
+        color: $ltf-primary-default;
+    }
+
+    &:after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: $border-width-2;
+        margin: auto;
+        content: "";
+        background: $ltf-primary-default;
+        transition: 0.2s;
+    }
+
+    &:hover:after {
+        width: 100%;
+    }
+}
+
+.aiLabel {
+    --label-width: 100px;
+
+    position: absolute;
+    top: -$space-8;
+    left: $space-32;
+    z-index: 101;
+    display: flex;
+    white-space: nowrap;
+    transform: translateX(-50%);
+
+    > .aiLabelText {
+        padding: $space-2 $space-8;
+        color: $text-white;
+        background: $ai-label-gradient;
+        border-radius: $radius-full;
+
+        @include typography($typography-10px-function-bold);
+    }
+
+    > .polygon {
+        position: absolute;
+        top: 95%;
+        left: 50%;
+        width: $space-8;
+        height: 6px;
+        background: $ai-label-gradient;
+        background-position: center;
+        background-size: var(--label-width) 100%;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform: translateX(-50%);
+    }
+}
+
+// HeaderProjectDropDown / HeaderCommonDropDown 共通
+.projectDropdown,
+.commonDropdown {
+    position: absolute;
+    top: 68px;
+    left: 50%;
+    z-index: 9999;
+    display: none;
+    width: $layout-width-main-l;
+    padding-top: $space-16;
+    transform: translateX(-50%);
+}
+
+.menu:hover > .projectDropdown,
+.menu:focus-within > .projectDropdown,
+.menu.isOpen > .projectDropdown,
+.menu:hover > .commonDropdown,
+.menu:focus-within > .commonDropdown,
+.menu.isOpen > .commonDropdown {
+    display: block;
+}
+
+.projectDropdown {
+    height: auto;
+}
+
+.panel {
+    display: flex;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    background: colors(gray, grayscale, white);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgb(0, 0, 0, 0.16);
+}
+
+.sidebar {
+    position: relative;
+    flex: 0 0 252px;
+    width: 252px;
+    padding: $space-32 $space-24;
+    background-color: #eff6f9;
+
+    > .sidebarHeader {
+        display: flex;
+        gap: $space-8;
+        align-items: center;
+
+        > .title {
+            line-height: 40px;
+            color: $neutral-black;
+
+            @include typography($typography-18px-function-bold);
+        }
+
+        > .arrowButtonWrapper > .arrowButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: $size-28;
+            height: $size-28;
+            min-height: $size-28;
+            padding: 0;
+            color: $neutral-white;
+            background: $ltf-primary-default;
+            border-radius: $radius-full;
+
+            &:hover {
+                background: $ltf-primary-dark;
+            }
+
+            svg {
+                display: block;
+            }
+        }
+    }
+}
+
+.projectDropdown .mainContent {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding: $space-24 $space-16;
+
+    > .title {
+        margin-bottom: $space-4;
+        font-size: 1.2rem;
+    }
+}
+
+.categoryList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+}
+
+.categoryItem {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: $space-12 $space-24;
+    border-bottom: 1px solid colors(gray, grayscale, silver_dark);
+
+    > .title {
+        display: flex;
+        flex: 0 0 160px;
+        gap: $space-8;
+        align-items: center;
+        font-size: $font-size-12;
+        color: $neutral-black;
+    }
+
+    > .title > .image {
+        display: inline-block;
+        width: $size-24;
+        height: auto;
+        vertical-align: bottom;
+        opacity: 0.8;
+    }
+
+    > .title > .text {
+        display: block;
+        line-height: 100%;
+    }
+}
+
+.projectDropdown .navLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-8;
+    width: 450px;
+
+    > .item {
+        opacity: 0.9;
+    }
+
+    > .item > .link {
+        display: flex;
+        gap: $space-4;
+        align-items: center;
+        font-size: $font-size-12;
+        color: $neutral-black;
+        text-decoration: none;
+
+        &:hover {
+            color: colors(f, primary, default);
+
+            .navArrow {
+                color: $ltf-primary-default;
+            }
+        }
+    }
+
+    > .item > .link > .text {
+        display: block;
+        line-height: 100%;
+    }
+
+    .navArrow {
+        color: $neutral-deep-gray;
+    }
+}
+
+.topLink {
+    display: flex;
+    gap: $space-16;
+    justify-content: center;
+    margin: $space-16 auto $space-4;
+}
+
+.topLinkItem {
+    width: 240px;
+}
+
+.searchButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: $space-8 $space-16;
+    color: $text-white;
+    text-decoration: none;
+    background: $ltf-primary-default;
+    border-radius: $radius-full;
+
+    @include typography($typography-14px-function-bold);
+
+    &:hover {
+        background: $ltf-primary-dark;
+    }
+}
+
+.aiSearchButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: $space-8 $space-16;
+    color: $text-white;
+    text-decoration: none;
+    background: $ai-label-gradient;
+    border-radius: $radius-full;
+
+    @include typography($typography-12px-function-bold);
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.commonDropdown .mainContent {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: $space-24 $space-16;
+}
+
+.commonDropdown .navLinks {
+    padding: $space-8 0;
+
+    > .item {
+        width: 100%;
+    }
+
+    > .item > .link {
+        display: flex;
+        gap: $space-4;
+        align-items: center;
+        width: 100%;
+        padding: 0 $space-24;
+        font-size: 1.4rem;
+        line-height: 40px;
+        color: colors(gray, grayscale, black);
+        text-decoration: none;
+        transition: 0.2s;
+
+        svg {
+            fill: $neutral-deep-gray;
+        }
+
+        &:hover {
+            color: $ltf-primary-default;
+
+            svg {
+                fill: $ltf-primary-default;
+            }
+        }
+    }
+
+    > .item > .link > .icon {
+        width: $size-16;
+        height: auto;
+        vertical-align: middle;
+    }
+}
+
+// GlobalNavButtonsPc
+.navButtons {
+    display: flex;
+    gap: $space-12;
+    align-items: center;
+    align-self: stretch;
+}
+
+.anchor {
+    color: $text-dark-gray;
+    text-decoration: none;
+
+    @include typography($typography-13px-function-regular);
+}
+
+// Atoms/Top/LoginButton
+.loginButton {
+    display: flex;
+    gap: $space-8;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 48px;
+    color: $ltf-primary-default;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: $neutral-white;
+    border: $border-width-2 solid $ltf-primary-default;
+    border-radius: $radius-full;
+
+    @include typography($typography-16px-function-bold);
+
+    &:hover {
+        background-color: $neutral-light-gray;
+    }
+}
+
+// Atoms/Top/RegisterButton
+.registerButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: flex-start;
+    padding: $space-12 $space-28 $space-16 $space-28;
+    color: $text-white;
+    text-decoration: none;
+    cursor: pointer;
+    background: $ltf-accent-default;
+    border-radius: 0 0 $space-16 $space-16;
+    box-shadow: $box-shadow-3;
+    transition: all 0.2s ease;
+
+    &:hover {
+        padding-top: $space-24;
+    }
+
+    > .top {
+        display: flex;
+        gap: $space-8;
+
+        @include typography($typography-14px-function-bold);
+    }
+
+    > .registerText {
+        @include typography($typography-24px-function-bold);
+    }
+}

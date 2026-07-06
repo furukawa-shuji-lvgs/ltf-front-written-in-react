@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+/* 求めるスキル */
+message ProjectRequestSkill {
+  // 求めるスキル（必須スキル）
+  string request_skill_necessary = 1;
+  // 歓迎スキル
+  string request_skill_prefer = 2;
+}

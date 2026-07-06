@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ltf.member.input;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/entry.proto";
+
+/**
+ * メンバーEF入力サービス
+ */
+service MemberInput {
+  /**
+   * フォーム用項目取得
+   */
+  rpc GetFormItems(GetFormItemsRequest) returns (GetFormItemsResponse);
+}
+
+/**
+ * フォーム用項目取得のリクエスト
+ */
+message GetFormItemsRequest {}
+
+/**
+ * フォーム用項目取得のレスポンス
+ */
+message GetFormItemsResponse {
+  repeated shared.entry.ContractType contract_types = 1; // 契約形態
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+import "google/protobuf/wrappers.proto";
+
+/* 精算・お支払い */
+message ProjectSettlementAndPayment {
+  /*
+   * 精算条件
+   *
+   * 支払い精算種別（pay_type）により変動する
+   * 1: 精算あり　→　「有」
+   * 2: 固定　→　「無」
+   * 3: 時給　→　「有」
+   * 「1,2,3以外は項目ごと表示しない」
+   */
+  google.protobuf.StringValue settlement_condition = 1;
+
+  /*
+   * 精算基準時間(lower時間~upper時間)
+   *
+   * 「下限／上限どちらか、または両方ない場合は項目ごと表示しない」
+   */
+  google.protobuf.Int32Value settlement_time_lower_limit = 2;
+  google.protobuf.Int32Value settlement_time_upper_limit = 3;
+
+  /*
+   * 支払いサイト
+   *
+   * 契約形態（contract_type）により変動する
+   * 1: 業務委託　→　「15日」
+   * 「1以外は項目ごと表示しない」
+   */
+  google.protobuf.StringValue payment_term = 4;
+}

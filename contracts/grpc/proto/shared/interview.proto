@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ltf.shared.interview;
+
+/**
+ * InterviewData
+ */
+message InterviewData {
+  int32 id = 1;
+  string title = 2; // インタビュータイトル
+  string pc_image_url = 3; // PC向けサムネイル画像
+  string sp_image_url = 4; // SP向けサムネイル画像
+  Profile profile = 5; // ご利用者プロフィール
+}
+
+/**
+ * プロフィール
+ */
+message Profile {
+  string pc_image_url = 1; // PC向けご利用者プロフィール画像
+  string sp_image_url = 2; // SP向けご利用者プロフィール画像
+  string name = 3; // ご利用者名
+  int32 age = 4; // ご利用者年齢
+  string skill = 5; // メインスキル
+  string freelance_career = 6; // フリーランス歴
+}

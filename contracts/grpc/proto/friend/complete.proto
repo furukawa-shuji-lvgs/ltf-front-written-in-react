@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package ltf.friend.complete;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/entry.proto";
+
+/**
+ * 友人紹介に必要な情報取得サービス
+ */
+service FriendComplete {
+  /**
+   * 紹介した友人情報を登録
+   */
+  rpc PostFriendInfo(PostFriendInfoRequest) returns (PostFriendInfoResponse);
+  /**
+   * 紹介した友人情報を登録(リバプロ対応)
+   */
+  rpc PostFriendInfoV2(PostFriendInfoV2Request) returns (PostFriendInfoV2Response);
+  /**
+   * 友人紹介LP経由で紹介された被紹介者のエントリーを情報登録
+   */
+  rpc PostReferredFriendEntry(PostReferredFriendEntryRequest) returns (PostReferredFriendEntryResponse);
+
+  /**
+   * 友人紹介LP経由で紹介された被紹介者のエントリー情報を取得
+   */
+  rpc GetReferredFriendEntry(GetReferredFriendEntryRequest) returns (GetReferredFriendEntryResponse);
+}
+
+/**
+ * 紹介した友人情報登録のリクエスト
+ */
+message PostFriendInfoRequest {
+  string sip = 1; // sip
+  shared.entry.AccessInfo access_info = 2; // アクセス情報
+  repeated shared.entry.EntryAccessHistory entry_access_histories = 3; // アクセス履歴
+  string ms_lp_no = 4; // LPの番号
+  ReferralData referral_data = 5; // 紹介者の情報
+  repeated ReferralFriendData referral_friend_data = 6; // 被紹介者の情報
+}
+
+/**
+ * 紹介した友人情報登録のレスポンス
+ */
+message PostFriendInfoResponse {
+  int32 referral_id = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * 紹介者の情報
+ */
+message ReferralData {
+  string lastname = 1; // 名字
+  string firstname = 2; // 名前
+  string lastname_kana = 3; // 名字かな
+  string firstname_kana = 4; // 名前かな
+  string phone = 5; // 電話番号
+  string mailaddress = 6; // メールアドレス
+  google.protobuf.StringValue hope_advisor_lastname = 7; // 希望するキャリアアドバイザーの名字
+  google.protobuf.StringValue hope_advisor_firstname = 8; // 希望するキャリアアドバイザーの名前
+}
+
+/**
+ * 被紹介者の情報
+ */
+message ReferralFriendData {
+  string mailaddress = 1; // メールアドレス
+}
+
+/**
+ * キャリアアドバイザーの情報
+ */
+message HopeAdvisor {
+  google.protobuf.StringValue hope_advisor_lastname = 1; // 希望するキャリアアドバイザーの名字
+  google.protobuf.StringValue hope_advisor_firstname = 2; // 希望するキャリアアドバイザーの名前
+}
+
+/**
+ * 紹介した友人情報登録のリクエスト(リバプロ対応)
+ */
+message PostFriendInfoV2Request {
+  shared.entry.EntryData entry = 1; // エントリー情報
+  repeated shared.entry.EntryAccessHistory entry_access_histories = 2; // エントリーアクセス履歴
+  shared.entry.SessionInfo session = 3; // セッション情報
+  oneof hope_advisor_optional {
+    HopeAdvisor hope_advisor = 4; // キャリアアドバイザーの情報
+  }
+  string session_id = 5; // セッションID
+}
+
+/**
+ * 紹介した友人情報登録のレスポンス(リバプロ対応)
+ */
+message PostFriendInfoV2Response {
+  google.protobuf.StringValue redirect_url = 1; // リダイレクト先URL
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 友人紹介LP経由で紹介された被紹介者のエントリー情報登録のリクエスト
+ */
+message PostReferredFriendEntryRequest {
+  shared.entry.EntryData entry = 1; // エントリー情報
+  repeated shared.entry.EntryAccessHistory entry_access_histories = 2; // エントリーアクセス履歴
+  shared.entry.FacebookCookie facebook_cookie = 3; // Facebook広告コンバージョンAPI連携用Cookie
+  shared.entry.SessionInfo session = 4; // セッション情報
+  oneof hope_advisor_optional {
+    HopeAdvisor hope_advisor = 5; // キャリアアドバイザーの情報
+  }
+  string friend_engineer_id_hash = 6; // 被紹介者のエンジニアIDハッシュ
+}
+
+/**
+ * 友人紹介LP経由で紹介された被紹介者のエントリー情報登録のレスポンス
+ */
+message PostReferredFriendEntryResponse {
+  int32 entry_id = 1; // エントリーID
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 友人紹介LP経由で紹介された被紹介者のエントリー情報取得のリクエスト
+ */
+message GetReferredFriendEntryRequest {
+  int32 entry_id = 1; // エントリーID
+}
+
+/**
+ * 友人紹介LP経由で紹介された被紹介者のエントリー情報取得のレスポンス
+ */
+message GetReferredFriendEntryResponse {
+  string sip = 1; // エントリーIDに紐づくsip（dataLayer 変数用）
+  google.protobuf.StringValue jf_url_engineer = 2; // エンジニア用のJF URL
+  google.protobuf.StringValue jf_url_creator = 3; // クリエイター用のJF URL
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

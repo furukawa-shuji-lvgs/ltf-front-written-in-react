@@ -1,0 +1,608 @@
+@use "@shared/styles/volt-tokens.scss" as *;
+@use "@shared/styles/variables.scss" as *;
+
+.guideListPage {
+    flex: 1;
+    padding: $space-48 0 $space-56;
+    background: colors(gray, grayscale, white);
+}
+
+.guideLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: $space-48;
+
+    h2 {
+        margin-bottom: $space-32;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.guideArticle {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: $space-20;
+    padding: $space-24 0;
+    border-bottom: 1px solid $neutral-light-gray;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 158px;
+
+    h3 {
+        margin-bottom: $space-12;
+
+        @include typography($typography-20px-read-bold);
+    }
+}
+
+.guideThumb {
+    display: grid;
+    height: 110px;
+    color: $ltf-primary-default;
+    place-items: center;
+    background: linear-gradient(#eff8fb, #fff8ea);
+    border-top: 2px dashed #b7ccd7;
+    border-bottom: 2px dashed #b7ccd7;
+
+    @include typography($typography-16px-function-bold);
+}
+
+.tagAside {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-12;
+    align-content: flex-start;
+
+    h3 {
+        flex-basis: 100%;
+
+        @include typography($typography-20px-function-bold);
+    }
+
+    span {
+        padding: $space-8 $space-16;
+        border: 1px solid $neutral-dark-gray;
+        border-radius: $radius-full;
+    }
+}
+
+.pagination {
+    margin-top: $space-32;
+    color: $ltf-primary-default;
+    text-align: center;
+
+    @include typography($typography-16px-function-bold);
+}
+
+.startGuideSpOnly {
+    display: none;
+}
+
+.startGuidePage {
+    color: $text-black;
+    background: #eef9fc;
+
+    h2 {
+        text-align: center;
+
+        @include typography($typography-24px-read-bold);
+    }
+}
+
+.startGuideHero {
+    display: flex;
+    min-height: 430px;
+    padding: $space-28 0 $space-32;
+    text-align: center;
+    background:
+        radial-gradient(circle at 8% 10%, rgb(128 218 232 / 28%) 0 36px, transparent 37px),
+        radial-gradient(circle at 92% 4%, rgb(128 218 232 / 26%) 0 44px, transparent 45px),
+        #e5f8fc;
+
+    > .contentInner {
+        margin: auto;
+    }
+
+    p {
+        margin: $space-8 0 $space-16;
+        color: $text-dark-gray;
+
+        @include typography($typography-12px-function-bold);
+    }
+}
+
+.startGuideFaqs {
+    display: grid;
+    gap: $space-12;
+    margin-top: $space-24;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 44px;
+        padding: 0 $space-16;
+        color: $text-black;
+        text-align: left;
+        background: colors(gray, grayscale, white);
+        border: 1px solid #d4e8f0;
+        border-radius: $radius-4;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+
+        @include typography($typography-12px-function-bold);
+    }
+
+    span {
+        color: $ltf-primary-default;
+    }
+}
+
+.startGuideIntro {
+    padding: $space-28 $space-16;
+    color: $ltf-primary-default;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+
+    p {
+        @include typography($typography-14px-function-bold);
+    }
+}
+
+.startGuideSteps {
+    display: grid;
+    gap: $space-16;
+    padding: $space-24 0 $space-48;
+
+    article {
+        min-height: 168px;
+        padding: $space-16;
+        background: colors(gray, grayscale, white);
+        border: 1px solid #d4e8f0;
+        border-radius: $radius-8;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    }
+
+    span {
+        display: block;
+        width: fit-content;
+        padding: $space-4 $space-16;
+        margin: 0 auto $space-12;
+        color: $text-white;
+        background: #438da8;
+        border-radius: $radius-full;
+
+        @include typography($typography-12px-function-bold);
+    }
+
+    h3 {
+        margin-bottom: $space-8;
+
+        @include typography($typography-16px-read-bold);
+    }
+
+    p {
+        color: $text-dark-gray;
+
+        @include typography($typography-12px-function-regular);
+    }
+}
+
+.startGuideCta {
+    display: flex;
+    min-height: 540px;
+    padding: $space-56 0;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+
+    > .contentInner {
+        margin: auto;
+    }
+
+    h2 {
+        margin-bottom: $space-24;
+        color: $ltf-primary-default;
+    }
+
+    p {
+        margin-bottom: $space-24;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        min-height: 48px;
+        margin-top: $space-12;
+        color: $text-white;
+        background: #ff4d32;
+        border: 0;
+        border-radius: $radius-full;
+
+        @include typography($typography-14px-function-bold);
+
+        + button {
+            background: #ff6a4f;
+        }
+    }
+}
+
+.startGuideService {
+    min-height: 1080px;
+    padding: $space-48 0 $space-64;
+    background: #eef9fc;
+
+    > .contentInner > p {
+        margin-bottom: $space-8;
+        color: $ltf-primary-default;
+        text-align: center;
+
+        @include typography($typography-12px-function-bold);
+    }
+}
+
+.startGuideCards {
+    display: grid;
+    gap: $space-20;
+    margin-top: $space-28;
+
+    article {
+        min-height: 270px;
+        padding: $space-20;
+        text-align: center;
+        background: colors(gray, grayscale, white);
+        border: 1px solid #d4e8f0;
+        border-radius: $radius-8;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+        content-visibility: auto;
+        contain-intrinsic-size: 0 270px;
+    }
+
+    h3 {
+        margin: $space-16 0;
+
+        @include typography($typography-14px-read-bold);
+    }
+
+    button {
+        width: 100%;
+        min-height: 36px;
+        color: $text-white;
+        background: #438da8;
+        border: 0;
+        border-radius: $radius-full;
+
+        @include typography($typography-12px-function-bold);
+    }
+}
+
+.startGuideIllustration {
+    width: 96px;
+    height: 86px;
+    margin: 0 auto;
+    background:
+        linear-gradient(135deg, transparent 48%, #6d8790 49% 51%, transparent 52%),
+        radial-gradient(circle at 50% 30%, #eef9fc 0 28px, transparent 29px);
+    border: 2px solid #d4e8f0;
+    border-radius: $radius-8;
+}
+
+.spReplacement {
+    display: none;
+}
+
+.guideDetailSpPage,
+.wordListSpPage,
+.helpSpPage,
+.phoneSpPage,
+.onsiteSpPage {
+    background: colors(gray, grayscale, white_dark);
+}
+
+.guideDetailSpPage {
+    min-height: 3000px;
+    padding: $space-32 0;
+
+    h2 {
+        margin-bottom: $space-12;
+
+        @include typography($typography-24px-read-bold);
+    }
+}
+
+.dateText {
+    margin-bottom: $space-12;
+    color: $text-dark-gray;
+
+    @include typography($typography-12px-function-regular);
+}
+
+.tagRow {
+    display: flex;
+    gap: $space-8;
+    margin-bottom: $space-20;
+
+    span {
+        padding: $space-4 $space-12;
+        background: colors(gray, grayscale, white);
+        border: 1px solid $neutral-light-gray;
+        border-radius: $radius-full;
+
+        @include typography($typography-12px-function-regular);
+    }
+}
+
+.authorCard,
+.articleBlock,
+.compactArticleList {
+    padding: $space-20;
+    margin-top: $space-24;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+    border-radius: $radius-4;
+}
+
+.authorCard {
+    div {
+        display: grid;
+        width: 80px;
+        height: 80px;
+        margin-bottom: $space-12;
+        color: $text-dark-gray;
+        place-items: center;
+        background: #eff8fb;
+        border-radius: $radius-full;
+
+        @include typography($typography-10px-function-regular);
+    }
+}
+
+.articleBlock {
+    h3 {
+        margin-bottom: $space-12;
+
+        @include typography($typography-18px-read-bold);
+    }
+}
+
+.redCta {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    margin: $space-24 0;
+    color: $text-white;
+    background: #ff4d32;
+    border: 0;
+    border-radius: $radius-4;
+
+    @include typography($typography-14px-function-bold);
+}
+
+.compactArticleList {
+    h3 {
+        margin-bottom: $space-16;
+
+        @include typography($typography-20px-read-bold);
+    }
+
+    article {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: $space-12;
+        padding: $space-12 0;
+        border-top: 1px solid $neutral-light-gray;
+
+        &:first-of-type {
+            border-top: 0;
+        }
+    }
+}
+
+.smallThumb,
+.serviceIllustration {
+    display: grid;
+    min-height: 72px;
+    color: $ltf-primary-default;
+    place-items: center;
+    background: #eff8fb;
+    border: 1px solid #d4e8f0;
+}
+
+.wordListSpPage {
+    min-height: 2400px;
+    padding: $space-28 0 $space-40;
+
+    h2 {
+        margin-bottom: $space-20;
+        text-align: center;
+
+        @include typography($typography-24px-read-bold);
+    }
+}
+
+.quickSearchBox {
+    padding: $space-16;
+    margin-bottom: $space-12;
+    text-align: center;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+}
+
+.marketBanner {
+    padding: $space-20;
+    margin: $space-24 0;
+    text-align: center;
+    background: #e6f7fa;
+    border: 3px solid $ltf-primary-default;
+
+    h3 {
+        margin-bottom: $space-12;
+
+        @include typography($typography-18px-read-bold);
+    }
+
+    button {
+        min-height: 40px;
+        padding: 0 $space-20;
+        margin-top: $space-16;
+        color: $text-white;
+        background: #ff4d32;
+        border: 0;
+        border-radius: $radius-4;
+    }
+}
+
+.otherKeywords {
+    padding-top: $space-24;
+    margin-top: $space-24;
+    border-top: 1px solid $neutral-light-gray;
+
+    h3 {
+        margin-bottom: $space-16;
+    }
+
+    a {
+        display: block;
+        margin-top: $space-12;
+        color: $ltf-primary-default;
+    }
+}
+
+.helpSpPage {
+    min-height: 2800px;
+    padding: $space-28 0 $space-40;
+}
+
+.helpMenu {
+    display: grid;
+    padding: $space-16;
+    margin-bottom: $space-32;
+    background: colors(gray, grayscale, white);
+
+    a {
+        padding: $space-12 0;
+        color: $text-black;
+        border-bottom: 1px solid #8bc3df;
+        text-decoration: none;
+    }
+}
+
+.helpGroup {
+    margin-top: $space-32;
+
+    h2 {
+        padding-bottom: $space-12;
+        margin-bottom: $space-12;
+        border-bottom: 1px solid $neutral-light-gray;
+
+        @include typography($typography-18px-read-bold);
+    }
+
+    details {
+        padding: $space-12;
+        background: colors(gray, grayscale, white);
+        border-bottom: 1px solid $neutral-light-gray;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 56px;
+    }
+}
+
+.helpNotice {
+    margin-top: $space-32;
+}
+
+.phoneSpPage {
+    min-height: 1700px;
+    padding: $space-32 0;
+
+    h2 {
+        margin: $space-28 0 $space-16;
+
+        @include typography($typography-20px-read-bold);
+    }
+}
+
+.phoneNumberBox {
+    display: grid;
+    gap: $space-16;
+    padding: $space-24;
+    margin: $space-24 0;
+    text-align: center;
+    background: #e6f7fa;
+    border-radius: $radius-8;
+
+    a {
+        color: $ltf-primary-default;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.phoneCards {
+    display: grid;
+    gap: $space-20;
+
+    article {
+        padding: $space-16;
+        background: colors(gray, grayscale, white);
+        border: 3px solid $ltf-primary-default;
+        border-radius: $radius-8;
+    }
+}
+
+.onsiteSpPage {
+    padding-bottom: $space-40;
+}
+
+.onsiteHero {
+    display: grid;
+    min-height: 620px;
+    color: $text-black;
+    place-items: center;
+    text-align: center;
+    background: #eef6dc;
+
+    h2 {
+        margin-bottom: $space-16;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.onsiteLead,
+.onsiteSection {
+    padding: $space-32 0;
+
+    h2 {
+        margin-bottom: $space-20;
+        text-align: center;
+
+        @include typography($typography-24px-read-bold);
+    }
+}
+
+.onsiteLinkBox {
+    display: grid;
+    gap: $space-8;
+    padding: $space-16;
+    margin: $space-24 0;
+    background: colors(gray, grayscale, white);
+
+    a {
+        color: $ltf-primary-default;
+    }
+}
+
+.onsiteSection {
+    min-height: 850px;
+}
+
+.onsiteCardGrid {
+    display: grid;
+    gap: $space-20;
+
+    article {
+        min-height: 220px;
+        padding: $space-20;
+        background: colors(gray, grayscale, white);
+        border: 1px solid $neutral-light-gray;
+    }
+}

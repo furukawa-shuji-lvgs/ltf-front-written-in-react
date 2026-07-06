@@ -1,0 +1,266 @@
+@use "@shared/styles/volt-tokens.scss" as *;
+@use "@shared/styles/variables.scss" as *;
+
+@media (max-width: 767px) {
+    .shell[data-compact-sp-footer="true"] .main {
+        flex: 0;
+    }
+
+    .shell[data-compact-sp-footer="true"] .hero {
+        background: colors(gray, grayscale, white_dark);
+    }
+
+    .shell[data-compact-sp-footer="true"] .heroInner {
+        min-height: auto;
+        padding: $space-20 $space-16;
+    }
+
+    .shell[data-compact-sp-footer="true"] .heroCopy {
+        h1 {
+            color: $ltf-primary-default;
+            text-align: center;
+        }
+
+        > p:not(.eyebrow),
+        .eyebrow,
+        .actions {
+            display: none;
+        }
+    }
+
+    .heroInner,
+    .contentInner,
+    .completeCard,
+    .flowCard {
+        width: calc(100% - 32px);
+    }
+
+    .heroInner {
+        display: block;
+        min-height: 220px;
+        padding: $space-28 0;
+    }
+
+    .heroCopy h1 {
+        @include typography($typography-24px-read-bold);
+    }
+
+    .topHero {
+        min-height: 520px;
+    }
+
+    .heroSearchCard {
+        width: 100%;
+        margin-top: $space-20;
+    }
+
+    .sectionBand {
+        padding: $space-32 0;
+    }
+
+    .questionBox,
+    .projectCards,
+    .searchModeTabs,
+    .searchWizard {
+        width: 100%;
+    }
+
+    .featureGrid,
+    .articleGrid,
+    .projectCards,
+    .projectLayout,
+    .searchWizard,
+    .guideLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .compactFooterInner {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        min-height: 1700px;
+        padding: $space-32 $space-16;
+    }
+
+    .compactFooterBottom {
+        align-items: center;
+        padding: $space-16;
+    }
+
+    .guideListPage,
+    .wordPage,
+    .sitemapPage {
+        padding: $space-32 $space-16;
+    }
+
+    .guideArticle {
+        grid-template-columns: 1fr;
+        gap: $space-12;
+        padding: $space-16 0;
+    }
+
+    .guideThumb {
+        height: 130px;
+    }
+
+    .tagAside {
+        display: flex;
+        margin-top: $space-24;
+    }
+
+    .keywordGrid,
+    .sitemapGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: $space-16;
+    }
+
+    .friendHero,
+    .friendCampaignHero {
+        padding: $space-48 $space-16;
+
+        h2 {
+            @include typography($typography-28px-read-bold);
+        }
+    }
+
+    .undecidedCard,
+    .assessResultCard,
+    .assessCta {
+        width: calc(100% - 32px);
+    }
+
+    .undecidedHero h1 {
+        width: calc(100% - 32px);
+
+        @include typography($typography-20px-read-bold);
+    }
+
+    .assessHero {
+        min-height: 640px;
+        padding: 0 $space-16;
+
+        h1 {
+            @include typography($typography-40px-read-bold);
+        }
+
+        button {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+
+    .assessMain {
+        background: $neutral-white;
+    }
+
+    .assessMain .assessHero {
+        min-height: calc(var(--legacy-target-height) - 105px);
+        margin-top: 55px;
+    }
+
+    .shell[data-page-id="project-closedsearch"] .hero,
+    .shell[data-page-id="project-closedsearch-ppage"] .hero,
+    .shell[data-page-id="guide-freelance-start-guide"] .hero,
+    .shell[data-page-id="guide-detail-id"] .hero,
+    .shell[data-page-id="word-list-id"] .hero,
+    .shell[data-page-id="word-list-id-ppage"] .hero,
+    .shell[data-page-id="service-onsite"] .hero,
+    .shell[data-page-id="service-phone"] .hero,
+    .shell[data-page-id="word"] .hero,
+    .shell[data-page-id="word-ppage"] .hero,
+    .shell[data-page-id="sitemap"] .hero {
+        display: none;
+    }
+
+    .shell[data-page-id="guide-freelance-start-guide"] .guideListPage {
+        display: none;
+    }
+
+    .shell[data-page-id="guide-detail-id"] .guideListPage,
+    .shell[data-page-id="word-list-id"] .wordPage,
+    .shell[data-page-id="word-list-id-ppage"] .wordPage,
+    .shell[data-page-id="help"] .sectionBand,
+    .shell[data-page-id="service-onsite"] .sectionBand,
+    .shell[data-page-id="service-phone"] .sectionBand {
+        display: none;
+    }
+
+    .shell[data-page-id="guide-freelance-start-guide"] .startGuideSpOnly {
+        display: block;
+    }
+
+    .spReplacement {
+        display: block;
+    }
+
+    .friendCompleteMain {
+        padding: $space-12 $space-8 0;
+    }
+
+    .friendCompleteLogo {
+        width: 90px;
+        margin-bottom: $space-24;
+        background: colors(gray, grayscale, white);
+    }
+
+    .friendCompleteHeader {
+        display: none;
+    }
+
+    .friendCompleteCard,
+    .friendCompleteFlow,
+    .friendCompleteContact {
+        width: 100%;
+        padding: $space-20;
+        margin-top: $space-12;
+    }
+
+    .friendCompleteButtons {
+        display: grid;
+        gap: $space-12;
+
+        button {
+            width: 100%;
+        }
+    }
+
+    .friendCompleteFlow .stepList {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .friendCompleteFooter {
+        padding: $space-32 0;
+        margin-top: $space-24;
+    }
+
+    .closedProjectSpacer {
+        display: block;
+        min-height: 520px;
+        padding-top: $space-16;
+    }
+
+    .sitemapGrid a:nth-child(n + 16) {
+        display: inline;
+    }
+
+    .searchModeTabs {
+        border-radius: $radius-4;
+    }
+
+    .filterSteps {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .checkboxPanel {
+        flex-direction: column;
+        min-height: 360px;
+    }
+
+    .completeHeader p {
+        width: calc(100% - 32px);
+        @include typography($typography-20px-read-bold);
+    }
+
+    .infoTable div {
+        grid-template-columns: 1fr;
+    }
+}

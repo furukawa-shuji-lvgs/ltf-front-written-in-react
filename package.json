@@ -1,0 +1,83 @@
+{
+  "name": "ltf-react",
+  "private": true,
+  "packageManager": "pnpm@10.23.0",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": "10.23.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "biome:ci": "biome ci .",
+    "deps:audit": "pnpm audit --prod --audit-level high",
+    "boundaries:check": "node scripts/check-boundaries.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest --config tests/vitest.config.ts",
+    "test:run": "vitest run --config tests/vitest.config.ts",
+    "test:coverage": "vitest run --coverage --config tests/vitest.config.ts",
+    "test:coverage:thresholds": "pnpm test:coverage && node scripts/check-coverage-thresholds.mjs",
+    "e2e": "playwright test --config tests/playwright.config.ts",
+    "e2e:visual:baseline:check": "node scripts/check-vrt-baselines.mjs",
+    "e2e:visual": "playwright test --config tests/e2e/visual/playwright.config.ts",
+    "proto:build": "cd contracts/grpc && buf build",
+    "proto:format": "cd contracts/grpc && buf format -w",
+    "proto:format:check": "cd contracts/grpc && buf format --exit-code -d",
+    "proto:lint": "cd contracts/grpc && buf lint",
+    "proto:breaking": "node scripts/buf-breaking.mjs",
+    "proto:deps:update": "cd contracts/grpc && buf dep update",
+    "proto:deps:prune": "cd contracts/grpc && buf dep prune",
+    "proto:generate": "cd contracts/grpc && buf generate && node ../../scripts/add-generated-ts-nocheck.mjs",
+    "proto:generate:check": "pnpm proto:generate && git diff --exit-code -- contracts/grpc/generated",
+    "proto:imports:check": "node scripts/check-generated-imports.mjs",
+    "proto:ci": "pnpm proto:format:check && pnpm proto:build && pnpm proto:lint && pnpm proto:breaking && pnpm proto:generate:check && pnpm proto:imports:check",
+    "proto:push": "cd contracts/grpc && buf push",
+    "grpc:mock": "node ../tools/grpc-mock-server/server.mjs --protoDir ./contracts/grpc/proto --stubDir ../tools/grpc-mock-server/stubs --depsDir . --port 60051",
+    "verify": "pnpm biome:ci && pnpm boundaries:check && pnpm typecheck && pnpm test:run && pnpm proto:ci && pnpm build",
+    "ci": "pnpm verify"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.14.4",
+    "@protobuf-ts/runtime": "2.11.1",
+    "@protobuf-ts/runtime-rpc": "2.11.1",
+    "cheerio": "^1.2.0",
+    "next": "^15.5.20",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.80.0",
+    "sass": "^1.101.0",
+    "server-only": "0.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@biomejs/biome": "2.5.2",
+    "@bufbuild/buf": "1.71.0",
+    "@grpc/proto-loader": "^0.8.1",
+    "@playwright/test": "^1.61.1",
+    "@protobuf-ts/plugin": "2.11.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^3.2.6",
+    "jsdom": "^27.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "8.5.16"
+    }
+  }
+}

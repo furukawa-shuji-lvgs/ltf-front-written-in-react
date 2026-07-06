@@ -1,0 +1,12 @@
+version: v2
+clean: true
+managed:
+  enabled: true
+plugins:
+  - local: protoc-gen-ts
+    out: generated
+    opt:
+      - client_grpc1
+      - long_type_string
+inputs:
+  - directory: proto

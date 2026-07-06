@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+/* 募集が終了した案件 */
+message SuggestCloseProjectData {
+  // リンク先URI
+  string uri = 1;
+  // 案件名
+  string name = 2;
+}

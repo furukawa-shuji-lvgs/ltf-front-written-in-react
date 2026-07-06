@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package ltf.project.search;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * カテゴリ別案件一覧サービス
+ */
+service ProjectCategorySearch {
+  /**
+   * 単価相場チャートに必要な情報取得
+   * TODO: 単価相場一覧ページでも同じような実装をしているので、将来的にはそちらと共通化する
+   */
+  rpc GetMarketPrice(GetMarketPriceRequest) returns (GetMarketPriceResponse);
+
+  /**
+   * カテゴリ別案件一覧用(副業・リモート以外)求人・案件を探す項目取得
+   */
+  rpc GetLinkItemsByKeywordCategoryPage(GetLinkItemsByKeywordCategoryPageRequest) returns (GetLinkItemsByKeywordCategoryPageResponse);
+
+  /**
+   * カテゴリ別案件一覧用(副業・リモート用)求人・案件を探す項目取得
+   */
+  rpc GetLinkItemsByKeywordSidejobOrRemotePage(GetLinkItemsByKeywordSidejobOrRemotePageRequest) returns (GetLinkItemsByKeywordSidejobOrRemotePageResponse);
+
+  /**
+   * 掛け合わせ案件一覧用求人・案件を探す項目取得
+   */
+  rpc GetLinkItemsByKeywordCrossCategoryPage(GetLinkItemsByKeywordCrossCategoryPageRequest) returns (GetLinkItemsByKeywordCrossCategoryPageResponse);
+
+  /**
+   * MsCrossWordsテーブルに該当URIを持つデータがあるかチェックする
+   */
+  rpc IsExistMsCrossWordsByUri(IsExistMsCrossWordsByUriRequest) returns (IsExistMsCrossWordsByUriResponse);
+}
+
+/**
+ * 単価相場チャートに必要な情報取得リクエスト
+ */
+message GetMarketPriceRequest {
+  int32 id = 1;
+  string category = 2; // skillとかoccとか
+}
+
+/**
+ * 単価相場チャートに必要な情報取得レスポンス
+ */
+message GetMarketPriceResponse {
+  string category_name = 1; // カテゴリ名
+  repeated PriceDistribution price_distributions = 2; // 単価ごとの案件数分布
+  int32 average_price = 3; // 平均単価
+  int32 max_price = 4; // 最高単価
+  int32 min_price = 5; // 最低単価
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 単価ごとの案件数分布
+ */
+message PriceDistribution {
+  string price_division = 1; // ○万〜の文字列
+  int32 project_count = 2; // 単価ごとの案件数
+}
+
+/**
+ * カテゴリ別案件一覧用(副業・リモート以外)求人・案件を探す項目取得リクエスト
+ */
+message GetLinkItemsByKeywordCategoryPageRequest {
+  int32 id = 1; // skill-1とかの数値部分
+  string url_key = 2; // skillとかoccとか
+}
+
+/**
+ * カテゴリ別案件一覧用(副業・リモート以外)求人・案件を探す項目取得レスポンス
+ */
+message GetLinkItemsByKeywordCategoryPageResponse {
+  repeated SearchByCategoryKeywordItemEntry search_by_keyword_items = 1;
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * カテゴリ別案件一覧用(副業・リモート用)求人・案件を探す項目取得リクエスト
+ */
+message GetLinkItemsByKeywordSidejobOrRemotePageRequest {
+  string url_suffix = 1; // remote or sidejob
+}
+
+/**
+ * カテゴリ別案件一覧用(副業・リモート用)求人・案件を探す項目取得レスポンス
+ */
+message GetLinkItemsByKeywordSidejobOrRemotePageResponse {
+  repeated SearchByCategoryKeywordItemEntry search_by_keyword_items = 1;
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 掛け合わせ案件一覧用求人・案件を探す項目取得リクエスト
+ */
+message GetLinkItemsByKeywordCrossCategoryPageRequest {
+  string first_category = 1; //occ-1とか'sidejob'または'remote'
+  string second_category = 2; //occ-1とか'sidejob'または'remote'
+}
+
+/**
+ * 掛け合わせ案件一覧用求人・案件を探す項目取得レスポンス
+ */
+message GetLinkItemsByKeywordCrossCategoryPageResponse {
+  repeated SearchByCategoryKeywordItemEntry search_by_keyword_items = 1;
+
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * MsCrossWordsテーブルに該当URIを持つデータがあるかチェックするリクエスト
+ */
+message IsExistMsCrossWordsByUriRequest {
+  string uri = 1; // 例：/project/skill-1/pos-1/
+}
+
+/**
+ * MsCrossWordsテーブルに該当URIを持つデータがあるかチェックするレスポンス
+ */
+message IsExistMsCrossWordsByUriResponse {
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * キーワードから探すのテキストとリンクの組
+ */
+message CategoryKeywordItem {
+  string text = 1;
+  string uri = 2;
+}
+
+/**
+ * キーワードから探すのカテゴリごとの要素
+ */
+message SearchByCategoryKeywordItemEntry {
+  string category = 1;
+  repeated CategoryKeywordItem keyword_items = 2;
+}

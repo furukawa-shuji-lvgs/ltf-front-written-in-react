@@ -1,0 +1,76 @@
+name: Destroy PR Environment to DEV K8s
+
+on:
+  pull_request:
+    types:
+      - unlabeled
+      - closed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  K8S_MANIFEST_OWNER: lv-levtech
+  K8S_MANIFEST_REPO: ltf-k8s-manifest
+  K8S_MANIFEST_REF: main
+  K8S_MANIFEST_WORKFLOW: deploy-pr-environment.yaml
+
+jobs:
+  resolve-pr-number:
+    if: >-
+      (github.event.action == 'unlabeled' && github.event.label.name == 'deployed-to-dev-k8s') ||
+      (github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, 'deployed-to-dev-k8s'))
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    outputs:
+      pr_number: ${{ steps.resolve-pr.outputs.pr_number }}
+
+    steps:
+      - name: Resolve PR number
+        id: resolve-pr
+        run: echo "pr_number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+
+  destroy:
+    needs: resolve-pr-number
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    env:
+      PR_NUMBER: ${{ needs.resolve-pr-number.outputs.pr_number }}
+
+    steps:
+      - name: Destroy Kubernetes PR environment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: process.env.K8S_MANIFEST_OWNER,
+              repo: process.env.K8S_MANIFEST_REPO,
+              workflow_id: process.env.K8S_MANIFEST_WORKFLOW,
+              ref: process.env.K8S_MANIFEST_REF,
+              inputs: {
+                operation: 'destroy',
+                pr_number: process.env.PR_NUMBER,
+              },
+            });
+
+  summarize:
+    needs: [resolve-pr-number, destroy]
+    runs-on: ubuntu-slim
+    timeout-minutes: 1
+
+    steps:
+      - name: Add summary
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<EOF
+          ### DEV K8s (destroy)
+          | Key | Value |
+          | :--- | :--- |
+          | PR | #${{ needs.resolve-pr-number.outputs.pr_number }} |
+          | Event | ${{ github.event_name }} |
+          EOF

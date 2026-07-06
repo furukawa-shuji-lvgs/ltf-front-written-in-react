@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package ltf.top;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/project.proto";
+
+/**
+ * TOPに必要な情報取得サービス
+ */
+service Top {
+  /**
+   * 案件例の取得
+   */
+  rpc GetProjectExamples(GetProjectExamplesRequest) returns (GetProjectExamplesResponse);
+  /**
+   * 条件で探すセクションで使う検索ワードの取得
+   */
+  rpc GetProjectSearchWords(GetProjectSearchWordsRequest) returns (GetProjectSearchWordsResponse);
+  /**
+   * サジェスト案件の取得
+   */
+  rpc GetSuggestProjects(GetSuggestProjectsRequest) returns (GetSuggestProjectsResponse);
+}
+
+/**
+ * 案件例の取得リクエスト
+ */
+message GetProjectExamplesRequest {}
+
+/**
+ * 案件例の取得レスポンス
+ */
+message GetProjectExamplesResponse {
+  repeated ProjectExampleCategory project_examples = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * 案件例のカテゴリと案件のリスト
+ */
+message ProjectExampleCategory {
+  string category = 1;
+  repeated ProjectExample list = 2;
+}
+
+/**
+ * 案件例
+ */
+message ProjectExample {
+  // 案件ID
+  int32 id = 1;
+  // 案件名
+  string name = 2;
+  // 支払金（単価）上限
+  int32 payment_upper_limit = 3;
+  // 最寄駅
+  string station_name = 4;
+  // 最寄り駅の都道府県名
+  string station_prefecture_name = 5;
+  // リモートワーク可否
+  ltf.shared.project.RemoteWorkAcceptable remote_work_acceptable = 6;
+  // オンライン商談可否
+  bool online_business_meeting_acceptable = 7;
+  // 最低稼働日数(1〜5の場合、各値に変換する。それ以外は項目ごと表示しない)
+  ltf.shared.project.WeekWorkDaysCondition week_work_days_condition = 8;
+  // 支払い精算種別
+  ltf.shared.project.ProjectPayType pay_type = 9;
+}
+
+/**
+ * 条件で探すセクションで使う検索ワードの取得
+ */
+message GetProjectSearchWordsRequest {}
+
+/**
+ * サジェスト案件取得用のリクエスト
+ */
+message GetSuggestProjectsRequest {}
+
+/**
+ * ページ下部検索ワード共通項目
+ */
+message SearchWordCommon {
+  string name = 1; // 検索ワード
+  string uri = 2; // リンク
+  int32 count = 3; // 案件数
+}
+message SearchWordAreaPref {
+  string name = 1; // アンカーテキスト
+  string uri = 2; // リンク
+}
+
+/**
+ * ページ下部検索ワードのエリア項目
+ */
+message SearchWordArea {
+  string name = 1; // 関東、関西など地域区分
+  repeated SearchWordCommon item = 2;
+  oneof regpref_optional {
+    SearchWordAreaPref regpref = 3; // 地域一覧
+  }
+  oneof linepref_optional {
+    SearchWordAreaPref linepref = 4; // 路線一覧
+  }
+}
+
+/**
+ * 条件で探すセクションで使う検索ワードの取得レスポンス
+ */
+message GetProjectSearchWordsResponse {
+  repeated ProjectListLink links = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+message ProjectListLink {
+  string name = 1;
+  google.protobuf.StringValue uri_path = 2;
+  repeated ProjectListLink children = 3;
+}
+
+/**
+ * サジェスト案件取得用のレスポンス
+ */
+message GetSuggestProjectsResponse {
+  repeated TopSuggestProjectData suggest_projects_news = 1; // 新着のサジェスト案件
+  repeated TopSuggestProjectData suggest_projects_remotes = 2; // リモートワーク・在宅のサジェスト案件
+  repeated TopSuggestProjectData suggest_projects_sidejobs = 3; // 副業・複業のサジェスト案件
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * サジェスト案件一覧の取得情報
+ */
+message TopSuggestProjectData {
+  shared.project.ProjectBaseData project_base_data = 1; // 案件の基本情報(ID、案件名、支払金（単価）上限、支払い精算種別、契約形態、開発環境、最寄り駅、最寄り駅の都道府県名)
+  shared.project.RemoteWorkAcceptable remote_work_acceptable = 2; // リモートOKかどうか
+  bool is_long_term = 3; // 長期案件かどうか
+  bool is_transaction_result = 4; // 稼働実績ありかどうか
+}

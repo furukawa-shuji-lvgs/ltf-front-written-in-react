@@ -1,0 +1,251 @@
+@use "@shared/styles/volt-tokens.scss" as *;
+@use "@shared/styles/variables.scss" as *;
+
+.projectSearchPage {
+    flex: 1;
+    padding: $space-48 0;
+    background: colors(gray, grayscale, white_dark);
+}
+
+.searchModeTabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 960px;
+    margin: 0 auto $space-32;
+    overflow: hidden;
+    background: colors(gray, grayscale, white);
+    border-radius: $radius-full;
+
+    span {
+        padding: $space-16;
+        text-align: center;
+
+        @include typography($typography-18px-function-bold);
+
+        &:first-child {
+            color: $text-white;
+            background: $ltf-primary-default;
+        }
+    }
+}
+
+.searchWizard {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: $space-20;
+    width: 960px;
+    min-height: 503px;
+    padding: $space-24;
+    margin: 0 auto;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+    border-radius: $radius-4;
+    box-shadow: $box-shadow-1;
+
+    aside {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        strong {
+            color: $red-50;
+
+            @include typography($typography-24px-function-bold);
+        }
+    }
+}
+
+.personIcon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: $space-40;
+    background: #d7edf3;
+    border: 4px solid $ltf-primary-default;
+    border-radius: $radius-full;
+}
+
+.filterSteps {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: $space-8;
+    padding: 0;
+    margin: 0 0 $space-28;
+    list-style: none;
+
+    li {
+        position: relative;
+        padding-top: $space-28;
+        color: $text-light-gray;
+        text-align: center;
+
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            background: $neutral-dark-gray;
+            border-radius: $radius-full;
+            content: "";
+            transform: translateX(-50%);
+        }
+
+        &:first-child {
+            color: $text-black;
+            font-weight: $font-weights-bold;
+
+            &::before {
+                background: $ltf-primary-default;
+            }
+        }
+    }
+}
+
+.filterLead {
+    width: fit-content;
+    padding: $space-12 $space-16;
+    margin-bottom: $space-16;
+    background: colors(gray, grayscale, white_dark);
+    border-radius: $radius-8;
+
+    @include typography($typography-16px-function-bold);
+}
+
+.checkboxPanel {
+    display: flex;
+    gap: $space-40;
+    min-height: 260px;
+    padding: $space-20;
+    border: 1px solid $neutral-dark-gray;
+}
+
+.disabledButton {
+    width: 240px;
+    margin: $space-16 auto 0;
+    background: $neutral-dark-gray;
+    border-radius: $radius-4;
+}
+
+.projectListPage {
+    flex: 1;
+    padding: $space-32 0 $space-48;
+    background: colors(gray, grayscale, white_dark);
+}
+
+.closedProjectPage {
+    flex: 1;
+    padding: $space-32 0 $space-40;
+    background: colors(gray, grayscale, white);
+
+    .projectCard {
+        max-width: 720px;
+        margin: 0 auto;
+        border-color: #8bc3df;
+
+        h3 {
+            padding: $space-16;
+            margin: -$space-20 (-$space-20) $space-16;
+            background: #dff3fc;
+        }
+    }
+}
+
+.closedProjectSpacer {
+    display: none;
+}
+
+.projectLayout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: $space-24;
+    margin-top: $space-24;
+}
+
+.sideFilter {
+    padding: $space-20;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+}
+
+.filterBlock {
+    padding: $space-16 0;
+    border-top: 1px solid $neutral-light-gray;
+
+    label {
+        display: block;
+        margin-top: $space-8;
+    }
+}
+
+.detailHeader {
+    padding: $space-32 0;
+    background: #eff8fb;
+
+    h2 {
+        margin: $space-12 0;
+
+        @include typography($typography-28px-read-bold);
+    }
+}
+
+.badge {
+    width: fit-content;
+    padding: $space-4 $space-12;
+    color: $text-white;
+    background: $red-50;
+    border-radius: $radius-full;
+}
+
+.priceBox {
+    display: inline-flex;
+    gap: $space-16;
+    align-items: baseline;
+    padding: $space-16 $space-24;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+
+    strong {
+        color: $red-50;
+
+        @include typography($typography-24px-function-bold);
+    }
+}
+
+.infoTable {
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+
+    div {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        border-top: 1px solid $neutral-light-gray;
+
+        &:first-child {
+            border-top: 0;
+        }
+    }
+
+    dt,
+    dd {
+        padding: $space-16;
+    }
+
+    dt {
+        background: #eff8fb;
+        font-weight: $font-weights-bold;
+    }
+}
+
+.faqList {
+    display: grid;
+    gap: $space-12;
+
+    details {
+        padding: $space-16;
+        background: colors(gray, grayscale, white);
+        border: 1px solid $neutral-light-gray;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 74px;
+    }
+}

@@ -1,0 +1,105 @@
+// 移行元: app/components/Organisms/BaseFooterPc.vue / Atoms/FooterCopyright.vue
+.baseFooter {
+    width: 100%;
+    padding-top: $space-32;
+    background: $neutral-black;
+
+    > .inner {
+        position: relative;
+        display: grid;
+        gap: $space-32;
+        max-width: $layout-width-main-l;
+        padding-bottom: $space-32;
+        margin: 0 auto;
+    }
+}
+
+.pageTop {
+    position: absolute;
+    top: -80px;
+    right: 0;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.linkList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-20 $space-12;
+}
+
+// 移行メモ: 旧 volt-vue UtilityLink.Text（textColor: TextWhite, size: small）の再実装
+.textLink {
+    color: $text-white;
+    text-decoration: none;
+
+    @include typography($typography-12px-function-regular);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.projectLinksWrapper {
+    padding-top: 36px;
+    border-top: $border-width-1 solid $neutral-white;
+
+    > .title {
+        margin-bottom: $space-20;
+        color: $neutral-white;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.serviceLinksWrapper {
+    padding-top: $space-20;
+    border-top: $border-width-1 solid $neutral-white;
+
+    > .title {
+        margin-bottom: $space-20;
+        color: $neutral-white;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.serviceLinkList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-16 $space-12;
+}
+
+.footerBottom {
+    display: flex;
+    justify-content: center;
+    padding: $space-8 0;
+    background: $neutral-white;
+
+    > .inner {
+        display: flex;
+        justify-content: space-between;
+        width: $layout-width-main-l;
+    }
+
+    > .inner > .ismsLogo {
+        display: block;
+        line-height: 0;
+    }
+
+    > .inner > .logo {
+        display: flex;
+        flex-direction: column;
+        gap: $space-4;
+        align-items: flex-end;
+        padding-top: $space-8;
+    }
+}
+
+.footerCopyright {
+    font-size: $font-size-14;
+    line-height: 145%;
+    color: $text-dark-gray;
+}

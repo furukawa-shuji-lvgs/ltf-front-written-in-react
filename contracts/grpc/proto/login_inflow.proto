@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ltf.login_inflow;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/entry.proto";
+
+/**
+ * ログイン導線押下時の流入情報保存サービス
+ */
+service LoginInflow {
+  /**
+   * ログイン時流入情報登録
+   */
+  rpc PostLoginInflowInfo(PostLoginInflowInfoRequest) returns (PostLoginInflowInfoResponse);
+}
+
+/**
+ * ログイン時流入情報登録のリクエスト
+ */
+message PostLoginInflowInfoRequest {
+  shared.entry.AccessInfo access_info = 1; // アクセス情報
+  shared.entry.InflowInfo inflow_info = 2; // 流入情報
+  shared.entry.AppType app_type = 3; // 応募タイプ
+  string hash = 4; // 流入情報を識別するためのハッシュ値
+}
+
+/**
+ * ログイン時流入情報登録のレスポンス
+ */
+message PostLoginInflowInfoResponse {
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

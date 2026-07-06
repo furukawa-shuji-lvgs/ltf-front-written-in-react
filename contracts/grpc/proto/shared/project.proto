@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package ltf.shared.project;
+
+/**
+ * 案件の基本情報
+ */
+message ProjectBaseData {
+  int32 id = 1; // LTF案件ID
+  string name = 2; // 案件名
+  int32 pay_upper_limit = 3; // 支払金（単価）上限
+  ProjectPayType pay_type = 4; // 支払い精算種別
+  ProjectContractType contract_type = 5; // 契約形態
+  repeated Skill skills = 6; // 開発環境
+  string station_name = 7; // 最寄り駅
+  string station_prefecture_name = 8; // 最寄り駅の都道府県名
+  bool is_new = 9; // 新着案件かどうか(「登録日」が1週間以内ならNEW)
+}
+
+/**
+ * 支払い精算種別
+ */
+enum ProjectPayType {
+  PAY_TYPE_UNSPECIFIED = 0; // 指定なし
+  SETTLEMENT = 1; // 精算あり
+  FIXED = 2; // 固定
+  HOURLY_WAGE = 3; // 時給
+  NEGOTIATIONS = 4; // 交渉中
+}
+
+/**
+ * 契約形態
+ */
+enum ProjectContractType {
+  CONTRACT_TYPE_UNKNOWN = 0; // 不明
+  SUBCONTRACTOR = 1; // 業務委託
+  TEMPORARY = 2; // 派遣
+  EMPLOYMENT_PLACEMENT_DISPATCHING = 3; // 紹介予定派遣
+  DIRECT_EMPLOYMENT = 4; // 直接雇用
+}
+
+/**
+ * 開発環境
+ */
+message Skill {
+  int32 id = 1;
+  string name = 2;
+  int32 category_id = 3;
+}
+
+/**
+ * リモートワーク可否
+ */
+enum RemoteWorkAcceptable {
+  REMOTE_WORK_UNSPECIFIED = 0; // 指定なし
+  REMOTE_WORK_ACCEPTABLE = 1; // 可
+  REMOTE_WORK_UNACCEPTABLE = 2; // 不可
+  REMOTE_WORK_CHECKING = 3; // 確認中
+}
+
+/**
+ * 一覧用リンク情報
+ */
+message ProjectSearchLink {
+  string uri = 1; // リンク先URI
+  string anchor_text = 2; // リンクテキスト
+}
+
+/**
+ * 特徴
+ */
+message Fit {
+  int32 id = 1; // 特徴ID
+  string name = 2; // 特徴名
+}
+
+/**
+ * サジェスト案件
+ */
+message SuggestProjectData {
+  int32 id = 1; // LTF案件ID
+  string name = 2; // 案件名
+  int32 pay_upper_limit = 3; // 支払金（単価）上限
+  ProjectPayType pay_type = 4; // 支払い精算種別
+  string contract_type_name = 5; // 契約形態名
+  repeated string skill_names = 6; // 開発環境名（リスト）
+  string station_name = 7; // 最寄り駅
+  string station_prefecture_name = 8; // 最寄り駅の都道府県名
+  bool is_new = 9; // 新着案件かどうか(「登録日」が1週間以内ならNEW)
+  RemoteWorkAcceptable remote_work_acceptable = 10; // リモートワーク可否
+  repeated Fit fits = 11; // 特徴（リスト）
+}
+
+/* 最低稼働日数 */
+enum WeekWorkDaysCondition {
+  WEEK_WORK_DAYS_CONDITION_UNSPECIFIED = 0; // 指定なし
+  WEEK_WORK_DAYS_CONDITION_FIVE = 1; // 週5が絶対
+  WEEK_WORK_DAYS_CONDITION_FOUR = 2; // 週4以上なら相談可
+  WEEK_WORK_DAYS_CONDITION_THREE = 3; // 週3以上なら相談可
+  WEEK_WORK_DAYS_CONDITION_TWO = 4; // 週2以上なら相談可
+  WEEK_WORK_DAYS_CONDITION_ONE = 5; // 週1以上なら相談可
+  WEEK_WORK_DAYS_CONDITION_SHORTENING = 6; // 6：時短可
+  WEEK_WORK_DAYS_CONDITION_OTHER = 7; // その他・相談可能
+}
+
+/**
+ * ProjectJobType
+ */
+message ProjectJobType {
+  string name = 1;
+  string uri = 2;
+}
+
+/**
+ * 案件募集状況（案件状態と案件依頼状況を纏めたステータス）
+ */
+enum ProjectRecruitmentStatus {
+  ProjectRecruitmentStatusUnknown = 0;
+  Recruiting = 1; // 募集中
+  RecruitmentEnd = 2; // 募集終了
+}

@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package ltf.entry.complete;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+import "shared/entry.proto";
+
+/**
+ * 案件応募EFサービス
+ */
+service EntryComplete {
+  /**
+   * エントリー情報登録
+   */
+  rpc PostEntryInfo(PostEntryInfoRequest) returns (PostEntryInfoResponse);
+  /**
+   * エントリー情報取得
+   */
+  rpc GetEntryInfo(GetEntryInfoRequest) returns (GetEntryInfoResponse);
+}
+
+/**
+ * エントリー情報登録のリクエスト
+ */
+message PostEntryInfoRequest {
+  repeated int32 project_ids = 1; // 求人IDリスト
+  shared.entry.EntryData entry = 2; // エントリー情報
+  repeated shared.entry.EntryAccessHistory entry_access_histories = 3; // エントリーアクセス履歴
+  shared.entry.FacebookCookie facebook_cookie = 4; // Facebook広告コンバージョンAPI連携用Cookie
+  shared.entry.SessionInfo session = 5; // セッション情報
+  google.protobuf.BoolValue is_partnership_media_entry = 6; // 提携媒体応募メールに記載のURLからの流入かどうか
+}
+
+/**
+ * エントリー情報取得のリクエスト
+ */
+message GetEntryInfoRequest {
+  int32 entry_id = 1; // エントリーID
+}
+
+/**
+ * エントリー情報登録のレスポンス
+ */
+message PostEntryInfoResponse {
+  int32 entry_id = 1; // エントリーID
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * エントリー情報取得のレスポンス
+ */
+message GetEntryInfoResponse {
+  string sip = 1; // エントリーIDに紐づくsip（dataLayer 変数用）
+  repeated int32 project_ids = 2; // 求人IDリスト（dataLayer 変数用）
+  google.protobuf.StringValue jf_url_engineer = 3; // エンジニア用のJF URL
+  google.protobuf.StringValue jf_url_creator = 4; // クリエイター用のJF URL
+  google.protobuf.StringValue jf_url_google_form = 5; // Google Form用のJF URL
+  google.protobuf.StringValue phone = 6; // dataLayer 変数用携帯番号（LP経由のエントリーの場合のみ返却）
+  google.protobuf.StringValue mailaddress = 7; // dataLayer 変数用メールアドレス（LP経由のエントリーの場合のみ返却）
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package ltf.project.closedsearch;
+
+import "common/response.proto";
+import "results/result.proto";
+import "shared/pagination.proto";
+import "shared/project.proto";
+
+service ProjectClosedsearch {
+  /**
+   * 終了案件一覧の取得
+   */
+  rpc GetClosedProjects(GetClosedProjectsRequest) returns (GetClosedProjectsResponse);
+}
+
+/**
+ * 終了案件一覧の取得用のリクエスト
+ */
+message GetClosedProjectsRequest {
+  int32 page = 1;
+}
+
+/**
+ * 終了案件一覧の取得用のレスポンス
+ */
+message GetClosedProjectsResponse {
+  repeated ClosedProjectData closed_projects = 1;
+  shared.pagination.PaginationMeta pagination_meta = 2;
+  ltf.results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}
+
+/**
+ * 終了案件のデータ
+ */
+message ClosedProjectData {
+  int32 id = 1; // LTF案件ID
+  string name = 2; // 案件名
+  int32 pay_upper_limit = 3; // 支払金（単価）上限
+  shared.project.ProjectPayType pay_type = 4; // 支払い精算種別
+  shared.project.ProjectContractType contract_type = 5; // 契約形態
+  string work_content = 6; // 職務内容
+  string station_name = 7; // 最寄り駅
+}

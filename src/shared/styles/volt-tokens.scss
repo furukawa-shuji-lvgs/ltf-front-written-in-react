@@ -1,0 +1,1024 @@
+@use 'sass:map';
+@use 'sass:string';
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+$space-2: 2px !default;
+$space-4: 4px !default;
+$space-8: 8px !default;
+$space-12: 12px !default;
+$space-16: 16px !default;
+$space-20: 20px !default;
+$space-24: 24px !default;
+$space-28: 28px !default;
+$space-32: 32px !default;
+$space-40: 40px !default;
+$space-48: 48px !default;
+$space-56: 56px !default;
+$space-64: 64px !default;
+$space-72: 72px !default;
+$space-80: 80px !default;
+$radius-2: 2px !default;
+$radius-4: 4px !default;
+$radius-8: 8px !default;
+$radius-16: 16px !default;
+$radius-full: 9999px !default;
+$font-weights-normal: normal !default;
+$font-weights-bold: bold !default;
+$box-shadow-1: 0px 2px 8px 1px rgba(0, 0, 0, 0.1), 0px 1px 5px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-2: 0px 2px 12px 2px rgba(0, 0, 0, 0.1), 0px 1px 6px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-3: 0px 4px 16px 3px rgba(0, 0, 0, 0.1), 0px 1px 6px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-4: 0px 6px 20px 4px rgba(0, 0, 0, 0.1), 0px 2px 6px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-5: 0px 8px 24px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-6: 0px 10px 30px 6px rgba(0, 0, 0, 0.1), 0px 3px 12px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-7: 0px 12px 36px 7px rgba(0, 0, 0, 0.1), 0px 3px 14px 0px rgba(0, 0, 0, 0.3) !default;
+$box-shadow-8: 0px 14px 40px 7px rgba(0, 0, 0, 0.1), 0px 3px 16px 0px rgba(0, 0, 0, 0.3) !default;
+$font-families-noto-sans-jp: Roboto, Noto Sans JP !default;
+$font-families-roboto: Roboto !default;
+$font-families-noto-serif-jp: Roboto, Noto Serif JP !default;
+$font-size-10: 10px !default;
+$font-size-12: 12px !default;
+$font-size-13: 13px !default;
+$font-size-14: 14px !default;
+$font-size-16: 16px !default;
+$font-size-18: 18px !default;
+$font-size-20: 20px !default;
+$font-size-24: 24px !default;
+$font-size-28: 28px !default;
+$font-size-32: 32px !default;
+$font-size-40: 40px !default;
+$font-size-48: 48px !default;
+$font-size-56: 56px !default;
+$typography-56px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 56px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 128%) !default;
+$typography-48px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 48px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 134%) !default;
+$typography-40px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 40px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 140%) !default;
+$typography-40px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 40px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 120%) !default;
+$typography-32px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 32px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 150%) !default;
+$typography-32px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 32px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 125%) !default;
+$typography-28px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 28px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 142%) !default;
+$typography-28px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 28px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 130%) !default;
+$typography-24px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 24px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 165%) !default;
+$typography-24px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 24px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 135%) !default;
+$typography-20px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 20px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 160%) !default;
+$typography-20px-read-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 20px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 160%) !default;
+$typography-20px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 20px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 140%) !default;
+$typography-20px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 20px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 140%) !default;
+$typography-18px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 18px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 180%) !default;
+$typography-18px-read-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 18px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 180%) !default;
+$typography-18px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 18px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 135%) !default;
+$typography-18px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 18px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 135%) !default;
+$typography-16px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 16px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 200%) !default;
+$typography-16px-read-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 16px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 200%) !default;
+$typography-16px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 16px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 150%) !default;
+$typography-16px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 16px, 'letter-spacing': 0.04em, 'text-decoration': none, 'line-height': 150%) !default;
+$typography-14px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 14px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 170%) !default;
+$typography-14px-read-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 14px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 170%) !default;
+$typography-14px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 14px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 145%) !default;
+$typography-14px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 14px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 145%) !default;
+$typography-13px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 13px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 150%) !default;
+$typography-13px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 13px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 150%) !default;
+$typography-12px-read-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 12px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 130%) !default;
+$typography-12px-read-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 12px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 130%) !default;
+$typography-12px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 12px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 135%) !default;
+$typography-12px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 12px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 135%) !default;
+$typography-10px-function-bold: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': bold, 'font-size': 10px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 120%) !default;
+$typography-10px-function-regular: ('font-family': 'Roboto, Noto Sans JP', 'font-weight': normal, 'font-size': 10px, 'letter-spacing': 0.02em, 'text-decoration': none, 'line-height': 120%) !default;
+$text-decoration-none: none !default;
+$text-decoration-underline: underline !default;
+$pink-10: #F4E4EC !default;
+$pink-20: #E7BBCF !default;
+$pink-30: #D890B1 !default;
+$pink-40: #CB6893 !default;
+$pink-50: #C24F7D !default;
+$pink-60: #BB3C69 !default;
+$pink-70: #AB3964 !default;
+$pink-80: #95355C !default;
+$pink-90: #803154 !default;
+$pink-100: #5D2845 !default;
+$purple-10: #FAE3F6 !default;
+$purple-20: #F2B8EA !default;
+$purple-30: #E985DD !default;
+$purple-40: #DE4ACF !default;
+$purple-50: #D500C5 !default;
+$purple-60: #C600B7 !default;
+$purple-70: #B700B3 !default;
+$purple-80: #A300AE !default;
+$purple-90: #9000A8 !default;
+$purple-100: #6D009E !default;
+$red-5: #FFEBEE !default;
+$red-10: #FFCDD2 !default;
+$red-20: #F39A9A !default;
+$red-30: #EA7372 !default;
+$red-40: #F5524E !default;
+$red-50: #F94132 !default;
+$red-60: #EB3732 !default;
+$red-70: #D92D2C !default;
+$red-80: #CC2525 !default;
+$red-90: #BD1718 !default;
+$red-100: #AA0709 !default;
+$dark-orange-10: #FAE9E6 !default;
+$dark-orange-20: #FDCCBA !default;
+$dark-orange-30: #FBAB8E !default;
+$dark-orange-40: #F98B61 !default;
+$dark-orange-50: #F8733E !default;
+$dark-orange-60: #F75C19 !default;
+$dark-orange-70: #EC5615 !default;
+$dark-orange-80: #DE4F10 !default;
+$dark-orange-90: #D1480C !default;
+$dark-orange-100: #B83B04 !default;
+$orange-10: #FFF7E0 !default;
+$orange-20: #FFE9B1 !default;
+$orange-30: #FFDB80 !default;
+$orange-40: #FFCF4C !default;
+$orange-50: #FFC325 !default;
+$orange-60: #FEB901 !default;
+$orange-70: #FEAB00 !default;
+$orange-80: #FD9803 !default;
+$orange-90: #FD8705 !default;
+$orange-100: #FC6609 !default;
+$gold-5: #FEFDEC !default;
+$gold-10: #FDF9CF !default;
+$gold-20: #FAF5B0 !default;
+$gold-30: #F8F094 !default;
+$gold-40: #F5EC7F !default;
+$gold-50: #F1E76C !default;
+$gold-60: #E5D868 !default;
+$gold-70: #D0C260 !default;
+$gold-80: #BCAB5A !default;
+$gold-90: #998650 !default;
+$gold-100: #665730 !default;
+$yellow-green-10: #E6F4E7 !default;
+$yellow-green-20: #C3E4C5 !default;
+$yellow-green-30: #9DD2A0 !default;
+$yellow-green-40: #75C17A !default;
+$yellow-green-50: #56B55F !default;
+$yellow-green-60: #36A842 !default;
+$yellow-green-70: #2D993A !default;
+$yellow-green-80: #21872F !default;
+$yellow-green-90: #157624 !default;
+$yellow-green-100: #005811 !default;
+$green-10: #E6F7EE !default;
+$green-20: #C3EAD5 !default;
+$green-30: #9CDDBB !default;
+$green-40: #70D1A1 !default;
+$green-50: #4BC68C !default;
+$green-60: #18BB78 !default;
+$green-70: #0FAC6D !default;
+$green-80: #02995F !default;
+$green-90: #008853 !default;
+$green-100: #00673D !default;
+$green-blue-5: #E9F4F5 !default;
+$green-blue-10: #E0F6F9 !default;
+$green-blue-20: #B3E9F0 !default;
+$green-blue-30: #83DAE6 !default;
+$green-blue-40: #56CBDB !default;
+$green-blue-50: #3AC0D3 !default;
+$green-blue-60: #2DB5CB !default;
+$green-blue-70: #2AA6B8 !default;
+$green-blue-80: #26919F !default;
+$green-blue-90: #237D87 !default;
+$green-blue-100: #1C5A5D !default;
+$dullness-blue-5: #F1F7FA !default;
+$dullness-blue-10: #E4F6F9 !default;
+$dullness-blue-20: #BAE7F1 !default;
+$dullness-blue-30: #91D7E9 !default;
+$dullness-blue-40: #70C6E0 !default;
+$dullness-blue-50: #5EBADB !default;
+$dullness-blue-60: #52AED7 !default;
+$dullness-blue-70: #4AA0C9 !default;
+$dullness-blue-80: #418EB6 !default;
+$dullness-blue-90: #3C7DA2 !default;
+$dullness-blue-100: #305D7F !default;
+$sky-blue-10: #E1F5FF !default;
+$sky-blue-20: #B3E6FE !default;
+$sky-blue-30: #80D6FD !default;
+$sky-blue-40: #4BC5FB !default;
+$sky-blue-50: #1EB9FB !default;
+$sky-blue-60: #00ACFA !default;
+$sky-blue-70: #009EEB !default;
+$sky-blue-80: #008BD7 !default;
+$sky-blue-90: #007AC3 !default;
+$sky-blue-100: #0059A0 !default;
+$blue-10: #E7E9FB !default;
+$blue-20: #C3C8F5 !default;
+$blue-30: #9AA4EF !default;
+$blue-40: #6D81E9 !default;
+$blue-50: #4764E4 !default;
+$blue-60: #0747DD !default;
+$blue-70: #003FD2 !default;
+$blue-80: #0034C6 !default;
+$blue-90: #0028BB !default;
+$blue-100: #0011A3 !default;
+$blue-green-10: #DFF3F1 !default;
+$blue-green-20: #B1E2DA !default;
+$blue-green-30: #7DD0C3 !default;
+$blue-green-40: #44BCAB !default;
+$blue-green-50: #00AD99 !default;
+$blue-green-60: #009E87 !default;
+$blue-green-70: #00907A !default;
+$blue-green-80: #00806A !default;
+$blue-green-90: #00705B !default;
+$blue-green-100: #00543F !default;
+$blue-purple-10: #F1E7FE !default;
+$blue-purple-20: #DAC3FD !default;
+$blue-purple-30: #C09BFC !default;
+$blue-purple-40: #A66EFD !default;
+$blue-purple-50: #8F49FC !default;
+$blue-purple-60: #7619F9 !default;
+$blue-purple-70: #6A13F2 !default;
+$blue-purple-80: #5701EA !default;
+$blue-purple-90: #4300E5 !default;
+$blue-purple-100: #0000E0 !default;
+$purple-blue-10: #EDE9FB !default;
+$purple-blue-20: #D1C9F5 !default;
+$purple-blue-30: #B2A5EF !default;
+$purple-blue-40: #9280E9 !default;
+$purple-blue-50: #7664E4 !default;
+$purple-blue-60: #594ADE !default;
+$purple-blue-70: #4D45D7 !default;
+$purple-blue-80: #3A3DCE !default;
+$purple-blue-90: #2437C6 !default;
+$purple-blue-100: #002BBA !default;
+$navy-10: #E4E7EF !default;
+$navy-20: #BCC2D9 !default;
+$navy-30: #909BBE !default;
+$navy-40: #6676A5 !default;
+$navy-50: #475A94 !default;
+$navy-60: #243F83 !default;
+$navy-70: #1E397B !default;
+$navy-80: #153070 !default;
+$navy-90: #0C2764 !default;
+$navy-100: #00174E !default;
+$dark-purple-10: #FBF7FF !default;
+$dark-purple-20: #F6F2FF !default;
+$dark-purple-30: #F0ECFF !default;
+$dark-purple-40: #E2DEFF !default;
+$dark-purple-50: #BFBCDC !default;
+$dark-purple-60: #A09DBC !default;
+$dark-purple-70: #777492 !default;
+$dark-purple-80: #62607D !default;
+$dark-purple-90: #43415C !default;
+$dark-purple-100: #212038 !default;
+$gray-10: #FAFAFA !default;
+$gray-20: #F5F5F5 !default;
+$gray-30: #F0F0F0 !default;
+$gray-40: #E1E1E1 !default;
+$gray-50: #CCCCCC !default;
+$gray-60: #B4B4B4 !default;
+$gray-70: #999999 !default;
+$gray-80: #666666 !default;
+$gray-90: #2D2D2D !default;
+$gray-100: #000000 !default;
+$gray-alpha-15: #00000026 !default;
+$gray-alpha-30: #0000004D !default;
+$gray-alpha-50: #00000080 !default;
+$gray-alpha-70: #000000B3 !default;
+$white: #FFFFFF !default;
+$neutral-black: #2D2D2D !default;
+$neutral-deep-gray: #999999 !default;
+$neutral-dark-gray: #CCCCCC !default;
+$neutral-light-gray: #F5F5F5 !default;
+$neutral-bright-gray: #FAFAFA !default;
+$neutral-white: #FFFFFF !default;
+$text-black: #2D2D2D !default;
+$text-dark-gray: #666666 !default;
+$text-light-gray: #B4B4B4 !default;
+$text-white: #FFFFFF !default;
+$error-dark: #BD1718 !default;
+$error-default: #D92D2C !default;
+$error-light: #FFEBEE !default;
+$warning-dark: #FEAB00 !default;
+$warning-default: #FFC325 !default;
+$warning-light: #FFF7E0 !default;
+$success-dark: #21872F !default;
+$success-default: #36A842 !default;
+$success-light: #E6F4E7 !default;
+$disable-default: #CCCCCC !default;
+$disable-light: #F0F0F0 !default;
+$overlay-dark: #000000B3 !default;
+$overlay-medium: #00000080 !default;
+$overlay-light: #00000026 !default;
+$third-party-facebook: #1877F2 !default;
+$third-party-x: #0F1419 !default;
+$third-party-instagram: #FF0069 !default;
+$third-party-apple: #000000 !default;
+$third-party-youtube: #FF0000 !default;
+$third-party-hatena: #00A4DE !default;
+$ltf-primary-dark: #305D7F !default;
+$ltf-primary-default: #3C7DA2 !default;
+$ltf-primary-light: #F1F7FA !default;
+$ltf-secondary-default-hover: #2D993A !default;
+$ltf-secondary-default: #56B55F !default;
+$ltf-accent-default-hover: #D92D2C !default;
+$ltf-accent-default: #F94132 !default;
+$ltf-accent-light: #FFEBEE !default;
+$ltcr-primary-dark: #803154 !default;
+$ltcr-primary-default: #C24F7D !default;
+$ltcr-primary-light: #F4E4EC !default;
+$ltcr-secondary-default-hover: #FC6609 !default;
+$ltcr-secondary-default: #FD8705 !default;
+$ltcr-accent-default-hover: #00673D !default;
+$ltcr-accent-default: #02995F !default;
+$ltcr-accent-light: #E6F7EE !default;
+$ltr-primary-dark: #005811 !default;
+$ltr-primary-default: #2D993A !default;
+$ltr-primary-light: #E6F4E7 !default;
+$ltr-secondary-default-hover: #009EEB !default;
+$ltr-secondary-default: #1EB9FB !default;
+$ltr-accent-default-hover: #DE4F10 !default;
+$ltr-accent-default: #FC6609 !default;
+$ltr-accent-light: #FFF7E0 !default;
+$ltp-primary-dark: #4D45D7 !default;
+$ltp-primary-default: #7664E4 !default;
+$ltp-primary-light: #EDE9FB !default;
+$ltp-secondary-default-hover: #212038 !default;
+$ltp-secondary-default: #43415C !default;
+$ltp-accent-default-hover: #C600B7 !default;
+$ltp-accent-default: #DE4ACF !default;
+$ltp-accent-light: #FAE3F6 !default;
+$layout-width-main-s: 672px !default;
+$layout-width-main-m: 848px !default;
+$layout-width-main-l: 1024px !default;
+$layout-width-side-xs: 64px !default;
+$layout-width-side-s: 200px !default;
+$layout-width-side-m: 280px !default;
+$layout-width-side-l: 360px !default;
+$breakpoint-media-m: 768px !default;
+$breakpoint-platform-m: 768px !default;
+$breakpoint-platform-l: 1280px !default;
+$border-width-1: 1px !default;
+$border-width-2: 2px !default;
+$border-width-4: 4px !default;
+$border-width-8: 8px !default;
+$animation-timing-function-ease-in: ease-in !default;
+$animation-timing-function-ease-out: ease-out !default;
+$animation-timing-function-ease-in-out: ease-in-out !default;
+$animation-timing-function-linear: linear !default;
+$animation-duration-100ms: 100ms !default;
+$animation-duration-500ms: 500ms !default;
+$animation-duration-1s: 1s !default;
+$animation-duration-5s: 5s !default;
+$lt-brand-primary-dark: #1C5A5D !default;
+$lt-brand-primary-default: #26919F !default;
+$lt-brand-primary-light: #E9F4F5 !default;
+$lt-brand-secondary-default-hover: #2D993A !default;
+$lt-brand-secondary-default: #56B55F !default;
+$lt-brand-accent-to-b-hover: #FC6609 !default;
+$lt-brand-accent-to-b-default: #FD8705 !default;
+$lt-brand-accent-to-b-light: #FFF7E0 !default;
+$lt-brand-accent-to-c-hover: #D92D2C !default;
+$lt-brand-accent-to-c-default: #F94132 !default;
+$lt-brand-accent-to-c-light: #FFEBEE !default;
+$ltd-primary-dark: #212038 !default;
+$ltd-primary-default: #00174E !default;
+$ltd-primary-light: #E4E7EF !default;
+$ltd-secondary-default-hover: #003FD2 !default;
+$ltd-secondary-default: #4764E4 !default;
+$ltd-accent-default-hover: #DE4F10 !default;
+$ltd-accent-default: #F75C19 !default;
+$ltd-accent-light: #FAE9E6 !default;
+$ltc-primary-dark: #AA0709 !default;
+$ltc-primary-default: #BD1718 !default;
+$ltc-primary-light: #FFEBEE !default;
+$ltc-secondary-default-hover: #FC6609 !default;
+$ltc-secondary-default: #FD8705 !default;
+$ltc-accent-default-hover: #00907A !default;
+$ltc-accent-default: #00AD99 !default;
+$ltc-accent-light: #DFF3F1 !default;
+$letter-spacing-s: 0.02em !default;
+$letter-spacing-m: 0.04em !default;
+$size-4: 4px !default;
+$size-8: 8px !default;
+$size-12: 12px !default;
+$size-16: 16px !default;
+$size-20: 20px !default;
+$size-24: 24px !default;
+$size-28: 28px !default;
+$size-32: 32px !default;
+$size-36: 36px !default;
+$size-40: 40px !default;
+$size-44: 44px !default;
+$size-48: 48px !default;
+$size-52: 52px !default;
+$size-56: 56px !default;
+$size-64: 64px !default;
+$size-72: 72px !default;
+$size-80: 80px !default;
+$opacity-20: 0.2 !default;
+$opacity-40: 0.4 !default;
+$opacity-60: 0.6 !default;
+$opacity-80: 0.8 !default;
+$token-set-order-0: core !default;
+$token-set-order-1: light !default;
+$token-set-order-2: dark !default;
+$token-set-order-3: theme !default;
+$tokens: (
+  'Space': (
+    '2': $space-2,
+    '4': $space-4,
+    '8': $space-8,
+    '12': $space-12,
+    '16': $space-16,
+    '20': $space-20,
+    '24': $space-24,
+    '28': $space-28,
+    '32': $space-32,
+    '40': $space-40,
+    '48': $space-48,
+    '56': $space-56,
+    '64': $space-64,
+    '72': $space-72,
+    '80': $space-80
+  ),
+  'Radius': (
+    '2': $radius-2,
+    '4': $radius-4,
+    '8': $radius-8,
+    '16': $radius-16,
+    'full': $radius-full
+  ),
+  'FontWeights': (
+    'Normal': $font-weights-normal,
+    'Bold': $font-weights-bold
+  ),
+  'BoxShadow': (
+    '1': $box-shadow-1,
+    '2': $box-shadow-2,
+    '3': $box-shadow-3,
+    '4': $box-shadow-4,
+    '5': $box-shadow-5,
+    '6': $box-shadow-6,
+    '7': $box-shadow-7,
+    '8': $box-shadow-8
+  ),
+  'FontFamilies': (
+    'noto-sans-jp': $font-families-noto-sans-jp,
+    'Roboto': $font-families-roboto,
+    'noto-serif-jp': $font-families-noto-serif-jp
+  ),
+  'FontSize': (
+    '10': $font-size-10,
+    '12': $font-size-12,
+    '13': $font-size-13,
+    '14': $font-size-14,
+    '16': $font-size-16,
+    '18': $font-size-18,
+    '20': $font-size-20,
+    '24': $font-size-24,
+    '28': $font-size-28,
+    '32': $font-size-32,
+    '40': $font-size-40,
+    '48': $font-size-48,
+    '56': $font-size-56
+  ),
+  'Typography': (
+    '56px': (
+      'Read(bold)': $typography-56px-read-bold
+    ),
+    '48px': (
+      'Read(bold)': $typography-48px-read-bold
+    ),
+    '40px': (
+      'Read(bold)': $typography-40px-read-bold,
+      'Function(bold)': $typography-40px-function-bold
+    ),
+    '32px': (
+      'Read(bold)': $typography-32px-read-bold,
+      'Function(bold)': $typography-32px-function-bold
+    ),
+    '28px': (
+      'Read(bold)': $typography-28px-read-bold,
+      'Function(bold)': $typography-28px-function-bold
+    ),
+    '24px': (
+      'Read(bold)': $typography-24px-read-bold,
+      'Function(bold)': $typography-24px-function-bold
+    ),
+    '20px': (
+      'Read(bold)': $typography-20px-read-bold,
+      'Read(regular)': $typography-20px-read-regular,
+      'Function(bold)': $typography-20px-function-bold,
+      'Function(regular)': $typography-20px-function-regular
+    ),
+    '18px': (
+      'Read(bold)': $typography-18px-read-bold,
+      'Read(regular)': $typography-18px-read-regular,
+      'Function(bold)': $typography-18px-function-bold,
+      'Function(regular)': $typography-18px-function-regular
+    ),
+    '16px': (
+      'Read(bold)': $typography-16px-read-bold,
+      'Read(regular)': $typography-16px-read-regular,
+      'Function(bold)': $typography-16px-function-bold,
+      'Function(regular)': $typography-16px-function-regular
+    ),
+    '14px': (
+      'Read(bold)': $typography-14px-read-bold,
+      'Read(regular)': $typography-14px-read-regular,
+      'Function(bold)': $typography-14px-function-bold,
+      'Function(regular)': $typography-14px-function-regular
+    ),
+    '13px': (
+      'Function(bold)': $typography-13px-function-bold,
+      'Function(regular)': $typography-13px-function-regular
+    ),
+    '12px': (
+      'Read(bold)': $typography-12px-read-bold,
+      'Read(regular)': $typography-12px-read-regular,
+      'Function(bold)': $typography-12px-function-bold,
+      'Function(regular)': $typography-12px-function-regular
+    ),
+    '10px': (
+      'Function(bold)': $typography-10px-function-bold,
+      'Function(regular)': $typography-10px-function-regular
+    )
+  ),
+  'TextDecoration': (
+    'none': $text-decoration-none,
+    'underline': $text-decoration-underline
+  ),
+  'Pink': (
+    '10': $pink-10,
+    '20': $pink-20,
+    '30': $pink-30,
+    '40': $pink-40,
+    '50': $pink-50,
+    '60': $pink-60,
+    '70': $pink-70,
+    '80': $pink-80,
+    '90': $pink-90,
+    '100': $pink-100
+  ),
+  'Purple': (
+    '10': $purple-10,
+    '20': $purple-20,
+    '30': $purple-30,
+    '40': $purple-40,
+    '50': $purple-50,
+    '60': $purple-60,
+    '70': $purple-70,
+    '80': $purple-80,
+    '90': $purple-90,
+    '100': $purple-100
+  ),
+  'Red': (
+    '5': $red-5,
+    '10': $red-10,
+    '20': $red-20,
+    '30': $red-30,
+    '40': $red-40,
+    '50': $red-50,
+    '60': $red-60,
+    '70': $red-70,
+    '80': $red-80,
+    '90': $red-90,
+    '100': $red-100
+  ),
+  'DarkOrange': (
+    '10': $dark-orange-10,
+    '20': $dark-orange-20,
+    '30': $dark-orange-30,
+    '40': $dark-orange-40,
+    '50': $dark-orange-50,
+    '60': $dark-orange-60,
+    '70': $dark-orange-70,
+    '80': $dark-orange-80,
+    '90': $dark-orange-90,
+    '100': $dark-orange-100
+  ),
+  'Orange': (
+    '10': $orange-10,
+    '20': $orange-20,
+    '30': $orange-30,
+    '40': $orange-40,
+    '50': $orange-50,
+    '60': $orange-60,
+    '70': $orange-70,
+    '80': $orange-80,
+    '90': $orange-90,
+    '100': $orange-100
+  ),
+  'Gold': (
+    '5': $gold-5,
+    '10': $gold-10,
+    '20': $gold-20,
+    '30': $gold-30,
+    '40': $gold-40,
+    '50': $gold-50,
+    '60': $gold-60,
+    '70': $gold-70,
+    '80': $gold-80,
+    '90': $gold-90,
+    '100': $gold-100
+  ),
+  'YellowGreen': (
+    '10': $yellow-green-10,
+    '20': $yellow-green-20,
+    '30': $yellow-green-30,
+    '40': $yellow-green-40,
+    '50': $yellow-green-50,
+    '60': $yellow-green-60,
+    '70': $yellow-green-70,
+    '80': $yellow-green-80,
+    '90': $yellow-green-90,
+    '100': $yellow-green-100
+  ),
+  'Green': (
+    '10': $green-10,
+    '20': $green-20,
+    '30': $green-30,
+    '40': $green-40,
+    '50': $green-50,
+    '60': $green-60,
+    '70': $green-70,
+    '80': $green-80,
+    '90': $green-90,
+    '100': $green-100
+  ),
+  'GreenBlue': (
+    '5': $green-blue-5,
+    '10': $green-blue-10,
+    '20': $green-blue-20,
+    '30': $green-blue-30,
+    '40': $green-blue-40,
+    '50': $green-blue-50,
+    '60': $green-blue-60,
+    '70': $green-blue-70,
+    '80': $green-blue-80,
+    '90': $green-blue-90,
+    '100': $green-blue-100
+  ),
+  'DullnessBlue': (
+    '5': $dullness-blue-5,
+    '10': $dullness-blue-10,
+    '20': $dullness-blue-20,
+    '30': $dullness-blue-30,
+    '40': $dullness-blue-40,
+    '50': $dullness-blue-50,
+    '60': $dullness-blue-60,
+    '70': $dullness-blue-70,
+    '80': $dullness-blue-80,
+    '90': $dullness-blue-90,
+    '100': $dullness-blue-100
+  ),
+  'SkyBlue': (
+    '10': $sky-blue-10,
+    '20': $sky-blue-20,
+    '30': $sky-blue-30,
+    '40': $sky-blue-40,
+    '50': $sky-blue-50,
+    '60': $sky-blue-60,
+    '70': $sky-blue-70,
+    '80': $sky-blue-80,
+    '90': $sky-blue-90,
+    '100': $sky-blue-100
+  ),
+  'Blue': (
+    '10': $blue-10,
+    '20': $blue-20,
+    '30': $blue-30,
+    '40': $blue-40,
+    '50': $blue-50,
+    '60': $blue-60,
+    '70': $blue-70,
+    '80': $blue-80,
+    '90': $blue-90,
+    '100': $blue-100
+  ),
+  'BlueGreen': (
+    '10': $blue-green-10,
+    '20': $blue-green-20,
+    '30': $blue-green-30,
+    '40': $blue-green-40,
+    '50': $blue-green-50,
+    '60': $blue-green-60,
+    '70': $blue-green-70,
+    '80': $blue-green-80,
+    '90': $blue-green-90,
+    '100': $blue-green-100
+  ),
+  'BluePurple': (
+    '10': $blue-purple-10,
+    '20': $blue-purple-20,
+    '30': $blue-purple-30,
+    '40': $blue-purple-40,
+    '50': $blue-purple-50,
+    '60': $blue-purple-60,
+    '70': $blue-purple-70,
+    '80': $blue-purple-80,
+    '90': $blue-purple-90,
+    '100': $blue-purple-100
+  ),
+  'PurpleBlue': (
+    '10': $purple-blue-10,
+    '20': $purple-blue-20,
+    '30': $purple-blue-30,
+    '40': $purple-blue-40,
+    '50': $purple-blue-50,
+    '60': $purple-blue-60,
+    '70': $purple-blue-70,
+    '80': $purple-blue-80,
+    '90': $purple-blue-90,
+    '100': $purple-blue-100
+  ),
+  'Navy': (
+    '10': $navy-10,
+    '20': $navy-20,
+    '30': $navy-30,
+    '40': $navy-40,
+    '50': $navy-50,
+    '60': $navy-60,
+    '70': $navy-70,
+    '80': $navy-80,
+    '90': $navy-90,
+    '100': $navy-100
+  ),
+  'DarkPurple': (
+    '10': $dark-purple-10,
+    '20': $dark-purple-20,
+    '30': $dark-purple-30,
+    '40': $dark-purple-40,
+    '50': $dark-purple-50,
+    '60': $dark-purple-60,
+    '70': $dark-purple-70,
+    '80': $dark-purple-80,
+    '90': $dark-purple-90,
+    '100': $dark-purple-100
+  ),
+  'Gray': (
+    '10': $gray-10,
+    '20': $gray-20,
+    '30': $gray-30,
+    '40': $gray-40,
+    '50': $gray-50,
+    '60': $gray-60,
+    '70': $gray-70,
+    '80': $gray-80,
+    '90': $gray-90,
+    '100': $gray-100
+  ),
+  'GrayAlpha': (
+    '15': $gray-alpha-15,
+    '30': $gray-alpha-30,
+    '50': $gray-alpha-50,
+    '70': $gray-alpha-70
+  ),
+  'White': $white,
+  'Neutral': (
+    'Black': $neutral-black,
+    'DeepGray': $neutral-deep-gray,
+    'DarkGray': $neutral-dark-gray,
+    'LightGray': $neutral-light-gray,
+    'BrightGray': $neutral-bright-gray,
+    'White': $neutral-white
+  ),
+  'Text': (
+    'Black': $text-black,
+    'DarkGray': $text-dark-gray,
+    'LightGray': $text-light-gray,
+    'White': $text-white
+  ),
+  'Error': (
+    'Dark': $error-dark,
+    'Default': $error-default,
+    'Light': $error-light
+  ),
+  'Warning': (
+    'Dark': $warning-dark,
+    'Default': $warning-default,
+    'Light': $warning-light
+  ),
+  'Success': (
+    'Dark': $success-dark,
+    'Default': $success-default,
+    'Light': $success-light
+  ),
+  'Disable': (
+    'Default': $disable-default,
+    'Light': $disable-light
+  ),
+  'Overlay': (
+    'Dark': $overlay-dark,
+    'Medium': $overlay-medium,
+    'Light': $overlay-light
+  ),
+  'ThirdParty': (
+    'Facebook': $third-party-facebook,
+    'X': $third-party-x,
+    'Instagram': $third-party-instagram,
+    'Apple': $third-party-apple,
+    'Youtube': $third-party-youtube,
+    'Hatena': $third-party-hatena
+  ),
+  'LTF': (
+    'Primary': (
+      'Dark': $ltf-primary-dark,
+      'Default': $ltf-primary-default,
+      'Light': $ltf-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltf-secondary-default-hover,
+      'Default': $ltf-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltf-accent-default-hover,
+      'Default': $ltf-accent-default,
+      'Light': $ltf-accent-light
+    )
+  ),
+  'LTCR': (
+    'Primary': (
+      'Dark': $ltcr-primary-dark,
+      'Default': $ltcr-primary-default,
+      'Light': $ltcr-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltcr-secondary-default-hover,
+      'Default': $ltcr-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltcr-accent-default-hover,
+      'Default': $ltcr-accent-default,
+      'Light': $ltcr-accent-light
+    )
+  ),
+  'LTR': (
+    'Primary': (
+      'Dark': $ltr-primary-dark,
+      'Default': $ltr-primary-default,
+      'Light': $ltr-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltr-secondary-default-hover,
+      'Default': $ltr-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltr-accent-default-hover,
+      'Default': $ltr-accent-default,
+      'Light': $ltr-accent-light
+    )
+  ),
+  'LTP': (
+    'Primary': (
+      'Dark': $ltp-primary-dark,
+      'Default': $ltp-primary-default,
+      'Light': $ltp-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltp-secondary-default-hover,
+      'Default': $ltp-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltp-accent-default-hover,
+      'Default': $ltp-accent-default,
+      'Light': $ltp-accent-light
+    )
+  ),
+  'LayoutWidth': (
+    'Main': (
+      'S': $layout-width-main-s,
+      'M': $layout-width-main-m,
+      'L': $layout-width-main-l
+    ),
+    'Side': (
+      'XS': $layout-width-side-xs,
+      'S': $layout-width-side-s,
+      'M': $layout-width-side-m,
+      'L': $layout-width-side-l
+    )
+  ),
+  'Breakpoint': (
+    'Media': (
+      'M': $breakpoint-media-m
+    ),
+    'Platform': (
+      'M': $breakpoint-platform-m,
+      'L': $breakpoint-platform-l
+    )
+  ),
+  'BorderWidth': (
+    '1': $border-width-1,
+    '2': $border-width-2,
+    '4': $border-width-4,
+    '8': $border-width-8
+  ),
+  'Animation': (
+    'TimingFunction': (
+      'ease-in': $animation-timing-function-ease-in,
+      'ease-out': $animation-timing-function-ease-out,
+      'ease-in-out': $animation-timing-function-ease-in-out,
+      'linear': $animation-timing-function-linear
+    ),
+    'Duration': (
+      '100ms': $animation-duration-100ms,
+      '500ms': $animation-duration-500ms,
+      '1s': $animation-duration-1s,
+      '5s': $animation-duration-5s
+    )
+  ),
+  'LTBrand': (
+    'Primary': (
+      'Dark': $lt-brand-primary-dark,
+      'Default': $lt-brand-primary-default,
+      'Light': $lt-brand-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $lt-brand-secondary-default-hover,
+      'Default': $lt-brand-secondary-default
+    ),
+    'Accent': (
+      'ToBHover': $lt-brand-accent-to-b-hover,
+      'ToBDefault': $lt-brand-accent-to-b-default,
+      'toBLight': $lt-brand-accent-to-b-light,
+      'ToCHover': $lt-brand-accent-to-c-hover,
+      'ToCDefault': $lt-brand-accent-to-c-default,
+      'toCLight': $lt-brand-accent-to-c-light
+    )
+  ),
+  'LTD': (
+    'Primary': (
+      'Dark': $ltd-primary-dark,
+      'Default': $ltd-primary-default,
+      'Light': $ltd-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltd-secondary-default-hover,
+      'Default': $ltd-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltd-accent-default-hover,
+      'Default': $ltd-accent-default,
+      'Light': $ltd-accent-light
+    )
+  ),
+  'LTC': (
+    'Primary': (
+      'Dark': $ltc-primary-dark,
+      'Default': $ltc-primary-default,
+      'Light': $ltc-primary-light
+    ),
+    'Secondary': (
+      'DefaultHover': $ltc-secondary-default-hover,
+      'Default': $ltc-secondary-default
+    ),
+    'Accent': (
+      'DefaultHover': $ltc-accent-default-hover,
+      'Default': $ltc-accent-default,
+      'Light': $ltc-accent-light
+    )
+  ),
+  'LetterSpacing': (
+    'S': $letter-spacing-s,
+    'M': $letter-spacing-m
+  ),
+  'Size': (
+    '4': $size-4,
+    '8': $size-8,
+    '12': $size-12,
+    '16': $size-16,
+    '20': $size-20,
+    '24': $size-24,
+    '28': $size-28,
+    '32': $size-32,
+    '36': $size-36,
+    '40': $size-40,
+    '44': $size-44,
+    '48': $size-48,
+    '52': $size-52,
+    '56': $size-56,
+    '64': $size-64,
+    '72': $size-72,
+    '80': $size-80
+  ),
+  'Opacity': (
+    '20': $opacity-20,
+    '40': $opacity-40,
+    '60': $opacity-60,
+    '80': $opacity-80
+  ),
+  'tokenSetOrder': (
+    '0': $token-set-order-0,
+    '1': $token-set-order-1,
+    '2': $token-set-order-2,
+    '3': $token-set-order-3
+  )
+);
+
+@mixin typography($typography) {
+  font-family: string.unquote(map.get($typography, 'font-family'));
+  font-weight: map.get($typography, 'font-weight');
+  font-size: map.get($typography, 'font-size');
+  letter-spacing: map.get($typography, 'letter-spacing');
+  text-decoration: map.get($typography, 'text-decoration');
+  line-height: map.get($typography, 'line-height');
+}
+
+$drop-shadow-1: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.1)) drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.3));
+$drop-shadow-2: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.1)) drop-shadow(0px 1px 6px rgba(0, 0, 0, 0.3));
+$drop-shadow-3: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.1)) drop-shadow(0px 1px 6px rgba(0, 0, 0, 0.3));
+$drop-shadow-4: drop-shadow(0px 6px 20px rgba(0, 0, 0, 0.1)) drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.3));
+$drop-shadow-5: drop-shadow(0px 8px 24px rgba(0, 0, 0, 0.1)) drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.3));
+$drop-shadow-6: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.1)) drop-shadow(0px 3px 12px rgba(0, 0, 0, 0.3));
+$drop-shadow-7: drop-shadow(0px 12px 36px rgba(0, 0, 0, 0.1)) drop-shadow(0px 3px 14px rgba(0, 0, 0, 0.3));
+$drop-shadow-8: drop-shadow(0px 14px 40px rgba(0, 0, 0, 0.1)) drop-shadow(0px 3px 16px rgba(0, 0, 0, 0.3));

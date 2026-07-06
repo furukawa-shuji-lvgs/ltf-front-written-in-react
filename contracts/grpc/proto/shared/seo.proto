@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package ltf.shared.seo;
+
+import "common/response.proto";
+import "google/protobuf/wrappers.proto";
+import "results/result.proto";
+
+/**
+ * Seo用共通サービス
+ */
+service SharedSeo {
+  /**
+   * TDKHの取得
+   */
+  rpc GetTdkh(GetTdkhRequest) returns (GetTdkhResponse);
+  /**
+   * BreadCrumbsの取得
+   */
+  rpc GetBreadCrumbs(GetBreadCrumbsRequest) returns (GetBreadCrumbsResponse);
+  /**
+   * SEOテキストの取得
+   */
+  rpc GetSeoText(GetSeoTextRequest) returns (GetSeoTextResponse);
+}
+
+/**
+ * TDKHの取得用のリクエスト
+ */
+message GetTdkhRequest {
+  string key = 1;
+}
+
+/**
+ * TDKHの取得用のレスポンス
+ */
+message GetTdkhResponse {
+  Tdkh tdkh = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * TDKH
+ */
+message Tdkh {
+  string key = 1;
+  string title = 2;
+  string description = 3;
+  string keywords = 4;
+  string h1 = 5;
+}
+
+/**
+ * BreadCrumbsの取得用のリクエスト
+ */
+message GetBreadCrumbsRequest {
+  string relative_url_path = 1;
+}
+
+/**
+ * BreadCrumbsの取得用のレスポンス
+ */
+message GetBreadCrumbsResponse {
+  repeated BreadCrumb bread_crumbs = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * BreadCrumb
+ */
+message BreadCrumb {
+  string text = 1;
+  string url = 2;
+}
+
+/**
+ * SEOテキストの取得用のリクエスト
+ */
+message GetSeoTextRequest {
+  // 相対URLパス
+  string relative_url_path = 1;
+}
+
+/**
+ * SEOテキストの取得用のレスポンス
+ */
+message GetSeoTextResponse {
+  // SEOテキスト
+  SeoText seo_text = 1;
+  results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * SEOテキスト
+ */
+message SeoText {
+  // SEOタイトル
+  google.protobuf.StringValue title = 1;
+  // SEO文言
+  google.protobuf.StringValue text = 2;
+  // 第二SEOタイトル
+  google.protobuf.StringValue second_title = 3;
+  // 第二SEO文言
+  google.protobuf.StringValue second_text = 4;
+}

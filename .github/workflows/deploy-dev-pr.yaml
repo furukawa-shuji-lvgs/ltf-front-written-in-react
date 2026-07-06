@@ -1,0 +1,143 @@
+name: Deploy PR Environment to DEV K8s
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  AWS_REGION: ap-northeast-1
+  ECR_REPOSITORY: ltf-react-eks-app
+  K8S_MANIFEST_OWNER: lv-levtech
+  K8S_MANIFEST_REPO: ltf-k8s-manifest
+  K8S_MANIFEST_REF: main
+  K8S_MANIFEST_WORKFLOW: deploy-pr-environment.yaml
+
+jobs:
+  resolve-pr-number:
+    if: >-
+      (github.event.action == 'labeled' && github.event.label.name == 'deployed-to-dev-k8s') ||
+      (github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'deployed-to-dev-k8s'))
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    outputs:
+      pr_number: ${{ steps.resolve-pr.outputs.pr_number }}
+      image_tag: ${{ steps.resolve-pr.outputs.image_tag }}
+
+    steps:
+      - name: Resolve PR number
+        id: resolve-pr
+        run: |
+          pr_number="${{ github.event.pull_request.number }}"
+          echo "pr_number=$pr_number" >> "$GITHUB_OUTPUT"
+          echo "image_tag=pr-${pr_number}-${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+
+  build-push:
+    needs: resolve-pr-number
+    runs-on: Linux_ARM64_Runner
+    timeout-minutes: 20
+    env:
+      IMAGE_TAG: ${{ needs.resolve-pr-number.outputs.image_tag }}
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@254c19bd240aabef8777f48595e9d2d7b972184b # v6.2.1
+        with:
+          role-to-assume: ${{ secrets.DEV_AWS_IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR Private
+        id: login-ecr-private
+        uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64 # v2.1.6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+
+      - name: Build and push image to Amazon ECR
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: .
+          file: docker/node/Dockerfile
+          platforms: linux/arm64
+          push: true
+          provenance: true
+          sbom: true
+          tags: ${{ steps.login-ecr-private.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ steps.login-ecr-private.outputs.registry }}/${{ env.ECR_REPOSITORY }}:buildcache
+          cache-to: type=registry,ref=${{ steps.login-ecr-private.outputs.registry }}/${{ env.ECR_REPOSITORY }}:buildcache,mode=max
+          build-args: |
+            CUSTOM_ENV=development
+          secrets: |
+            node_auth_token=${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+
+  deploy:
+    needs: [resolve-pr-number, build-push]
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    env:
+      PR_NUMBER: ${{ needs.resolve-pr-number.outputs.pr_number }}
+      IMAGE_TAG: ${{ needs.resolve-pr-number.outputs.image_tag }}
+
+    steps:
+      - name: Deploy Kubernetes PR environment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.AUTH_TOKEN_FOR_GITHUBPKG }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: process.env.K8S_MANIFEST_OWNER,
+              repo: process.env.K8S_MANIFEST_REPO,
+              workflow_id: process.env.K8S_MANIFEST_WORKFLOW,
+              ref: process.env.K8S_MANIFEST_REF,
+              inputs: {
+                operation: 'deploy',
+                pr_number: process.env.PR_NUMBER,
+                image_tag: process.env.IMAGE_TAG,
+              },
+            });
+
+  comment-on-pr:
+    needs: [resolve-pr-number, build-push, deploy]
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    env:
+      PR_NUMBER: ${{ needs.resolve-pr-number.outputs.pr_number }}
+      IMAGE_TAG: ${{ needs.resolve-pr-number.outputs.image_tag }}
+      COMMENT_BODY: |
+        ### DEV K8s (deploy)
+        | Key | Value |
+        | :--- | :--- |
+        | URL | https://pr-${{ needs.resolve-pr-number.outputs.pr_number }}.freelance.dev.levtech.org |
+        | Tag | `${{ needs.resolve-pr-number.outputs.image_tag }}` |
+        Environment provisioning can take a few minutes.
+
+    steps:
+      - name: Add summary
+        run: echo "$COMMENT_BODY" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on PR
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { PR_NUMBER, COMMENT_BODY } = process.env;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: parseInt(PR_NUMBER, 10),
+              body: COMMENT_BODY
+            });

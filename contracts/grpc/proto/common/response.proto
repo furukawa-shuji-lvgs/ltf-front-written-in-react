@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ltf.common.response;
+
+/*
+ * レスポンスのデータ型を定義
+ */
+message FieldViolation {
+  string field = 1;
+  string description = 2;
+}
+
+message BadRequest {
+  repeated FieldViolation field_violations = 1;
+}
+
+/*
+ * 使用方法 https://lvgs.docbase.io/posts/1422905
+ * sample
+ * {
+ *    service: "bsd-levtech-account",
+ *    type: ErrorForValidation.TooShort,
+ *    argsList: ["password", "8"],
+ *    message: "Password is too short. Need 8 or more length"
+ * }
+ */
+message Error {
+  string service = 1;
+  // 汎用的なエラーは ErrorType.ts で管理する
+  string type = 2;
+  repeated string args = 3;
+  // エラーの詳細を記載する
+  string message = 4;
+}

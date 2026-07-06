@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+/*
+ * 担当者情報
+ */
+message ProjectCoordinatorInfo {
+  // 担当者ID（未使用）
+  string id = 1 [deprecated = true];
+  // 担当カテゴリ名（未使用）
+  string category_name = 2 [deprecated = true];
+  // 担当者名（未使用）
+  string name = 3 [deprecated = true];
+  // 担当者からのコメント
+  string business_comment = 4;
+}

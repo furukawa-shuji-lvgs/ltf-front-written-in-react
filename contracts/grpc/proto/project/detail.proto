@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package ltf.project.detail;
+
+import "common/response.proto";
+import "project/detail/experience_story.proto";
+import "project/detail/project_detail_data.proto";
+import "project/detail/related_word_link.proto";
+import "project/detail/suggest_close_project_data.proto";
+import "results/result.proto";
+import "shared/project.proto";
+
+/**
+ * 案件詳細サービス
+ */
+service ProjectDetail {
+  /**
+   * 案件詳細情報取得
+   */
+  rpc GetProjectDetail(GetProjectDetailRequest) returns (GetProjectDetailResponse);
+  /**
+   * 案件詳細キャッシュ削除
+   */
+  rpc DeleteProjectDetailCache(DeleteProjectDetailCacheRequest) returns (DeleteProjectDetailCacheResponse);
+  /**
+   * 月間収支シミュレーション
+   */
+  rpc GetMonthlyIncomeSimulation(GetMonthlyIncomeSimulationRequest) returns (GetMonthlyIncomeSimulationResponse);
+}
+
+/**
+ * 案件詳細情報取得リクエスト
+ */
+message GetProjectDetailRequest {
+  int32 project_id = 1;
+  repeated int32 browsing_history_project_ids = 2;
+}
+
+/**
+ * 案件詳細情報取得レスポンス
+ */
+message GetProjectDetailResponse {
+  /**
+   * [[終了公開案件の判定]]
+   * 「disable_flag = 1」かつ「close_project_flag = 1」
+   */
+  /**
+   * [[非公開案件の判定]]
+   * 「disable_flag = 1」または「delete_flag = 1」または「creator_project_flag = 1」
+   */
+  message Succeed {
+    // 終了公開案件の判定
+    bool is_closed = 1;
+    // 案件詳細情報
+    ltf.project.detail.ProjectDetailData project_detail = 2;
+    // 条件が似ている案件
+    repeated shared.project.SuggestProjectData similar_projects = 3;
+    // リモートワークが可能な案件
+    repeated shared.project.SuggestProjectData remote_work_available_projects = 4;
+    // あなたの閲覧履歴
+    repeated shared.project.SuggestProjectData browsing_history_projects = 5;
+    // フリーランス経験談
+    repeated project.detail.ExperienceStory experience_stories = 6;
+    // リモート一覧ページのリンク
+    repeated shared.project.ProjectSearchLink remote_work_links = 7;
+    // 副業・複業一覧ページのリンク
+    repeated shared.project.ProjectSearchLink side_job_links = 8;
+    // 関連するワードへのリンク
+    repeated project.detail.RelatedWordLink related_word_links = 9;
+    // 募集が終了した案件
+    repeated project.detail.SuggestCloseProjectData close_projects = 10;
+    // 他の案件を見るセクションのリンク
+    repeated shared.project.ProjectSearchLink other_project_links = 11;
+  }
+  message Failed {
+    repeated common.response.Error errors = 1;
+  }
+
+  oneof payload {
+    Succeed succeed = 1;
+    Failed failed = 2;
+  }
+  ltf.results.Result result = 3;
+}
+
+/**
+ * 案件詳細キャッシュ削除リクエスト
+ */
+message DeleteProjectDetailCacheRequest {}
+
+/**
+ * 案件詳細キャッシュ削除レスポンス
+ */
+message DeleteProjectDetailCacheResponse {
+  ltf.results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}
+
+/**
+ * 月間収支シミュレーションリクエスト
+ */
+message GetMonthlyIncomeSimulationRequest {
+  // 支払金（単価）上限
+  int32 pay_upper_limit = 1;
+}
+
+/**
+ * 月間収支シミュレーションレスポンス
+ */
+message GetMonthlyIncomeSimulationResponse {
+  // 所得税
+  int32 income_tax = 1;
+  // 住民税
+  int32 resident_tax = 2;
+  // 国民年金（固定値）
+  int32 national_pension = 3;
+  // 国民健康保険
+  int32 health_insurance = 4;
+  // 収益
+  int32 residual_income = 5;
+
+  ltf.results.Result result = 101;
+  repeated common.response.Error errors = 102;
+}

@@ -1,0 +1,113 @@
+User-agent: *
+
+Disallow: /ank/
+Disallow: /admin/
+Disallow: /contact/private/
+Disallow: /history/
+Disallow: /keeplist/
+Disallow: /member/
+Disallow: /entry/
+Disallow: /lp/
+Disallow: /redirection/
+Disallow: /_ltf-nuxt/image_mv*
+Disallow: /_ltf-nuxt/image_mv_bg*
+Disallow: /_ltf-nuxt/image_project_vol2*
+Disallow: /_ltf-nuxt/image_reason_top*
+Disallow: /_ltf-nuxt/image_bg*
+Disallow: /_ltf-nuxt/*.js/*.js
+Disallow: /_ltf-nuxt/*.js/*.css
+
+User-agent: Googlebot
+Disallow: /ank/
+Disallow: /admin/
+Disallow: /contact/private/
+Disallow: /history/
+Disallow: /keeplist/
+Disallow: /member/
+Disallow: /entry/
+Disallow: /lp/
+Disallow: /redirection/
+Disallow: /_ltf-nuxt/image_mv*
+Disallow: /_ltf-nuxt/image_mv_bg*
+Disallow: /_ltf-nuxt/image_project_vol2*
+Disallow: /_ltf-nuxt/image_reason_top*
+Disallow: /_ltf-nuxt/image_bg*
+Disallow: /_ltf-nuxt/*.js/*.js
+Disallow: /_ltf-nuxt/*.js/*.css
+Disallow: /browserMonitoringPrd.js
+Disallow: *?*st=*
+
+User-agent: bingbot
+Disallow: /ank/
+Disallow: /admin/
+Disallow: /contact/private/
+Disallow: /history/
+Disallow: /keeplist/
+Disallow: /member/
+Disallow: /entry/
+Disallow: /lp/
+Disallow: /redirection/
+Disallow: /_ltf-nuxt/image_mv*
+Disallow: /_ltf-nuxt/image_mv_bg*
+Disallow: /_ltf-nuxt/image_project_vol2*
+Disallow: /_ltf-nuxt/image_reason_top*
+Disallow: /_ltf-nuxt/image_bg*
+Disallow: /_ltf-nuxt/*.js/*.js
+Disallow: /_ltf-nuxt/*.js/*.css
+Disallow: *?*st=*
+Crawl-delay: 10
+
+User-agent: msnbot
+Disallow: /ank/
+Disallow: /admin/
+Disallow: /contact/private/
+Disallow: /history/
+Disallow: /keeplist/
+Disallow: /member/
+Disallow: /entry/
+Disallow: /lp/
+Disallow: /redirection/
+Disallow: /_ltf-nuxt/image_mv*
+Disallow: /_ltf-nuxt/image_mv_bg*
+Disallow: /_ltf-nuxt/image_project_vol2*
+Disallow: /_ltf-nuxt/image_reason_top*
+Disallow: /_ltf-nuxt/image_bg*
+Disallow: /_ltf-nuxt/*.js/*.js
+Disallow: /_ltf-nuxt/*.js/*.css
+Crawl-delay: 120
+
+User-agent: rogerbot
+Disallow: /ank/
+Disallow: /lp/
+Disallow: /_ltf-nuxt/image_mv*
+Disallow: /_ltf-nuxt/image_mv_bg*
+Disallow: /_ltf-nuxt/image_project_vol2*
+Disallow: /_ltf-nuxt/image_reason_top*
+Disallow: /_ltf-nuxt/image_bg*
+Disallow: /_ltf-nuxt/*.js/*.js
+Disallow: /_ltf-nuxt/*.js/*.css
+Crawl-delay: 2
+
+User-agent: facebookexternalhit
+Disallow: /project/search/
+
+User-agent: node-fetch
+Disallow: /project/search/
+
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Baiduspider+
+Disallow: /
+
+User-agent: BaiduMobaider
+Disallow: /
+
+User-agent: BaiduImagespider
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /

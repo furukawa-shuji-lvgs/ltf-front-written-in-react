@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ltf.shared.guide;
+
+/**
+ * タグ
+ */
+message TagData {
+  int32 id = 1;
+  string name = 2;
+}

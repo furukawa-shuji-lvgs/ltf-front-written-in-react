@@ -1,0 +1,24 @@
+version: v2
+modules:
+  - path: proto
+    name: buf.build/lv-levtech/ltf
+lint:
+  use:
+    - STANDARD
+  except:
+    # Existing backend-owned protos are consumed as-is by the frontend.
+    - DIRECTORY_SAME_PACKAGE
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_SAME_DIRECTORY
+    - PACKAGE_VERSION_SUFFIX
+    - SERVICE_SUFFIX
+    - ENUM_VALUE_PREFIX
+    - ENUM_ZERO_VALUE_SUFFIX
+    - ENUM_VALUE_UPPER_SNAKE_CASE
+    - RPC_REQUEST_STANDARD_NAME
+breaking:
+  use:
+    - FILE
+  except:
+    - MESSAGE_NO_DELETE
+    - RPC_NO_DELETE

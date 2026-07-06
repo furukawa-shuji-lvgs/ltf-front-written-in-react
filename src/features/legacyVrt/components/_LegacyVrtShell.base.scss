@@ -1,0 +1,417 @@
+@use "@shared/styles/volt-tokens.scss" as *;
+@use "@shared/styles/variables.scss" as *;
+
+.shell {
+    --legacy-target-height: var(--legacy-pc-height);
+
+    display: flex;
+    flex-direction: column;
+    min-height: var(--legacy-target-height);
+    color: colors(gray, grayscale, black);
+    background: colors(gray, grayscale, white_dark);
+
+    @media (max-width: 767px) {
+        --legacy-target-height: var(--legacy-sp-height);
+    }
+}
+
+.vrtFixedHeight {
+    height: var(--legacy-target-height);
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.compactFooter {
+    color: $text-white;
+    background: $neutral-black;
+
+    a {
+        color: $text-white;
+        text-decoration: underline;
+
+        @include typography($typography-12px-function-regular);
+    }
+}
+
+.compactFooterInner {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-20 $space-24;
+    width: $layout-width-main-l;
+    padding: $space-32 0;
+    margin: 0 auto;
+}
+
+.compactFooterBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: $space-20 calc((100% - $layout-width-main-l) / 2);
+    color: $text-black;
+    background: $neutral-white;
+
+    strong {
+        font-size: 2.8rem;
+        line-height: 1;
+    }
+}
+
+.pcOnly {
+    display: block;
+}
+
+.spOnly {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .pcOnly {
+        display: none;
+    }
+
+    .spOnly {
+        display: block;
+    }
+}
+
+.hero {
+    background: colors(gray, grayscale, white_dark);
+}
+
+.heroInner {
+    display: flex;
+    gap: $space-40;
+    width: $layout-width-main-l;
+    min-height: 210px;
+    margin: 0 auto;
+    padding: $space-40 0;
+}
+
+.heroCopy {
+    flex: 1;
+
+    h1 {
+        margin: 0;
+        color: colors(gray, grayscale, black);
+        letter-spacing: 0;
+
+        @include typography($typography-32px-read-bold);
+    }
+
+    > p:not(.eyebrow) {
+        max-width: 720px;
+        margin-top: $space-12;
+
+        @include typography($typography-14px-read-regular);
+    }
+}
+
+.topHero {
+    min-height: 430px;
+    background:
+        linear-gradient(110deg, rgba(43, 129, 166, 0.95), rgba(43, 129, 166, 0.86) 58%, transparent 58%),
+        colors(gray, grayscale, white);
+
+    .heroCopy {
+        max-width: 620px;
+        color: $text-white;
+
+        h1,
+        > p:not(.eyebrow) {
+            color: $text-white;
+        }
+    }
+}
+
+.eyebrow {
+    width: fit-content;
+    margin-bottom: $space-12;
+    padding: $space-4 $space-12;
+    color: $ltf-primary-default;
+    background: colors(gray, grayscale, white);
+    border: 1px solid rgba($ltf-primary-default, 0.3);
+    border-radius: $radius-full;
+
+    @include typography($typography-12px-function-bold);
+}
+
+.heroSearchCard {
+    width: 300px;
+    align-self: flex-start;
+    padding: $space-20;
+    background: #a7dce8;
+    border-radius: $radius-8;
+    box-shadow: $box-shadow-1;
+
+    > p {
+        margin-bottom: $space-12;
+        color: $ltf-primary-dark;
+
+        @include typography($typography-16px-function-bold);
+    }
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-12;
+    margin-top: $space-20;
+}
+
+.action,
+.searchButton,
+.questionBox button,
+.disabledButton,
+.completeCard a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 $space-24;
+    color: $text-white;
+    text-decoration: none;
+    background: $red-50;
+    border: 0;
+    border-radius: $radius-full;
+
+    @include typography($typography-14px-function-bold);
+}
+
+.action:first-child {
+    background: $ltf-primary-default;
+}
+
+.params {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-8;
+    margin-top: $space-16;
+}
+
+.paramItem {
+    display: flex;
+    overflow: hidden;
+    border: 1px solid $neutral-light-gray;
+    border-radius: $radius-4;
+
+    dt,
+    dd {
+        margin: 0;
+        padding: $space-4 $space-8;
+    }
+
+    dt {
+        background: $neutral-light-gray;
+        font-weight: $font-weights-bold;
+    }
+}
+
+.sectionBand {
+    padding: $space-48 0;
+
+    &.white {
+        background: colors(gray, grayscale, white);
+    }
+
+    &.blue {
+        background: #eff8fb;
+    }
+
+    &.gray {
+        background: colors(gray, grayscale, white_dark);
+    }
+}
+
+.contentInner {
+    width: $layout-width-main-l;
+    margin: 0 auto;
+
+    > h2 {
+        margin: 0 0 $space-28;
+        text-align: center;
+
+        @include typography($typography-24px-read-bold);
+    }
+}
+
+.assessBand {
+    padding: $space-40 0;
+    background: #eff8fb;
+}
+
+.centerLead {
+    margin-bottom: $space-20;
+    text-align: center;
+
+    @include typography($typography-18px-function-bold);
+}
+
+.questionBox {
+    display: grid;
+    gap: $space-12;
+    width: 460px;
+    padding: $space-24;
+    margin: 0 auto;
+    background: colors(gray, grayscale, white);
+    border: 1px solid #b9d5df;
+    border-radius: $radius-8;
+
+    label {
+        padding: $space-8 $space-12;
+        border: 1px solid $neutral-light-gray;
+    }
+}
+
+.searchPanel {
+    width: 100%;
+    padding: $space-16;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+    border-radius: $radius-4;
+    box-shadow: $box-shadow-1;
+}
+
+.searchLabel {
+    display: block;
+    margin-bottom: $space-8;
+
+    @include typography($typography-14px-function-bold);
+}
+
+.searchControls {
+    display: grid;
+    grid-template-columns: 1fr 96px;
+    gap: $space-8;
+}
+
+.searchInput {
+    min-height: 42px;
+    padding: 0 $space-12;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-dark-gray;
+    border-radius: $radius-4;
+}
+
+.searchButton {
+    min-height: 42px;
+    background: $ltf-secondary-default;
+    border-radius: $radius-4;
+}
+
+.projectCards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-16;
+    width: 560px;
+    margin: $space-24 auto 0;
+}
+
+.projectCardList {
+    display: grid;
+    gap: $space-16;
+}
+
+.projectCard {
+    padding: $space-20;
+    background: colors(gray, grayscale, white);
+    border: 1px solid $neutral-light-gray;
+    border-radius: $radius-4;
+    box-shadow: $box-shadow-1;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 180px;
+
+    h3 {
+        margin: 0 0 $space-12;
+        color: $ltf-primary-default;
+
+        @include typography($typography-16px-function-bold);
+    }
+
+    p {
+        color: $red-50;
+
+        @include typography($typography-18px-function-bold);
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $space-8;
+        margin: $space-12 0;
+    }
+
+    li {
+        padding: $space-4 $space-8;
+        background: #f2f6f8;
+        border-radius: $radius-4;
+    }
+}
+
+.featureGrid,
+.articleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-20;
+}
+
+.featureCard,
+.articleCard {
+    padding: $space-20;
+    background: colors(gray, grayscale, white);
+    border: 1px solid #b9d5df;
+    border-radius: $radius-4;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 220px;
+}
+
+.featureIcon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    margin-bottom: $space-12;
+    color: $text-white;
+    place-items: center;
+    background: $ltf-primary-default;
+    border-radius: $radius-full;
+}
+
+.articleImage {
+    height: 118px;
+    margin-bottom: $space-12;
+    background: linear-gradient(135deg, #d7edf3, #f9fbfc);
+    border-radius: $radius-4;
+}
+
+.stepList {
+    display: grid;
+    gap: $space-16;
+    max-width: 620px;
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+
+    li {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: $space-8 $space-16;
+        align-items: start;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 74px;
+    }
+
+    span {
+        grid-row: span 2;
+        display: grid;
+        width: 42px;
+        height: 42px;
+        color: $text-white;
+        place-items: center;
+        background: $ltf-primary-default;
+        border-radius: $radius-full;
+    }
+}

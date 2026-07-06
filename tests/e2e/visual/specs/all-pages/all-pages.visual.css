@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+  /* biome-ignore lint/complexity/noImportantStyles: VRT needs to override app-level caret and motion styles. */
+  caret-color: transparent !important;
+  /* biome-ignore lint/complexity/noImportantStyles: VRT needs to override app-level caret and motion styles. */
+  transition-duration: 0s !important;
+  /* biome-ignore lint/complexity/noImportantStyles: VRT needs to override app-level caret and motion styles. */
+  animation-duration: 0s !important;
+  /* biome-ignore lint/complexity/noImportantStyles: VRT needs to override app-level caret and motion styles. */
+  animation-delay: 0s !important;
+}
+
+.grecaptcha-badge,
+#webpack-dev-server-client-overlay,
+iframe[src*="googletagmanager"],
+iframe[src*="youtube"],
+iframe[src*="youtube-nocookie"] {
+  /* biome-ignore lint/complexity/noImportantStyles: VRT hides external embeds that are not stable. */
+  visibility: hidden !important;
+}

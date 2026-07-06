@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ltf.member.short.input;
+
+import "common/response.proto";
+import "results/result.proto";
+
+/**
+ * メンバー簡易EF入力サービス
+ */
+service MemberShortInput {
+  /**
+   * フォーム用項目取得
+   */
+  rpc GetFormItems(GetFormItemsRequest) returns (GetFormItemsResponse);
+}
+
+/**
+ * フォーム用項目取得のリクエスト
+ */
+message GetFormItemsRequest {
+  string hash = 1; // hash値
+}
+
+/**
+ * フォーム用項目取得のレスポンス
+ */
+message GetFormItemsResponse {
+  results.Result result = 100;
+  repeated common.response.Error errors = 101;
+}

@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package ltf.shared.entry;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "shared/date.proto";
+
+/**
+ * 契約形態
+ */
+message ContractType {
+  int32 id = 1;
+  string name = 2;
+}
+
+/**
+ * 応募タイプ
+ */
+enum AppType {
+  UNKNOWN = 0; // 不明
+  MEMBER = 1; // 通常
+  ENTRY = 2; // 案件
+  LP = 3; // LP
+  CONSULTATION = 4; // 個別相談会
+  PROPOSAL = 5; // 案件提案
+  SHORT = 6; // 簡易EF
+  REFERRAL = 7; // 友人紹介経由
+  INSTEAD_ENHAKEN = 8; // 代理応募（en派遣）
+  INSTEAD_FINDJOB = 9; // 代理応募（FindJob）
+  INSTEAD_HATARAKONET = 10; // 代理応募（はたらこねっと）
+  CHATBOT_FANP = 11; // CHATBOT（fanp）
+  INSTEAD_FREELANCESTART = 12; // 代理応募（フリーランススタート）
+  CHATBOT_BOTCHAN = 13; // CHATBOT（botchan）
+  CHAT_EF = 14; // CHAT EF
+  CHAT_ENTRY = 15; // CHAT EF 案件
+  CHAT_CONSULTATION = 16; // CHAT EF 個別相談会
+  CHAT_PROPOSAL = 17; // CHAT EF 案件提案
+  CHAT_LP = 18; // CHAT EF LP
+  CHAT_REFERRAL = 19; // CHAT EF 友人紹介経由
+  INSTEAD_FREELANCEHUB = 20; // 代理応募(フリーランスHUB)
+  INSTEAD_ENGINEERSTYLE = 21; // 代理応募(エンジニアスタイル)
+  LTP_LOGIN = 22; // LTPログイン導線
+}
+
+/**
+ * エントリー情報
+ */
+message EntryData {
+  /**
+   * 基本情報
+   */
+  google.protobuf.Int32Value contract_type_id = 1 [deprecated = true]; // 契約形態ID
+  string lastname = 2; // 名字
+  string firstname = 3; // 名前
+  string lastname_kana = 4; // 名字かな
+  string firstname_kana = 5; // 名前かな
+  google.type.Date birthday = 6; // 生年月日
+  string phone = 7; // 携帯番号
+  string mailaddress = 8; // メールアドレス
+  AppType app_type = 9; // 応募タイプ
+  repeated int32 contract_type_ids = 10; // 契約形態IDリスト
+  google.protobuf.StringValue hash = 11; // 友人紹介用hashコード
+  /**
+   * 流入
+   */
+  AccessInfo access_info = 100; // アクセス情報
+  InflowInfo inflow_info = 101; // 流入情報
+}
+
+/**
+ * アクセス情報
+ */
+message AccessInfo {
+  string user_agent = 1; // User Agent
+  string ip_address = 2; // IPアドレス
+  // リモートホスト名はバックエンド側で取得するのでフロントエンドからのリクエストは不要
+  string host_name = 3 [deprecated = true]; // リモートホスト
+}
+
+/**
+ * 流入情報
+ */
+message InflowInfo {
+  string sip = 1; // sip
+  string referer = 2; // 流入時リファラー
+  string search_keyword = 3; // 流入時検索キーワード
+  string start_page = 4; // 開始ページ（パス）
+  string end_page = 5; // 終了ページ（パス）
+  string ms_lp_no = 6; // LP番号
+  oneof adwords_gclid_optional {
+    string adwords_gclid = 7; // AdwordsクリックID
+  }
+  string sip2 = 8; // sip（後勝ち）
+  string referer2 = 9; // リファラ（後勝ち）
+  string search_keyword2 = 10; // 流入時検索キーワード（後勝ち）
+  string start_page2 = 11; // 開始ページ（パス）（後勝ち）
+  oneof adwords_gclid_optional2 {
+    string adwords_gclid2 = 12; // AdwordsクリックID（後勝ち）
+  }
+  string ga_client_id = 13; // Analytics client ID
+}
+
+/**
+ * エントリーアクセス履歴
+ */
+message EntryAccessHistory {
+  string url = 1; // アクセスURL
+  google.protobuf.Timestamp date = 2; // アクセス時間
+}
+
+/**
+ * Facebook広告コンバージョンAPI連携用Cookie
+ */
+message FacebookCookie {
+  google.protobuf.StringValue fbp = 1; // Facebook ピクセルが自動保存するウェブサイトドメインの一意の識別情報
+  google.protobuf.StringValue fbc = 2; // Facebook で広告をクリックした際に保存される fbclid クエリパラメータの値
+}
+
+/**
+ * セッション情報
+ */
+message SessionInfo {
+  google.protobuf.StringValue session_cookie = 1; // entriesテーブルのsession_cokkieに格納する値
+  google.protobuf.StringValue storage_cookie = 2; // entriesテーブルのstorage_cokkieに格納する値
+}
