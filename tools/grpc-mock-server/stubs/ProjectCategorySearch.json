@@ -1,0 +1,118 @@
+{
+  "getMarketPrice": {
+    "categoryName": "Java",
+    "priceDistributions": [
+      {
+        "priceDivision": "〜49万円",
+        "projectCount": 4
+      },
+      {
+        "priceDivision": "50〜69万円",
+        "projectCount": 18
+      },
+      {
+        "priceDivision": "70〜89万円",
+        "projectCount": 42
+      },
+      {
+        "priceDivision": "90万円〜",
+        "projectCount": 9
+      }
+    ],
+    "averagePrice": 780000,
+    "maxPrice": 950000,
+    "minPrice": 480000,
+    "result": "Success"
+  },
+  "getLinkItemsByKeywordCategoryPage": {
+    "searchByKeywordItems": [
+      {
+        "category": "関連スキル",
+        "keywordItems": [
+          {
+            "text": "Spring Boot",
+            "uri": "/project/fw-31/"
+          },
+          {
+            "text": "Kotlin",
+            "uri": "/project/skill-6/"
+          },
+          {
+            "text": "AWS",
+            "uri": "/project/cld-41/"
+          }
+        ]
+      },
+      {
+        "category": "職種",
+        "keywordItems": [
+          {
+            "text": "サーバーサイドエンジニア",
+            "uri": "/project/occ-1/"
+          },
+          {
+            "text": "フロントエンドエンジニア",
+            "uri": "/project/occ-2/"
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getLinkItemsByKeywordSidejobOrRemotePage": {
+    "searchByKeywordItems": [
+      {
+        "category": "リモート条件",
+        "keywordItems": [
+          {
+            "text": "フルリモート",
+            "uri": "/project/full-remote/"
+          },
+          {
+            "text": "一部リモート",
+            "uri": "/project/remote/"
+          }
+        ]
+      },
+      {
+        "category": "稼働日数",
+        "keywordItems": [
+          {
+            "text": "週3日",
+            "uri": "/project/week-3/"
+          },
+          {
+            "text": "週4日",
+            "uri": "/project/week-4/"
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getLinkItemsByKeywordCrossCategoryPage": {
+    "searchByKeywordItems": [
+      {
+        "category": "掛け合わせ条件",
+        "keywordItems": [
+          {
+            "text": "Java × リモート",
+            "uri": "/project/skill-3/remote/"
+          },
+          {
+            "text": "React × 週3日",
+            "uri": "/project/fw-31/week-3/"
+          },
+          {
+            "text": "Python × 高単価",
+            "uri": "/project/skill-8/feature-2/"
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "isExistMsCrossWordsByUri": {
+    "result": "Success"
+  }
+}

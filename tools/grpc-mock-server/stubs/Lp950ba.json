@@ -1,0 +1,9 @@
+{
+  "getAssessmentResults": {
+    "assess": 820000,
+    "annualIncome": 9840000,
+    "afterOneYearAssess": 880000,
+    "afterTwoYearsAssess": 950000,
+    "result": "Success"
+  }
+}

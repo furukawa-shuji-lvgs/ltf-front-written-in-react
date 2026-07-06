@@ -45,7 +45,7 @@ export const ServiceColors = {
 };
 
 export const LtfLogo = {
-  src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+  src: "/common/ltf/logo_ltf.svg",
   alt: "レバテックフリーランス",
 };
 

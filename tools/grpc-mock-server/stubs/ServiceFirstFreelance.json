@@ -1,0 +1,75 @@
+{
+  "getProjectsForFirstFreelance": {
+    "projectItems": [
+      {
+        "positionName": "サーバーサイドエンジニア",
+        "total": 128,
+        "projects": [
+          {
+            "id": 1001,
+            "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+            "payUpperLimit": 850000,
+            "payType": 1,
+            "contractType": 1,
+            "skills": [
+              {
+                "id": 3,
+                "name": "Java",
+                "categoryId": 1
+              }
+            ],
+            "stationName": "渋谷",
+            "stationPrefectureName": "東京都",
+            "isNew": true
+          },
+          {
+            "id": 1003,
+            "name": "PHP / Laravel 業務システムの保守開発",
+            "payUpperLimit": 680000,
+            "payType": 2,
+            "contractType": 1,
+            "skills": [
+              {
+                "id": 4,
+                "name": "PHP",
+                "categoryId": 1
+              }
+            ],
+            "stationName": "横浜",
+            "stationPrefectureName": "神奈川県",
+            "isNew": false
+          }
+        ]
+      },
+      {
+        "positionName": "フロントエンドエンジニア",
+        "total": 96,
+        "projects": [
+          {
+            "id": 1002,
+            "name": "TypeScript / React SaaS管理画面のフロントエンド刷新",
+            "payUpperLimit": 780000,
+            "payType": 1,
+            "contractType": 1,
+            "skills": [
+              {
+                "id": 5,
+                "name": "TypeScript",
+                "categoryId": 1
+              },
+              {
+                "id": 31,
+                "name": "React",
+                "categoryId": 2
+              }
+            ],
+            "stationName": "新宿",
+            "stationPrefectureName": "東京都",
+            "isNew": true
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  }
+}

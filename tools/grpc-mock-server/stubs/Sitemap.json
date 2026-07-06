@@ -1,0 +1,70 @@
+{
+  "getCases": {
+    "caseCategories": [
+      {
+        "name": "言語",
+        "cases": [
+          {
+            "id": 3,
+            "name": "Java案件",
+            "link": "/project/skill-3/"
+          },
+          {
+            "id": 5,
+            "name": "TypeScript案件",
+            "link": "/project/skill-5/"
+          },
+          {
+            "id": 8,
+            "name": "Python案件",
+            "link": "/project/skill-8/"
+          }
+        ]
+      },
+      {
+        "name": "職種",
+        "cases": [
+          {
+            "id": 1,
+            "name": "サーバーサイドエンジニア案件",
+            "link": "/project/occ-1/"
+          },
+          {
+            "id": 2,
+            "name": "フロントエンドエンジニア案件",
+            "link": "/project/occ-2/"
+          }
+        ]
+      },
+      {
+        "name": "こだわり条件",
+        "cases": [
+          {
+            "id": 101,
+            "name": "リモート案件",
+            "link": "/project/remote/"
+          },
+          {
+            "id": 102,
+            "name": "週3日案件",
+            "link": "/project/week-3/"
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getCategoriesForSitemapXml": {
+    "categories": [
+      {
+        "categoryName": "skill",
+        "urls": ["/project/skill-3/", "/project/skill-5/", "/project/skill-8/"]
+      },
+      {
+        "categoryName": "occ",
+        "urls": ["/project/occ-1/", "/project/occ-2/"]
+      }
+    ],
+    "result": "Success"
+  }
+}

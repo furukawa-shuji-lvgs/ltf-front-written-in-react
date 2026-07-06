@@ -1,0 +1,25 @@
+{
+  "postEntryInfo": {
+    "entryId": 22345,
+    "result": "Success"
+  },
+  "getEntryInfo": {
+    "sip": "vrt-member-sip",
+    "jfUrlEngineer": {
+      "value": "https://example.com/jf/engineer"
+    },
+    "jfUrlCreator": {
+      "value": "https://example.com/jf/creator"
+    },
+    "jfUrlGoogleForm": {
+      "value": "https://example.com/jf/google-form"
+    },
+    "phone": {
+      "value": "03-1234-5678"
+    },
+    "mailaddress": {
+      "value": "support@example.com"
+    },
+    "result": "Success"
+  }
+}

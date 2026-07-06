@@ -1,0 +1,26 @@
+{
+  "postEntryInfo": {
+    "entryId": 12345,
+    "result": "Success"
+  },
+  "getEntryInfo": {
+    "sip": "vrt-entry-sip",
+    "projectIds": [1001, 1002, 1003],
+    "jfUrlEngineer": {
+      "value": "https://example.com/jf/engineer"
+    },
+    "jfUrlCreator": {
+      "value": "https://example.com/jf/creator"
+    },
+    "jfUrlGoogleForm": {
+      "value": "https://example.com/jf/google-form"
+    },
+    "phone": {
+      "value": "03-1234-5678"
+    },
+    "mailaddress": {
+      "value": "support@example.com"
+    },
+    "result": "Success"
+  }
+}

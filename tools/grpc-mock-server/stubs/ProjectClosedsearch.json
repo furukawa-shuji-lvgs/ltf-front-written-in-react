@@ -1,0 +1,41 @@
+{
+  "getClosedProjects": {
+    "closedProjects": [
+      {
+        "id": 9001,
+        "name": "Java / Spring 既存システム改修支援",
+        "payUpperLimit": 720000,
+        "payType": 1,
+        "contractType": 1,
+        "workContent": "販売管理システムの機能改修、バッチ処理の改善、テストコード追加を担当します。",
+        "stationName": "渋谷"
+      },
+      {
+        "id": 9002,
+        "name": "React / 管理画面UI改善支援",
+        "payUpperLimit": 700000,
+        "payType": 1,
+        "contractType": 1,
+        "workContent": "既存管理画面のコンポーネント整理、表示速度改善、E2Eテスト整備を担当します。",
+        "stationName": "新宿"
+      },
+      {
+        "id": 9003,
+        "name": "PHP / Laravel 予約システム保守",
+        "payUpperLimit": 650000,
+        "payType": 2,
+        "contractType": 1,
+        "workContent": "予約システムの不具合修正、管理機能追加、データ移行を担当します。",
+        "stationName": "横浜"
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 3,
+      "totalItems": 36,
+      "itemsPerPage": 20,
+      "totalPages": 2,
+      "currentPage": 1
+    },
+    "result": "Success"
+  }
+}

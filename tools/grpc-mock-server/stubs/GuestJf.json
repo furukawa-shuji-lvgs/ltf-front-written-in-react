@@ -1,0 +1,22 @@
+{
+  "getEntryInfo": {
+    "entryInfo": {
+      "lastname": "山田",
+      "firstname": "太郎",
+      "lastnameKana": "やまだ",
+      "firstnameKana": "たろう",
+      "birthday": {
+        "year": 1990,
+        "month": 1,
+        "day": 15
+      },
+      "mailaddress": "mock@example.com",
+      "phone": "090-1234-5678",
+      "created": {
+        "seconds": "1783123200",
+        "nanos": 0
+      }
+    },
+    "result": "Success"
+  }
+}

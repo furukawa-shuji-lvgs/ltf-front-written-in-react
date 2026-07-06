@@ -1,0 +1,278 @@
+{
+  "getProjectExamples": {
+    "projectExamples": [
+      {
+        "category": "Java",
+        "list": [
+          {
+            "id": 1001,
+            "name": "Java / Spring Boot 決済基盤の追加開発",
+            "paymentUpperLimit": 850000,
+            "stationName": "渋谷",
+            "stationPrefectureName": "東京都",
+            "remoteWorkAcceptable": 1,
+            "onlineBusinessMeetingAcceptable": true,
+            "weekWorkDaysCondition": 3,
+            "payType": 1
+          },
+          {
+            "id": 1004,
+            "name": "Java / Kotlin 予約管理サービスのAPI開発",
+            "paymentUpperLimit": 780000,
+            "stationName": "品川",
+            "stationPrefectureName": "東京都",
+            "remoteWorkAcceptable": 1,
+            "onlineBusinessMeetingAcceptable": true,
+            "weekWorkDaysCondition": 1,
+            "payType": 1
+          }
+        ]
+      },
+      {
+        "category": "TypeScript",
+        "list": [
+          {
+            "id": 1002,
+            "name": "TypeScript / React SaaS管理画面の刷新",
+            "paymentUpperLimit": 780000,
+            "stationName": "新宿",
+            "stationPrefectureName": "東京都",
+            "remoteWorkAcceptable": 1,
+            "onlineBusinessMeetingAcceptable": true,
+            "weekWorkDaysCondition": 3,
+            "payType": 1
+          },
+          {
+            "id": 1005,
+            "name": "Next.js / Node.js マーケティング基盤開発",
+            "paymentUpperLimit": 820000,
+            "stationName": "六本木",
+            "stationPrefectureName": "東京都",
+            "remoteWorkAcceptable": 1,
+            "onlineBusinessMeetingAcceptable": true,
+            "weekWorkDaysCondition": 2,
+            "payType": 1
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getProjectSearchWords": {
+    "links": [
+      {
+        "name": "Java",
+        "uriPath": {
+          "value": "/project/skill-3/"
+        },
+        "children": [
+          {
+            "name": "Spring Boot",
+            "uriPath": {
+              "value": "/project/fw-31/"
+            },
+            "children": []
+          },
+          {
+            "name": "Kotlin",
+            "uriPath": {
+              "value": "/project/skill-6/"
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "リモート",
+        "uriPath": {
+          "value": "/project/remote/"
+        },
+        "children": []
+      },
+      {
+        "name": "職種",
+        "uriPath": {
+          "value": "/project/occupation/"
+        },
+        "children": [
+          {
+            "name": "フロントエンドエンジニア",
+            "uriPath": {
+              "value": "/project/occ-2/"
+            },
+            "children": []
+          },
+          {
+            "name": "サーバーサイドエンジニア",
+            "uriPath": {
+              "value": "/project/occ-1/"
+            },
+            "children": []
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getSuggestProjects": {
+    "suggestProjectsNews": [
+      {
+        "projectBaseData": {
+          "id": 1001,
+          "name": "Java / Spring Boot 決済基盤の追加開発",
+          "payUpperLimit": 850000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            },
+            {
+              "id": 31,
+              "name": "Spring Boot",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "渋谷",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": true,
+        "isTransactionResult": true
+      },
+      {
+        "projectBaseData": {
+          "id": 1002,
+          "name": "TypeScript / React SaaS管理画面の刷新",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 5,
+              "name": "TypeScript",
+              "categoryId": 1
+            },
+            {
+              "id": 31,
+              "name": "React",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "新宿",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": false,
+        "isTransactionResult": true
+      }
+    ],
+    "suggestProjectsRemotes": [
+      {
+        "projectBaseData": {
+          "id": 1006,
+          "name": "Go / AWS フルリモート配信基盤の開発",
+          "payUpperLimit": 900000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 7,
+              "name": "Go",
+              "categoryId": 1
+            },
+            {
+              "id": 41,
+              "name": "AWS",
+              "categoryId": 4
+            }
+          ],
+          "stationName": "目黒",
+          "stationPrefectureName": "東京都",
+          "isNew": false
+        },
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": true,
+        "isTransactionResult": false
+      },
+      {
+        "projectBaseData": {
+          "id": 1007,
+          "name": "Python / データ分析基盤の機能追加",
+          "payUpperLimit": 760000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 8,
+              "name": "Python",
+              "categoryId": 1
+            }
+          ],
+          "stationName": "大手町",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": true,
+        "isTransactionResult": true
+      }
+    ],
+    "suggestProjectsSidejobs": [
+      {
+        "projectBaseData": {
+          "id": 1008,
+          "name": "React / 週3日 ECサイト改善支援",
+          "payUpperLimit": 650000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 31,
+              "name": "React",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "池袋",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": false,
+        "isTransactionResult": false
+      },
+      {
+        "projectBaseData": {
+          "id": 1009,
+          "name": "PHP / Laravel 週3日 業務改善ツール開発",
+          "payUpperLimit": 620000,
+          "payType": 2,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 4,
+              "name": "PHP",
+              "categoryId": 1
+            },
+            {
+              "id": 33,
+              "name": "Laravel",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "横浜",
+          "stationPrefectureName": "神奈川県",
+          "isNew": false
+        },
+        "remoteWorkAcceptable": 3,
+        "isLongTerm": true,
+        "isTransactionResult": true
+      }
+    ],
+    "result": "Success"
+  }
+}

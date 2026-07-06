@@ -1,0 +1,141 @@
+{
+  "getSeoText": {
+    "seoText": {
+      "keyword1": {
+        "value": "Java"
+      },
+      "keyword2": {
+        "value": "リモート"
+      },
+      "keyword3": {
+        "value": "高単価"
+      },
+      "seoTitle1": {
+        "value": "Java リモート 高単価の求人・案件一覧"
+      },
+      "seoText1": {
+        "value": "Java、リモート、高単価の条件に関連するフリーランス求人・案件を掲載しています。案件カード、SEO説明文、関連キーワードの表示確認に使うため、十分な文章量を入れています。"
+      },
+      "seoTitle2": {
+        "value": "Javaリモート案件の探し方"
+      },
+      "seoText2": {
+        "value": "単価、稼働日数、開発工程、利用技術を比較しながら、希望条件に合う案件を探せます。"
+      }
+    },
+    "result": "Success"
+  },
+  "getProjects": {
+    "projects": [
+      {
+        "baseData": {
+          "id": 1001,
+          "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+          "payUpperLimit": 850000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            },
+            {
+              "id": 31,
+              "name": "Spring Boot",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "渋谷",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["バックエンド"],
+        "requestSkillNecessary": "Java、Spring Boot、API設計経験",
+        "isClosed": false
+      },
+      {
+        "baseData": {
+          "id": 1004,
+          "name": "Java / Kotlin 予約管理サービスのAPI開発",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            },
+            {
+              "id": 6,
+              "name": "Kotlin",
+              "categoryId": 1
+            }
+          ],
+          "stationName": "品川",
+          "stationPrefectureName": "東京都",
+          "isNew": false
+        },
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["API開発"],
+        "requestSkillNecessary": "JavaまたはKotlinでのサーバーサイド開発経験",
+        "isClosed": false
+      },
+      {
+        "baseData": {
+          "id": 1005,
+          "name": "Go / AWS 配信基盤のバックエンド開発",
+          "payUpperLimit": 900000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 7,
+              "name": "Go",
+              "categoryId": 1
+            },
+            {
+              "id": 41,
+              "name": "AWS",
+              "categoryId": 4
+            }
+          ],
+          "stationName": "目黒",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "jobTypeNames": ["バックエンドエンジニア"],
+        "positionNames": ["基盤開発"],
+        "requestSkillNecessary": "Go、AWS、負荷対策の実務経験",
+        "isClosed": false
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 3,
+      "totalItems": 21,
+      "itemsPerPage": 20,
+      "totalPages": 2,
+      "currentPage": 1
+    },
+    "result": "Success"
+  },
+  "getKeywordLinks": {
+    "links": [
+      {
+        "uri": "/word/list/2/",
+        "anchorText": "TypeScript React 週3日"
+      },
+      {
+        "uri": "/word/list/3/",
+        "anchorText": "Python データ分析 AWS"
+      },
+      {
+        "uri": "/word/list/4/",
+        "anchorText": "PHP Laravel 業務システム"
+      }
+    ],
+    "result": "Success"
+  }
+}

@@ -36,34 +36,43 @@ export const RouteParams = ({ params }: { params: PageRouteMatch["params"] }) =>
   );
 };
 
-export const SearchPanel = () => (
-  <form
-    className={styles.searchPanel}
-    action="/project/search/"
-    method="get"
-  >
-    <label
-      className={styles.searchLabel}
-      htmlFor="keyword"
+export const SearchPanel = ({
+  id = "keyword",
+  inputLabel,
+}: {
+  id?: string;
+  inputLabel?: string;
+}) => (
+  <search>
+    <form
+      className={styles.searchPanel}
+      action="/project/search/"
+      method="get"
     >
-      キーワードで案件を探す
-    </label>
-    <div className={styles.searchControls}>
-      <input
-        id="keyword"
-        className={styles.searchInput}
-        name="keyword"
-        type="search"
-        placeholder="Java リモート"
-      />
-      <button
-        className={styles.searchButton}
-        type="submit"
+      <label
+        className={styles.searchLabel}
+        htmlFor={id}
       >
-        検索
-      </button>
-    </div>
-  </form>
+        キーワードで案件を探す
+      </label>
+      <div className={styles.searchControls}>
+        <input
+          id={id}
+          aria-label={inputLabel}
+          className={styles.searchInput}
+          name="keyword"
+          type="search"
+          placeholder="Java リモート"
+        />
+        <button
+          className={styles.searchButton}
+          type="submit"
+        >
+          検索
+        </button>
+      </div>
+    </form>
+  </search>
 );
 
 export const Actions = ({ match }: { match: PageRouteMatch }) => (

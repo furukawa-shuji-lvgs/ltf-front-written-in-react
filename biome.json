@@ -229,6 +229,7 @@
         "scripts/**/*.mjs",
         "scripts/**/*.mts",
         "scripts/**/*.ts",
+        "tools/**/*.mjs",
         "app/**/route.js",
         "app/**/route.ts",
         "pages/api/**/*.js",
@@ -242,6 +243,16 @@
           "style": {
             "noDefaultExport": "off",
             "noProcessEnv": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tools/**/*.mjs"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
           }
         }
       }

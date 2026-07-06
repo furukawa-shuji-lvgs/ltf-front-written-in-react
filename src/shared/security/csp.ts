@@ -4,15 +4,7 @@ export const cspHeaderName = "Content-Security-Policy";
 export const cspReportOnlyHeaderName = "Content-Security-Policy-Report-Only";
 export const nonceHeaderName = "x-nonce";
 
-const imageSources = [
-  "'self'",
-  "data:",
-  "blob:",
-  "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com",
-  "https://contents.levtech.jp",
-  "https://freelance.stg.levtech.org",
-  "https://freelance.levtech.jp",
-] as const;
+const imageSources = ["'self'", "data:", "blob:"] as const;
 
 interface ContentSecurityPolicyOptions {
   nonce: string;

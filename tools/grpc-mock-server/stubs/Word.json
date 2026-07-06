@@ -1,0 +1,38 @@
+{
+  "getWords": {
+    "words": [
+      {
+        "id": 1,
+        "keywordFirst": "Java",
+        "keywordSecond": "リモート",
+        "keywordThird": "高単価"
+      },
+      {
+        "id": 2,
+        "keywordFirst": "TypeScript",
+        "keywordSecond": "React",
+        "keywordThird": "週3日"
+      },
+      {
+        "id": 3,
+        "keywordFirst": "Python",
+        "keywordSecond": "データ分析",
+        "keywordThird": "AWS"
+      },
+      {
+        "id": 4,
+        "keywordFirst": "PHP",
+        "keywordSecond": "Laravel",
+        "keywordThird": "業務システム"
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 4,
+      "totalItems": 48,
+      "itemsPerPage": 20,
+      "totalPages": 3,
+      "currentPage": 1
+    },
+    "result": "Success"
+  }
+}

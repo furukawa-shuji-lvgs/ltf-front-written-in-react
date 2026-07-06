@@ -1,0 +1,412 @@
+{
+  "getConditions": {
+    "pickupFeatures": [
+      {
+        "id": 1,
+        "name": "リモートOK"
+      },
+      {
+        "id": 2,
+        "name": "高単価"
+      },
+      {
+        "id": 3,
+        "name": "週3日から"
+      }
+    ],
+    "pickupFeatureRemoteWorkTypes": [
+      {
+        "id": 11,
+        "name": "フルリモート"
+      },
+      {
+        "id": 12,
+        "name": "一部リモート"
+      }
+    ],
+    "pickupFeatureOnlineBusinessMeetingAcceptables": [
+      {
+        "id": 21,
+        "name": "オンライン商談可"
+      }
+    ],
+    "contractTypes": [
+      {
+        "id": 1,
+        "name": "業務委託"
+      },
+      {
+        "id": 2,
+        "name": "派遣"
+      }
+    ],
+    "regions": [
+      {
+        "name": "関東",
+        "prefs": [
+          {
+            "id": 13,
+            "name": "東京都",
+            "districts": [
+              {
+                "id": 101,
+                "name": "渋谷区",
+                "areas": [
+                  {
+                    "id": 1001,
+                    "name": "渋谷"
+                  },
+                  {
+                    "id": 1002,
+                    "name": "恵比寿"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 14,
+            "name": "神奈川県",
+            "districts": [
+              {
+                "id": 201,
+                "name": "横浜市",
+                "areas": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "skills": [
+      {
+        "categoryName": "言語",
+        "conditions": [
+          {
+            "id": 3,
+            "name": "Java"
+          },
+          {
+            "id": 4,
+            "name": "PHP"
+          },
+          {
+            "id": 5,
+            "name": "TypeScript"
+          }
+        ]
+      },
+      {
+        "categoryName": "フレームワーク",
+        "conditions": [
+          {
+            "id": 31,
+            "name": "React"
+          },
+          {
+            "id": 32,
+            "name": "Vue.js"
+          }
+        ]
+      }
+    ],
+    "jobTypes": [
+      {
+        "id": 1,
+        "name": "サーバーサイドエンジニア"
+      },
+      {
+        "id": 2,
+        "name": "フロントエンドエンジニア"
+      }
+    ],
+    "lowestPrices": [
+      {
+        "id": 70,
+        "name": "70万円以上"
+      },
+      {
+        "id": 80,
+        "name": "80万円以上"
+      }
+    ],
+    "weekWorkDays": [
+      {
+        "id": 3,
+        "name": "週3日"
+      },
+      {
+        "id": 5,
+        "name": "週5日"
+      }
+    ],
+    "works": [
+      {
+        "id": 1,
+        "name": "実装"
+      },
+      {
+        "id": 2,
+        "name": "設計"
+      }
+    ],
+    "industries": [
+      {
+        "id": 1,
+        "name": "Webサービス"
+      },
+      {
+        "id": 2,
+        "name": "金融"
+      }
+    ],
+    "features": [
+      {
+        "id": 1,
+        "name": "長期案件"
+      },
+      {
+        "id": 2,
+        "name": "急募"
+      }
+    ],
+    "popularConditions": {
+      "top": {
+        "jobTypes": [
+          {
+            "id": 1,
+            "name": "サーバーサイドエンジニア"
+          }
+        ],
+        "skills": [
+          {
+            "id": 3,
+            "name": "Java"
+          },
+          {
+            "id": 31,
+            "name": "React"
+          }
+        ]
+      },
+      "skills": [
+        {
+          "id": 3,
+          "name": "Java"
+        },
+        {
+          "id": 5,
+          "name": "TypeScript"
+        }
+      ],
+      "fws": [
+        {
+          "id": 31,
+          "name": "React"
+        },
+        {
+          "id": 32,
+          "name": "Vue.js"
+        }
+      ]
+    },
+    "result": "Success"
+  },
+  "getSearchByKeywordItems": {
+    "searchByKeywordItems": [
+      {
+        "category": "言語",
+        "keywordItems": [
+          {
+            "text": "Java",
+            "uri": "/project/skill-3/"
+          },
+          {
+            "text": "TypeScript",
+            "uri": "/project/skill-5/"
+          },
+          {
+            "text": "React",
+            "uri": "/project/fw-31/"
+          }
+        ]
+      },
+      {
+        "category": "職種",
+        "keywordItems": [
+          {
+            "text": "フロントエンドエンジニア",
+            "uri": "/project/occ-2/"
+          },
+          {
+            "text": "サーバーサイドエンジニア",
+            "uri": "/project/occ-1/"
+          }
+        ]
+      },
+      {
+        "category": "こだわり条件",
+        "keywordItems": [
+          {
+            "text": "リモート",
+            "uri": "/project/remote/"
+          },
+          {
+            "text": "高単価",
+            "uri": "/project/feature-2/"
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  },
+  "getProjectCount": {
+    "count": 42,
+    "result": "Success"
+  },
+  "getProjects": {
+    "projects": [
+      {
+        "baseData": {
+          "id": 1001,
+          "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+          "payUpperLimit": 850000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            },
+            {
+              "id": 31,
+              "name": "Spring Boot",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "渋谷",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "weekWorkDaysCondition": 1,
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["バックエンド", "リードエンジニア"],
+        "fits": [
+          {
+            "id": 1,
+            "name": "長期案件"
+          },
+          {
+            "id": 2,
+            "name": "高単価"
+          }
+        ],
+        "requestSkillNecessary": "Javaを用いたWebアプリケーション開発経験、API設計経験、チーム開発でのレビュー経験",
+        "isClosed": false,
+        "remoteWorkTypeId": {
+          "value": 1
+        }
+      },
+      {
+        "baseData": {
+          "id": 1002,
+          "name": "TypeScript / React SaaS管理画面のフロントエンド刷新",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 5,
+              "name": "TypeScript",
+              "categoryId": 1
+            },
+            {
+              "id": 31,
+              "name": "React",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "新宿",
+          "stationPrefectureName": "東京都",
+          "isNew": false
+        },
+        "remoteWorkAcceptable": 1,
+        "weekWorkDaysCondition": 3,
+        "jobTypeNames": ["フロントエンドエンジニア"],
+        "positionNames": ["フロントエンド"],
+        "fits": [
+          {
+            "id": 3,
+            "name": "週3日から"
+          },
+          {
+            "id": 4,
+            "name": "リモート"
+          }
+        ],
+        "requestSkillNecessary": "React、TypeScript、コンポーネント設計、E2Eテストの実装経験",
+        "isClosed": false,
+        "remoteWorkTypeId": {
+          "value": 2
+        }
+      },
+      {
+        "baseData": {
+          "id": 1003,
+          "name": "PHP / Laravel 業務システムの保守開発",
+          "payUpperLimit": 680000,
+          "payType": 2,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 4,
+              "name": "PHP",
+              "categoryId": 1
+            },
+            {
+              "id": 33,
+              "name": "Laravel",
+              "categoryId": 2
+            }
+          ],
+          "stationName": "横浜",
+          "stationPrefectureName": "神奈川県",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 3,
+        "weekWorkDaysCondition": 2,
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["バックエンド"],
+        "fits": [
+          {
+            "id": 5,
+            "name": "BtoB"
+          },
+          {
+            "id": 6,
+            "name": "追加開発"
+          }
+        ],
+        "requestSkillNecessary": "PHP、Laravel、MySQLを用いた設計および実装経験",
+        "isClosed": false,
+        "remoteWorkTypeId": {
+          "value": 3
+        }
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 3,
+      "totalItems": 42,
+      "itemsPerPage": 20,
+      "totalPages": 3,
+      "currentPage": 1
+    },
+    "result": "Success"
+  },
+  "getCategoryName": {
+    "categoryName": "VRT Mock",
+    "result": "Success"
+  }
+}

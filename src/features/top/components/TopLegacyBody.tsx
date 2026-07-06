@@ -32,7 +32,10 @@ export const TopLegacyBody = ({ match }: { match: PageRouteMatch }) => (
       title="どんな案件をお探しですか？"
       tone="blue"
     >
-      <SearchPanel />
+      <SearchPanel
+        id="top-body-keyword"
+        inputLabel="本文検索"
+      />
       <LegacyProjectCardGrid />
     </Section>
     <Section title="レバテックフリーランスが選ばれる理由">

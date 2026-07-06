@@ -1,0 +1,93 @@
+{
+  "getAssessResults": {
+    "price": 820000,
+    "skillName": "Java",
+    "experienceYear": "5年以上",
+    "currentMonthlyIncome": "70万円以上",
+    "ctaMessage": {
+      "sub": "あなたの経験に近い案件が複数あります",
+      "main": "Java経験を活かせる高単価案件を確認しましょう",
+      "annotation": {
+        "value": "診断結果はVRT確認用のモックデータです。"
+      }
+    },
+    "result": "Success"
+  },
+  "getProjects": {
+    "projects": [
+      {
+        "baseData": {
+          "id": 1001,
+          "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+          "payUpperLimit": 850000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            }
+          ],
+          "stationName": "渋谷",
+          "stationPrefectureName": "東京都",
+          "isNew": true
+        },
+        "remoteWorkAcceptable": 1,
+        "weekWorkDaysCondition": 1,
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["バックエンド"],
+        "fits": [
+          {
+            "id": 1,
+            "name": "長期案件"
+          },
+          {
+            "id": 2,
+            "name": "高単価"
+          }
+        ],
+        "requestSkillNecessary": "Java、Spring Boot、API設計経験",
+        "isClosed": false,
+        "remoteWorkTypeId": {
+          "value": 1
+        }
+      },
+      {
+        "baseData": {
+          "id": 1004,
+          "name": "Java / Kotlin 予約管理サービスのAPI開発",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractType": 1,
+          "skills": [
+            {
+              "id": 3,
+              "name": "Java",
+              "categoryId": 1
+            }
+          ],
+          "stationName": "品川",
+          "stationPrefectureName": "東京都",
+          "isNew": false
+        },
+        "remoteWorkAcceptable": 1,
+        "weekWorkDaysCondition": 2,
+        "jobTypeNames": ["サーバーサイドエンジニア"],
+        "positionNames": ["API開発"],
+        "fits": [
+          {
+            "id": 4,
+            "name": "リモート"
+          }
+        ],
+        "requestSkillNecessary": "JavaまたはKotlinでのサーバーサイド開発経験",
+        "isClosed": false,
+        "remoteWorkTypeId": {
+          "value": 2
+        }
+      }
+    ],
+    "result": "Success"
+  }
+}

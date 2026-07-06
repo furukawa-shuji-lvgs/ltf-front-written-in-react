@@ -1,0 +1,42 @@
+{
+  "getTdkh": {
+    "tdkh": {
+      "key": "mock",
+      "title": "VRT Mock | レバテックフリーランス",
+      "description": "VRT用のgRPCモックレスポンスです。",
+      "keywords": "VRT,Mock,レバテックフリーランス",
+      "h1": "VRT Mock"
+    },
+    "result": "Success"
+  },
+  "getBreadCrumbs": {
+    "breadCrumbs": [
+      {
+        "text": "レバテックフリーランス",
+        "url": "/"
+      },
+      {
+        "text": "VRT Mock",
+        "url": ""
+      }
+    ],
+    "result": "Success"
+  },
+  "getSeoText": {
+    "seoText": {
+      "title": {
+        "value": "VRT Mock"
+      },
+      "text": {
+        "value": "VRT用のSEOテキストです。"
+      },
+      "secondTitle": {
+        "value": ""
+      },
+      "secondText": {
+        "value": ""
+      }
+    },
+    "result": "Success"
+  }
+}

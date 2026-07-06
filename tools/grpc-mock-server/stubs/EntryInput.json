@@ -1,0 +1,10 @@
+{
+  "getProjectInfo": {
+    "projectNames": [
+      "Java / Spring Boot 大規模決済基盤の追加開発",
+      "TypeScript / React SaaS管理画面のフロントエンド刷新",
+      "PHP / Laravel 業務システムの保守開発"
+    ],
+    "result": "Success"
+  }
+}

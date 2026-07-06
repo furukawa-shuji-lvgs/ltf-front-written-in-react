@@ -1,0 +1,307 @@
+{
+  "getProjectDetail": {
+    "succeed": {
+      "isClosed": false,
+      "projectDetail": {
+        "baseData": {
+          "id": 1001,
+          "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+          "publishedAt": {
+            "year": 2026,
+            "month": 7,
+            "day": 4
+          },
+          "isNew": true,
+          "remoteWorkAcceptable": 1,
+          "sideJobAcceptable": false,
+          "onlineBusinessMeetingAcceptable": true,
+          "paymentUpperLimit": 850000,
+          "payType": 1,
+          "contractType": {
+            "id": 1,
+            "name": "業務委託"
+          },
+          "stationName": "渋谷",
+          "stationPrefectureName": "東京都",
+          "industries": [
+            {
+              "uri": "/project/industry-1/",
+              "anchorText": "Webサービス"
+            },
+            {
+              "uri": "/project/industry-2/",
+              "anchorText": "金融"
+            }
+          ],
+          "occupations": [
+            {
+              "uri": "/project/occ-1/",
+              "anchorText": "サーバーサイドエンジニア",
+              "designerFlag": false
+            }
+          ],
+          "positions": [
+            {
+              "uri": "/project/pos-1/",
+              "anchorText": "バックエンド"
+            },
+            {
+              "uri": "/project/pos-2/",
+              "anchorText": "リードエンジニア"
+            }
+          ],
+          "stationWardName": "渋谷区",
+          "jobDescriptions": ["基本設計", "詳細設計", "実装", "レビュー"],
+          "chargeDomains": ["決済", "API", "管理画面"],
+          "gfjTitle": "Javaエンジニア募集 / Spring Boot / 決済基盤開発"
+        },
+        "workContent": "大規模決済基盤の追加開発案件です。既存機能の改善、API設計、Spring Boot を用いた実装、コードレビュー、リリース後の改善まで担当します。VRTで詳細本文の折り返しや表組みの余白を確認できるよう、職務内容は長めにしています。",
+        "requestSkill": {
+          "requestSkillNecessary": "Javaを用いたWebアプリケーション開発経験3年以上、Spring BootでのAPI開発経験、RDBを用いた設計経験、GitHubを利用したチーム開発経験",
+          "requestSkillPrefer": "AWS環境での開発経験、決済領域の業務知識、CI/CDパイプラインの改善経験"
+        },
+        "skills": {
+          "skills": [
+            {
+              "skillCategoryType": 1,
+              "anchorText": "Java",
+              "uri": "/project/skill-3/"
+            },
+            {
+              "skillCategoryType": 2,
+              "anchorText": "Spring Boot",
+              "uri": "/project/fw-31/"
+            },
+            {
+              "skillCategoryType": 7,
+              "anchorText": "AWS",
+              "uri": "/project/cld-41/"
+            },
+            {
+              "skillCategoryType": 3,
+              "anchorText": "PostgreSQL",
+              "uri": "/project/db-51/"
+            }
+          ]
+        },
+        "settlementAndPayment": {
+          "settlementCondition": {
+            "value": "有"
+          },
+          "settlementTimeLowerLimit": {
+            "value": 140
+          },
+          "settlementTimeUpperLimit": {
+            "value": 180
+          },
+          "paymentTerm": {
+            "value": "15日"
+          }
+        },
+        "otherRequirement": {
+          "interviewTimes": 1,
+          "numberOfPosition": 2,
+          "workStartDay": {
+            "year": 2026,
+            "month": 8,
+            "day": 1
+          },
+          "weekWorkDaysCondition": 1
+        },
+        "fits": [
+          {
+            "uri": "/project/feature-1/",
+            "anchorText": "長期案件"
+          },
+          {
+            "uri": "/project/remote/",
+            "anchorText": "リモート相談可"
+          },
+          {
+            "uri": "/project/feature-2/",
+            "anchorText": "高単価"
+          }
+        ],
+        "coordinatorInfo": {
+          "id": "coordinator-1",
+          "categoryName": "Web",
+          "name": "レバテック担当者",
+          "businessComment": "決済基盤の改善に継続して関われる案件です。既存システムの理解と改善提案を行いたい方におすすめです。"
+        },
+        "remoteWorkTypeId": {
+          "value": 1
+        }
+      },
+      "similarProjects": [
+        {
+          "id": 1004,
+          "name": "Java / Kotlin 予約管理サービスのAPI開発",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractTypeName": "業務委託",
+          "skillNames": ["Java", "Kotlin", "Spring Boot"],
+          "stationName": "品川",
+          "stationPrefectureName": "東京都",
+          "isNew": true,
+          "remoteWorkAcceptable": 1,
+          "fits": [
+            {
+              "id": 1,
+              "name": "長期案件"
+            },
+            {
+              "id": 4,
+              "name": "リモート"
+            }
+          ]
+        },
+        {
+          "id": 1005,
+          "name": "Go / AWS 配信基盤のバックエンド開発",
+          "payUpperLimit": 900000,
+          "payType": 1,
+          "contractTypeName": "業務委託",
+          "skillNames": ["Go", "AWS"],
+          "stationName": "目黒",
+          "stationPrefectureName": "東京都",
+          "isNew": false,
+          "remoteWorkAcceptable": 1,
+          "fits": [
+            {
+              "id": 2,
+              "name": "高単価"
+            }
+          ]
+        }
+      ],
+      "remoteWorkAvailableProjects": [
+        {
+          "id": 1002,
+          "name": "TypeScript / React SaaS管理画面のフロントエンド刷新",
+          "payUpperLimit": 780000,
+          "payType": 1,
+          "contractTypeName": "業務委託",
+          "skillNames": ["TypeScript", "React"],
+          "stationName": "新宿",
+          "stationPrefectureName": "東京都",
+          "isNew": true,
+          "remoteWorkAcceptable": 1,
+          "fits": [
+            {
+              "id": 3,
+              "name": "週3日から"
+            }
+          ]
+        }
+      ],
+      "browsingHistoryProjects": [
+        {
+          "id": 1003,
+          "name": "PHP / Laravel 業務システムの保守開発",
+          "payUpperLimit": 680000,
+          "payType": 2,
+          "contractTypeName": "業務委託",
+          "skillNames": ["PHP", "Laravel"],
+          "stationName": "横浜",
+          "stationPrefectureName": "神奈川県",
+          "isNew": false,
+          "remoteWorkAcceptable": 3,
+          "fits": [
+            {
+              "id": 5,
+              "name": "BtoB"
+            }
+          ]
+        }
+      ],
+      "experienceStories": [
+        {
+          "title": "フリーランス参画後に担当範囲が広がった例",
+          "text": "既存機能の改修から参画し、現在はAPI設計やレビューも担当しています。"
+        },
+        {
+          "title": "リモート中心でも開発速度を保てた例",
+          "text": "設計方針をドキュメント化し、非同期レビューを活用して開発を進めました。"
+        }
+      ],
+      "remoteWorkLinks": [
+        {
+          "uri": "/project/remote/",
+          "anchorText": "リモート案件"
+        },
+        {
+          "uri": "/project/full-remote/",
+          "anchorText": "フルリモート案件"
+        }
+      ],
+      "sideJobLinks": [
+        {
+          "uri": "/project/sidejob/",
+          "anchorText": "副業・複業案件"
+        },
+        {
+          "uri": "/project/week-3/",
+          "anchorText": "週3日案件"
+        }
+      ],
+      "relatedWordLinks": [
+        {
+          "uri": "/word/list/1/",
+          "keyword1": {
+            "value": "Java"
+          },
+          "keyword2": {
+            "value": "Spring Boot"
+          },
+          "keyword3": {
+            "value": "リモート"
+          }
+        },
+        {
+          "uri": "/word/list/2/",
+          "keyword1": {
+            "value": "TypeScript"
+          },
+          "keyword2": {
+            "value": "React"
+          },
+          "keyword3": {
+            "value": "高単価"
+          }
+        }
+      ],
+      "closeProjects": [
+        {
+          "uri": "/project/detail/9001/",
+          "name": "Java / Spring 既存システム改修支援"
+        },
+        {
+          "uri": "/project/detail/9002/",
+          "name": "AWS / API基盤運用改善"
+        }
+      ],
+      "otherProjectLinks": [
+        {
+          "uri": "/project/skill-3/",
+          "anchorText": "Java案件"
+        },
+        {
+          "uri": "/project/fw-31/",
+          "anchorText": "Spring Boot案件"
+        }
+      ]
+    },
+    "result": "Success"
+  },
+  "getMonthlyIncomeSimulation": {
+    "incomeTax": 58000,
+    "residentTax": 62000,
+    "nationalPension": 16980,
+    "healthInsurance": 72000,
+    "residualIncome": 641020,
+    "result": "Success"
+  },
+  "deleteProjectDetailCache": {
+    "result": "Success"
+  }
+}

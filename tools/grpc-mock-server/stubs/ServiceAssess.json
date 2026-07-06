@@ -1,0 +1,85 @@
+{
+  "getAssessmentOptions": {
+    "skills": [
+      {
+        "categoryId": 1,
+        "categoryName": "言語",
+        "options": [
+          {
+            "id": 3,
+            "name": "Java"
+          },
+          {
+            "id": 5,
+            "name": "TypeScript"
+          },
+          {
+            "id": 8,
+            "name": "Python"
+          }
+        ]
+      },
+      {
+        "categoryId": 2,
+        "categoryName": "フレームワーク",
+        "options": [
+          {
+            "id": 31,
+            "name": "React"
+          },
+          {
+            "id": 32,
+            "name": "Vue.js"
+          },
+          {
+            "id": 33,
+            "name": "Laravel"
+          }
+        ]
+      }
+    ],
+    "experienceYears": [
+      {
+        "id": 1,
+        "name": "1年未満"
+      },
+      {
+        "id": 3,
+        "name": "3年以上"
+      },
+      {
+        "id": 5,
+        "name": "5年以上"
+      }
+    ],
+    "currentMonthlyIncomes": [
+      {
+        "id": 1,
+        "name": "50万円未満"
+      },
+      {
+        "id": 2,
+        "name": "50〜70万円"
+      },
+      {
+        "id": 3,
+        "name": "70万円以上"
+      }
+    ],
+    "freelanceAspirations": [
+      {
+        "id": 1,
+        "name": "単価を上げたい"
+      },
+      {
+        "id": 2,
+        "name": "リモートで働きたい"
+      },
+      {
+        "id": 3,
+        "name": "スキルを広げたい"
+      }
+    ],
+    "result": "Success"
+  }
+}

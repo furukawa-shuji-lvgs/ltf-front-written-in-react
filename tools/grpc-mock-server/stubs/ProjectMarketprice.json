@@ -1,0 +1,101 @@
+{
+  "getProjectMarketprices": {
+    "marketpricesGroupedByCategoryEntries": [
+      {
+        "category": "言語",
+        "marketprices": [
+          {
+            "skillName": "Java",
+            "projectCount": 128,
+            "priceDistributions": [
+              {
+                "priceDivision": "50〜69万円",
+                "projectCount": 32
+              },
+              {
+                "priceDivision": "70〜89万円",
+                "projectCount": 72
+              },
+              {
+                "priceDivision": "90万円〜",
+                "projectCount": 24
+              }
+            ],
+            "uri": "/project/skill-3/",
+            "averagePrice": 780000,
+            "maxPrice": 950000
+          },
+          {
+            "skillName": "TypeScript",
+            "projectCount": 96,
+            "priceDistributions": [
+              {
+                "priceDivision": "50〜69万円",
+                "projectCount": 28
+              },
+              {
+                "priceDivision": "70〜89万円",
+                "projectCount": 54
+              },
+              {
+                "priceDivision": "90万円〜",
+                "projectCount": 14
+              }
+            ],
+            "uri": "/project/skill-5/",
+            "averagePrice": 760000,
+            "maxPrice": 920000
+          }
+        ]
+      },
+      {
+        "category": "フレームワーク",
+        "marketprices": [
+          {
+            "skillName": "React",
+            "projectCount": 84,
+            "priceDistributions": [
+              {
+                "priceDivision": "50〜69万円",
+                "projectCount": 22
+              },
+              {
+                "priceDivision": "70〜89万円",
+                "projectCount": 48
+              },
+              {
+                "priceDivision": "90万円〜",
+                "projectCount": 14
+              }
+            ],
+            "uri": "/project/fw-31/",
+            "averagePrice": 770000,
+            "maxPrice": 930000
+          },
+          {
+            "skillName": "Laravel",
+            "projectCount": 54,
+            "priceDistributions": [
+              {
+                "priceDivision": "40〜59万円",
+                "projectCount": 14
+              },
+              {
+                "priceDivision": "60〜79万円",
+                "projectCount": 31
+              },
+              {
+                "priceDivision": "80万円〜",
+                "projectCount": 9
+              }
+            ],
+            "uri": "/project/fw-33/",
+            "averagePrice": 690000,
+            "maxPrice": 850000
+          }
+        ]
+      }
+    ],
+    "result": "Success"
+  }
+}

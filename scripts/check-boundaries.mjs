@@ -65,8 +65,7 @@ const isAppLayer = (relativePath) => relativePath.startsWith("src/app/");
 const isServerOnlyModule = (relativePath) =>
   /^src\/shared\/api\//.test(relativePath) ||
   /^src\/shared\/lib\/grpc\//.test(relativePath) ||
-  relativePath === "src/shared/lib/env.ts" ||
-  relativePath === "src/shared/lib/image.ts";
+  relativePath === "src/shared/lib/env.ts";
 
 const isClientModule = (source) => /^\s*["']use client["'];/.test(source);
 
@@ -137,9 +136,7 @@ for (const filePath of collectSourceFiles(srcDir)) {
       (target.startsWith("src/shared/api/") ||
         target.startsWith("src/shared/lib/grpc/") ||
         target === "src/shared/lib/env" ||
-        target === "src/shared/lib/env.ts" ||
-        target === "src/shared/lib/image" ||
-        target === "src/shared/lib/image.ts")
+        target === "src/shared/lib/env.ts")
     ) {
       violations.push(
         `${relativePath}:${line} client modules must not import server-only modules (${specifier})`,

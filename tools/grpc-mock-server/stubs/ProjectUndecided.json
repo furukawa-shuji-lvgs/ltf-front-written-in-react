@@ -1,0 +1,70 @@
+{
+  "getProjectCountByLogicalSum": {
+    "result": "Success",
+    "projectCountWithCondition": {
+      "projectCount": 42,
+      "projects": [
+        {
+          "baseData": {
+            "id": 1001,
+            "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+            "payUpperLimit": 850000,
+            "payType": 1,
+            "contractType": 1,
+            "skills": [
+              {
+                "id": 3,
+                "name": "Java",
+                "categoryId": 1
+              }
+            ],
+            "stationName": "渋谷",
+            "stationPrefectureName": "東京都",
+            "isNew": true
+          },
+          "remoteWorkAcceptable": 1,
+          "weekWorkDaysCondition": 1,
+          "jobTypeNames": ["サーバーサイドエンジニア"],
+          "positionNames": ["バックエンド"],
+          "fits": [
+            {
+              "id": 1,
+              "name": "長期案件"
+            }
+          ],
+          "requestSkillNecessary": "Java、Spring Boot、API設計経験",
+          "isClosed": false,
+          "remoteWorkTypeId": {
+            "value": 1
+          }
+        }
+      ],
+      "condition": {
+        "jobTypes": [
+          {
+            "id": 1,
+            "name": "サーバーサイドエンジニア"
+          }
+        ],
+        "remoteWorkTypes": [
+          {
+            "id": 1,
+            "name": "リモート可"
+          }
+        ],
+        "prefectures": [
+          {
+            "id": 13,
+            "name": "東京都"
+          }
+        ],
+        "weekWorkDays": [
+          {
+            "id": 5,
+            "name": "週5日"
+          }
+        ]
+      }
+    }
+  }
+}

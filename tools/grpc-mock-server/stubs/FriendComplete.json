@@ -1,0 +1,26 @@
+{
+  "postFriendInfo": {
+    "referralId": 3001,
+    "result": "Success"
+  },
+  "postFriendInfoV2": {
+    "redirectUrl": {
+      "value": "/friend-cp/complete/"
+    },
+    "result": "Success"
+  },
+  "postReferredFriendEntry": {
+    "entryId": 3002,
+    "result": "Success"
+  },
+  "getReferredFriendEntry": {
+    "sip": "vrt-friend-sip",
+    "jfUrlEngineer": {
+      "value": "https://example.com/jf/engineer"
+    },
+    "jfUrlCreator": {
+      "value": "https://example.com/jf/creator"
+    },
+    "result": "Success"
+  }
+}

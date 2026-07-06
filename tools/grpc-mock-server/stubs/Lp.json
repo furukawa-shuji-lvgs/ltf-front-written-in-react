@@ -1,0 +1,28 @@
+{
+  "getLpInfo": {
+    "inflowParam": {
+      "value": "vrt-lp-inflow"
+    },
+    "substituteLpNo": {
+      "value": ""
+    },
+    "redirectLpNo": {
+      "value": ""
+    },
+    "contractTypes": [
+      {
+        "contractNo": 1,
+        "contractName": "フリーランス"
+      },
+      {
+        "contractNo": 2,
+        "contractName": "派遣"
+      },
+      {
+        "contractNo": 4,
+        "contractName": "正社員"
+      }
+    ],
+    "result": "Success"
+  }
+}

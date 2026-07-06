@@ -37,7 +37,7 @@
     "proto:imports:check": "node scripts/check-generated-imports.mjs",
     "proto:ci": "pnpm proto:format:check && pnpm proto:build && pnpm proto:lint && pnpm proto:breaking && pnpm proto:generate:check && pnpm proto:imports:check",
     "proto:push": "cd contracts/grpc && buf push",
-    "grpc:mock": "node ../tools/grpc-mock-server/server.mjs --protoDir ./contracts/grpc/proto --stubDir ../tools/grpc-mock-server/stubs --depsDir . --port 60051",
+    "grpc:mock": "node tools/grpc-mock-server/server.mjs --protoDir ./contracts/grpc/proto --stubDir ./tools/grpc-mock-server/stubs --depsDir . --port 60051",
     "verify": "pnpm biome:ci && pnpm boundaries:check && pnpm typecheck && pnpm test:run && pnpm proto:ci && pnpm build",
     "ci": "pnpm verify"
   },

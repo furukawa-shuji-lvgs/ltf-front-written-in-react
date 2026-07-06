@@ -151,7 +151,7 @@ docker build \
 - `doc/migration-conventions.md`: `ltf-front` からの移行規約、設計、テスト方針
 - `doc/buf.md`: Buf / proto / 生成 SDK の運用
 - `doc/assets.md`: 旧アセットの扱い
-- `../tools/grpc-mock-server/README.md`: gRPC モックサーバーのスタブ形式
+- `tools/grpc-mock-server/README.md`: gRPC モックサーバーのスタブ形式
 
 ## トラブルシュート
 

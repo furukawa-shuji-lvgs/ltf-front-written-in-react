@@ -1,0 +1,19 @@
+{
+  "getFormItems": {
+    "contractTypes": [
+      {
+        "id": 1,
+        "name": "業務委託"
+      },
+      {
+        "id": 2,
+        "name": "派遣"
+      },
+      {
+        "id": 4,
+        "name": "直接雇用"
+      }
+    ],
+    "result": "Success"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "getInterviews": {
+    "interviews": [
+      {
+        "id": 1,
+        "title": "会社員からフリーランスへ。Java案件でキャリアを広げたエンジニアの話",
+        "pcImageUrl": "https://placehold.jp/640x360.png?text=Interview+1",
+        "spImageUrl": "https://placehold.jp/360x240.png?text=Interview+1",
+        "profile": {
+          "pcImageUrl": "https://placehold.jp/240x240.png?text=User+1",
+          "spImageUrl": "https://placehold.jp/160x160.png?text=User+1",
+          "name": "佐藤 太郎",
+          "age": 34,
+          "skill": "Java / Spring Boot",
+          "freelanceCareer": "3年"
+        }
+      },
+      {
+        "id": 2,
+        "title": "育児と両立しながらリモート案件に参画するフロントエンドエンジニア",
+        "pcImageUrl": "https://placehold.jp/640x360.png?text=Interview+2",
+        "spImageUrl": "https://placehold.jp/360x240.png?text=Interview+2",
+        "profile": {
+          "pcImageUrl": "https://placehold.jp/240x240.png?text=User+2",
+          "spImageUrl": "https://placehold.jp/160x160.png?text=User+2",
+          "name": "鈴木 花子",
+          "age": 31,
+          "skill": "TypeScript / React",
+          "freelanceCareer": "2年"
+        }
+      },
+      {
+        "id": 3,
+        "title": "データ分析基盤の案件で専門性を活かすPythonエンジニア",
+        "pcImageUrl": "https://placehold.jp/640x360.png?text=Interview+3",
+        "spImageUrl": "https://placehold.jp/360x240.png?text=Interview+3",
+        "profile": {
+          "pcImageUrl": "https://placehold.jp/240x240.png?text=User+3",
+          "spImageUrl": "https://placehold.jp/160x160.png?text=User+3",
+          "name": "高橋 健",
+          "age": 38,
+          "skill": "Python / AWS",
+          "freelanceCareer": "5年"
+        }
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 3,
+      "totalItems": 18,
+      "itemsPerPage": 12,
+      "totalPages": 2,
+      "currentPage": 1
+    },
+    "result": "Success"
+  }
+}

@@ -90,7 +90,7 @@ export const getXxx = async (req: GetXxxRequest): Promise<XxxDto> => {
 - 移行元の `.vue` の `<style lang="scss" scoped>` の中身をほぼそのまま移せる。クラス名は camelCase に変換（`styles.projectCard`）
 - メディアクエリ mixin など `variables.scss` の定義（`@include mq()` 等）はそのまま使える
 - Font は `next/font/google` で読み込む。外部 stylesheet link は追加しない。
-- 画像は `LegacyImage` 経由で `next/image` を使う。SVG/data URL 以外は Next Image optimizer に乗せるため、外部 host は `next.config.mjs` の `images.remotePatterns` に追加する。
+- 画像は `LegacyImage` 経由で `next/image` を使う。ltf-react 管理アセットは `public/images` に置き、`imageUrl("/common/logo_lt.svg")` のようにローカル公開パスへ解決する。外部サービス所有の画像を扱う場合だけ、所有者と CSP/Next Image 設定を個別に設計する。
 
 ## テスト（テストピラミッド）
 

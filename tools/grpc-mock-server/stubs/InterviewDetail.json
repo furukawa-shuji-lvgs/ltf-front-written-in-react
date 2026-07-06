@@ -1,0 +1,44 @@
+{
+  "getInterviewDetail": {
+    "interviewDetail": {
+      "id": 1,
+      "title": "会社員からフリーランスへ。Java案件でキャリアを広げたエンジニアの話",
+      "content": "<p>会社員時代は業務システム開発を中心に担当していました。フリーランスになってからは、より上流の設計や技術選定にも関わる案件に参画できています。</p><h2>案件選びで重視したこと</h2><p>単価だけでなく、開発体制、レビュー文化、リモートワークの頻度を確認しました。VRTでは本文の見出し、画像、プロフィール、前後記事ナビゲーションの表示を確認します。</p><h2>今後の目標</h2><p>Spring Boot とクラウド環境の知見を深め、チームの技術リードとして価値を出していきたいです。</p>",
+      "metaTitle": "フリーランスエンジニアインタビュー | VRT Mock",
+      "metaDescription": "Javaエンジニアがフリーランスとして案件に参画するまでの流れを紹介します。",
+      "metaKeyword": "フリーランス,インタビュー,Java",
+      "h1": "フリーランスエンジニアインタビュー",
+      "pcImageUrl": "https://placehold.jp/960x420.png?text=Interview+Hero",
+      "spImageUrl": "https://placehold.jp/390x260.png?text=Interview+Hero",
+      "profile": {
+        "pcImageUrl": "https://placehold.jp/240x240.png?text=Profile",
+        "spImageUrl": "https://placehold.jp/160x160.png?text=Profile",
+        "name": "佐藤 太郎",
+        "age": 34,
+        "skill": "Java / Spring Boot",
+        "freelanceCareer": "3年",
+        "experience": "エンジニア歴10年",
+        "family": "配偶者、子ども1人"
+      },
+      "contractTypes": [
+        {
+          "id": 1,
+          "name": "業務委託"
+        },
+        {
+          "id": 2,
+          "name": "派遣"
+        }
+      ]
+    },
+    "prevData": {
+      "id": 0,
+      "title": "リモート案件で働くフロントエンドエンジニア"
+    },
+    "nextData": {
+      "id": 2,
+      "title": "データ分析基盤で専門性を活かすPythonエンジニア"
+    },
+    "result": "Success"
+  }
+}

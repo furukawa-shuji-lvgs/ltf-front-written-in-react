@@ -19,7 +19,4 @@ export default {
 
   OWND_INFLOW_REDIS_URL:
     "redis://ltf-front-cache-rg-v1.sfvaih.clustercfg.apne1.cache.amazonaws.com:6379",
-
-  // TODO: 旧環境のファイルサーバの画像を参照するためだけに使われている. 画像を移行しさえすれば消せる.
-  LEGACY_HOST: "https://freelance.levtech.jp",
 };

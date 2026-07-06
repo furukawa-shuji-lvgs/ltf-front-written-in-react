@@ -21,7 +21,6 @@ const envSchema = z.object({
   KIUI_NUXT_ENDPOINT_LOG_LEVEL: logLevelSchema,
   KIUI_ENV_NAME: z.string().min(1),
   OWND_INFLOW_REDIS_URL: z.string(),
-  LEGACY_HOST: z.string(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;

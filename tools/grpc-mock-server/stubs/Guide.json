@@ -1,0 +1,98 @@
+{
+  "getGuides": {
+    "guides": [
+      {
+        "id": 1,
+        "title": "フリーランスエンジニアが案件を選ぶときのチェックポイント",
+        "imageUrl": "https://placehold.jp/320x180.png",
+        "subTitle": "単価、働き方、商流を比較する",
+        "metaDescription": "案件選びで確認したい条件を、VRTでカード本文の折り返しまで確認できる文章量で用意しています。",
+        "tags": [
+          {
+            "id": 1,
+            "name": "フリーランス"
+          },
+          {
+            "id": 2,
+            "name": "案件選び"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "リモート案件で成果を出すためのコミュニケーション設計",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Remote",
+        "subTitle": "非同期でも進めやすい働き方",
+        "metaDescription": "リモート案件の進め方、定例、レビュー、ドキュメント整備についてのガイドです。",
+        "tags": [
+          {
+            "id": 3,
+            "name": "リモート"
+          },
+          {
+            "id": 4,
+            "name": "働き方"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "高単価案件に参画するために整理しておきたいスキル棚卸し",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Skill",
+        "subTitle": "経歴書と面談で伝えるべきこと",
+        "metaDescription": "スキル、実績、担当範囲を整理し、案件紹介時に強みが伝わる状態を作るためのガイドです。",
+        "tags": [
+          {
+            "id": 5,
+            "name": "スキルアップ"
+          },
+          {
+            "id": 6,
+            "name": "単価"
+          }
+        ]
+      }
+    ],
+    "paginationMeta": {
+      "itemCount": 3,
+      "totalItems": 24,
+      "itemsPerPage": 20,
+      "totalPages": 2,
+      "currentPage": 1
+    },
+    "tagInfo": {
+      "id": {
+        "value": 1
+      },
+      "name": {
+        "value": "フリーランス"
+      }
+    },
+    "result": "Success"
+  },
+  "getGuideTags": {
+    "tags": [
+      {
+        "id": 1,
+        "name": "フリーランス"
+      },
+      {
+        "id": 2,
+        "name": "案件選び"
+      },
+      {
+        "id": 3,
+        "name": "リモート"
+      },
+      {
+        "id": 4,
+        "name": "働き方"
+      },
+      {
+        "id": 5,
+        "name": "スキルアップ"
+      }
+    ],
+    "result": "Success"
+  }
+}

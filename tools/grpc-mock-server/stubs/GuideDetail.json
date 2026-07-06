@@ -1,0 +1,201 @@
+{
+  "getGuideDetail": {
+    "guideDetail": {
+      "id": 1,
+      "title": "フリーランスエンジニアが案件を選ぶときのチェックポイント",
+      "h1": "フリーランス案件選びで見るべき条件と比較軸",
+      "modified": {
+        "year": 2026,
+        "month": 7,
+        "day": 4
+      },
+      "tags": [
+        {
+          "id": 1,
+          "name": "フリーランス"
+        },
+        {
+          "id": 2,
+          "name": "案件選び"
+        }
+      ],
+      "metaTitle": "フリーランス案件選びのチェックポイント | VRT Mock",
+      "metaDescription": "案件選びで確認したい条件、商流、単価、働き方をVRT確認用の文章量で解説します。",
+      "metaKeyword": "フリーランス,案件選び,単価,リモート",
+      "lead": "案件の単価だけでなく、作業範囲、期待役割、契約条件、参画後のコミュニケーションまで確認すると、参画後のミスマッチを減らしやすくなります。",
+      "profile": "レバテックフリーランス編集部。ITフリーランスの案件探し、商談準備、スキル整理に関する記事を制作しています。",
+      "content": "<h2>案件情報で最初に確認する項目</h2><p>単価、稼働日数、リモート可否、作業工程、チーム体制を確認します。VRTでは本文エリア、見出し、リスト、リンクの余白差分を見たいので、ある程度長い本文を入れています。</p><h2>商談前に整理したいこと</h2><ul><li>直近で担当した開発領域</li><li>技術選定やレビューの経験</li><li>希望する働き方と稼働条件</li></ul><p>案件紹介の前に条件を整理しておくと、候補案件の比較がしやすくなります。</p>",
+      "projectUrl": "/project/search/",
+      "profileName": "レバテックフリーランス編集部",
+      "profileDeptName": "フリーランス支援チーム"
+    },
+    "result": "Success"
+  },
+  "getRelatedGuides": {
+    "relatedGuides": [
+      {
+        "id": 2,
+        "title": "リモート案件で成果を出すためのコミュニケーション設計",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Remote"
+      },
+      {
+        "id": 3,
+        "title": "高単価案件に参画するために整理しておきたいスキル棚卸し",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Skill"
+      },
+      {
+        "id": 4,
+        "title": "業務委託契約で確認したい精算条件と支払いサイト",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Contract"
+      }
+    ],
+    "result": "Success"
+  },
+  "getPopularGuides": {
+    "popularGuides": [
+      {
+        "id": 5,
+        "title": "フリーランスになる前に準備しておきたい手続き",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Start"
+      },
+      {
+        "id": 6,
+        "title": "職務経歴書で開発実績を伝える書き方",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Resume"
+      },
+      {
+        "id": 7,
+        "title": "単価交渉で見られやすい経験とスキル",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Price"
+      }
+    ],
+    "result": "Success"
+  },
+  "getRelatedProjects": {
+    "relatedProjects": [
+      {
+        "id": 1001,
+        "name": "Java / Spring Boot 大規模決済基盤の追加開発",
+        "payUpperLimit": 850000,
+        "payType": 1,
+        "contractType": 1,
+        "skillNames": ["Java", "Spring Boot", "AWS"],
+        "station": "渋谷",
+        "stationPrefectureName": "東京都",
+        "isNew": true,
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": true,
+        "isTransactionResult": true
+      },
+      {
+        "id": 1002,
+        "name": "TypeScript / React SaaS管理画面のフロントエンド刷新",
+        "payUpperLimit": 780000,
+        "payType": 1,
+        "contractType": 1,
+        "skillNames": ["TypeScript", "React", "Next.js"],
+        "station": "新宿",
+        "stationPrefectureName": "東京都",
+        "isNew": false,
+        "remoteWorkAcceptable": 1,
+        "isLongTerm": false,
+        "isTransactionResult": true
+      },
+      {
+        "id": 1003,
+        "name": "PHP / Laravel 業務システムの保守開発",
+        "payUpperLimit": 680000,
+        "payType": 2,
+        "contractType": 1,
+        "skillNames": ["PHP", "Laravel", "MySQL"],
+        "station": "横浜",
+        "stationPrefectureName": "神奈川県",
+        "isNew": true,
+        "remoteWorkAcceptable": 3,
+        "isLongTerm": true,
+        "isTransactionResult": false
+      }
+    ],
+    "moreLinkText": "関連する案件をもっと見る",
+    "moreLinkUrl": "/project/search/",
+    "result": "Success"
+  },
+  "getExpectedAssessesSelect": {
+    "skills": [
+      {
+        "id": 3,
+        "name": "Java"
+      },
+      {
+        "id": 5,
+        "name": "TypeScript"
+      },
+      {
+        "id": 8,
+        "name": "Python"
+      }
+    ],
+    "experiences": [
+      {
+        "id": 1,
+        "name": "1年未満"
+      },
+      {
+        "id": 3,
+        "name": "3年以上"
+      },
+      {
+        "id": 5,
+        "name": "5年以上"
+      }
+    ],
+    "result": "Success"
+  },
+  "getExpectedAssesses": {
+    "assess": 780000,
+    "afterOneYearAssess": 830000,
+    "afterTwoYearsAssess": 900000,
+    "result": "Success"
+  },
+  "getNewGuides": {
+    "newGuides": [
+      {
+        "id": 8,
+        "title": "最新のフロントエンド案件で求められるスキル",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Frontend"
+      },
+      {
+        "id": 9,
+        "title": "副業案件を選ぶときの稼働条件の見方",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Sidejob"
+      },
+      {
+        "id": 10,
+        "title": "フリーランス面談で確認されやすい質問",
+        "imageUrl": "https://placehold.jp/320x180.png?text=Interview"
+      }
+    ],
+    "result": "Success"
+  },
+  "getGuideTags": {
+    "tags": [
+      {
+        "id": 1,
+        "name": "フリーランス"
+      },
+      {
+        "id": 2,
+        "name": "案件選び"
+      },
+      {
+        "id": 3,
+        "name": "リモート"
+      },
+      {
+        "id": 4,
+        "name": "単価"
+      }
+    ],
+    "result": "Success"
+  }
+}

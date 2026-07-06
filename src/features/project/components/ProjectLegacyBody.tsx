@@ -84,7 +84,7 @@ const ProjectSearchBody = () => (
 const ProjectListBody = ({ paged }: { paged: boolean }) => (
   <section className={styles.projectListPage}>
     <div className={styles.contentInner}>
-      <SearchPanel />
+      <SearchPanel id="project-list-keyword" />
       <div className={styles.projectLayout}>
         <aside className={styles.sideFilter}>
           <h2>条件で絞り込む</h2>

@@ -14,19 +14,19 @@ export const HeaderData = {
       link: "/",
       dataClickLabel: "ヘッダーロゴ",
       largeImage: {
-        src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+        src: "/common/ltf/logo_ltf.svg",
         width: 160,
         height: 41,
         alt: "レバテックフリーランス",
       },
       image: {
-        src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+        src: "/common/ltf/logo_ltf.svg",
         width: 150,
         height: 38,
         alt: "レバテックフリーランス",
       },
       minImage: {
-        src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+        src: "/common/ltf/logo_ltf.svg",
         width: 120,
         height: 30,
         alt: "レバテックフリーランス",
@@ -343,7 +343,7 @@ export const HeaderData = {
       link: "/",
       dataClickLabel: "ヘッダー_ロゴ",
       image: {
-        src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+        src: "/common/ltf/logo_ltf.svg",
         width: 110,
         height: 28,
         alt: "レバテックフリーランス",
@@ -436,7 +436,7 @@ export const HeaderData = {
         logo: {
           path: "/",
           image: {
-            src: "https://lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com/common/ltf/logo_ltf.svg",
+            src: "/common/ltf/logo_ltf.svg",
             width: 110,
             height: 28,
             alt: "レバテックフリーランス",

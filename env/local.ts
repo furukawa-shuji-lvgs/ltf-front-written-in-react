@@ -19,7 +19,4 @@ export default {
   KIUI_ENV_NAME: "dev",
 
   OWND_INFLOW_REDIS_URL: "redis://localhost:6379",
-
-  // TODO: 旧環境のファイルサーバの画像を参照するためだけに使われている. 画像を移行しさえすれば消せる.
-  LEGACY_HOST: "",
 };

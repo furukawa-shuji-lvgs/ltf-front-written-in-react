@@ -26,26 +26,6 @@ const nextConfig = {
       },
     ];
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "lt-prd-ownd-images.s3.ap-northeast-1.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "contents.levtech.jp",
-      },
-      {
-        protocol: "https",
-        hostname: "freelance.stg.levtech.org",
-      },
-      {
-        protocol: "https",
-        hostname: "freelance.levtech.jp",
-      },
-    ],
-  },
   serverExternalPackages: ["@grpc/grpc-js"],
   sassOptions: {
     additionalData: `

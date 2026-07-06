@@ -63,7 +63,7 @@ const Hero = ({ match }: { match: PageRouteMatch }) => {
           </div>
           <div className={styles.heroSearchCard}>
             <p>案件数110,000件以上</p>
-            <SearchPanel />
+            <SearchPanel id="hero-keyword" />
           </div>
         </div>
       </section>

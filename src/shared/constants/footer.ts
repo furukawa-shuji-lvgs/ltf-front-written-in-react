@@ -174,7 +174,7 @@ export const FooterData = {
     ],
     ismsLogoUrl: ISMS_URL,
     ismsLogo: {
-      src: "https://contents.levtech.jp/certification/isms_logo.webp",
+      src: "/certification/isms_logo.webp",
       width: 127,
       height: 75,
       alt: "ISMS認証マーク",
@@ -332,7 +332,7 @@ export const FooterData = {
     },
     ismsLogoUrl: ISMS_URL,
     ismsLogo: {
-      src: "https://contents.levtech.jp/certification/isms_logo.webp",
+      src: "/certification/isms_logo.webp",
       width: 127,
       height: 75,
       alt: "ISMS認証マーク",
