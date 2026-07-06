@@ -1,6 +1,5 @@
 import type { CheerioAPI } from "cheerio";
 import * as cheerio from "cheerio";
-import type { Element } from "domhandler";
 import type { TableOfContentsItem } from "./articleHtmlTypes.ts";
 
 const headingSelector = "h2.article__ttlL, h3.article__ttlM, h3.article__ttlL";
@@ -19,7 +18,7 @@ export function collectToc($: CheerioAPI): TableOfContentsItem[] {
   let currentH2: TableOfContentsItem | null = null;
   let globalIdCounter = 1;
 
-  $(headingSelector).each((_, element: Element) => {
+  $(headingSelector).each((_, element) => {
     const $element = $(element);
     const tagName = element.name.toLowerCase();
     const text = $element.text().trim();

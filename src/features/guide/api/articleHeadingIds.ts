@@ -1,5 +1,4 @@
 import type { CheerioAPI } from "cheerio";
-import type { Element } from "domhandler";
 import type { TableOfContentsItem } from "./articleHtmlTypes.ts";
 import { articleHeadingSelector } from "./articleToc.ts";
 
@@ -23,7 +22,7 @@ export function applyTocIdsToHeadings($: CheerioAPI, toc: TableOfContentsItem[])
 
   let startIdxInDom = -1;
   $headings.each((i, el) => {
-    const level = getLevel(el as unknown as Element);
+    const level = getLevel(el);
     if (level !== first.level) return true;
 
     const txt = normalize($(el).text());
@@ -53,7 +52,9 @@ const assignIdsFrom = (
   let tocIdx = 0;
 
   for (let i = domStart; i < $headings.length && tocIdx < flat.length; i++) {
-    const el = $headings[i] as unknown as Element;
+    const el = $headings[i];
+    if (el === undefined) continue;
+
     const level = getLevel(el);
 
     while (tocIdx < flat.length && flat[tocIdx]?.level !== level) {
@@ -68,8 +69,12 @@ const assignIdsFrom = (
   }
 };
 
-function getLevel(el: Element): "h2" | "h3" {
-  const tag = typeof el.name === "string" ? el.name.toLowerCase() : "";
+function getLevel(el: unknown): "h2" | "h3" {
+  const name =
+    typeof el === "object" && el !== null && "name" in el
+      ? (el as { name?: unknown }).name
+      : undefined;
+  const tag = typeof name === "string" ? name.toLowerCase() : "";
   return tag === "h2" ? "h2" : "h3";
 }
 
