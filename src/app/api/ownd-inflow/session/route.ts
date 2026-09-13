@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 import {
   createOwndInflowSession,
   decodeOwndInflowSessionCookie,
@@ -9,12 +11,11 @@ import {
   sessionRequestSchema,
 } from "@features/inflow/api/owndInflowSession.ts";
 import { getCustomEnv } from "@shared/lib/env.ts";
-import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
 export const POST = async (request: Request) => {
-  const body = await request.json().catch(() => null);
+  const body: unknown = await request.json().catch(() => null);
   const parsed = sessionRequestSchema.safeParse(body);
 
   if (!parsed.success) {
@@ -39,7 +40,7 @@ export const POST = async (request: Request) => {
 
 export const GET = (request: Request) => {
   const value = findOwndInflowSessionCookieValue(request.headers.get("cookie"));
-  const session = value ? decodeOwndInflowSessionCookie(value) : null;
+  const session = value != null && value !== "" ? decodeOwndInflowSessionCookie(value) : null;
 
   return NextResponse.json(session ?? emptyOwndInflowSessionResponse, {
     headers: { "cache-control": "no-store" },

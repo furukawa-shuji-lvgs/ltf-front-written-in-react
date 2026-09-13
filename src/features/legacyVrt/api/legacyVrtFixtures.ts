@@ -18,12 +18,12 @@ const articleTitles = [
   "契約前に確認したい条件",
   "リモート案件の探し方",
   "確定申告と経費の基礎",
-] satisfies [string, ...string[]];
+] satisfies readonly [string, ...(readonly string[])];
 
 export interface LegacyProjectCardData {
-  title: string;
-  price: string;
-  tags: string[];
+  readonly title: string;
+  readonly price: string;
+  readonly tags: readonly string[];
 }
 
 export const legacyProjectCards = [
@@ -42,11 +42,11 @@ export const legacyProjectCards = [
     price: "〜900,000円/月",
     tags: ["AWS", "Terraform", "上流工程"],
   },
-] satisfies [LegacyProjectCardData, ...LegacyProjectCardData[]];
+] satisfies readonly [LegacyProjectCardData, ...(readonly LegacyProjectCardData[])];
 
-const featureTitles = ["案件数が多い", "単価が高い", "選べる条件が幅広い"] satisfies [
+const featureTitles = ["案件数が多い", "単価が高い", "選べる条件が幅広い"] satisfies readonly [
   string,
-  ...string[],
+  ...(readonly string[]),
 ];
 
 export const legacyProjectListItems = Array.from({ length: 12 }, (_, index) => ({

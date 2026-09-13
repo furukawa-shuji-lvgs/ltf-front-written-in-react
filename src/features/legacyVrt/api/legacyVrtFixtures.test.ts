@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
   legacyArticleItems,
   legacyProjectListItems,
@@ -7,6 +8,7 @@ import {
 
 describe("legacyVrtFixtures > VRT用fixture > 生成", () => {
   it("記事fixture / 検証: 件数 / 期待: VRTで十分な件数を返す", () => {
+    expect.hasAssertions();
     // Arrange
     const minimumArticleCount = 9;
 
@@ -18,6 +20,7 @@ describe("legacyVrtFixtures > VRT用fixture > 生成", () => {
   });
 
   it("案件fixture / 検証: ID生成 / 期待: 安定した連番IDを返す", () => {
+    expect.hasAssertions();
     // Arrange
     const firstThreeIds = ["project-card-1", "project-card-2", "project-card-3"];
 
@@ -29,6 +32,7 @@ describe("legacyVrtFixtures > VRT用fixture > 生成", () => {
   });
 
   it("サイトマップfixture / 検証: ラベル / 期待: サービス紹介リンクを含む", () => {
+    expect.hasAssertions();
     // Arrange
     const expectedLabel = "サービス紹介";
 

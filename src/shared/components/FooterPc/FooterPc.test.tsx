@@ -1,10 +1,13 @@
-import { LtServices } from "@shared/constants/ltServices.ts";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import { LtServices } from "@shared/constants/ltServices.ts";
+
 import { FooterPc } from "./FooterPc.tsx";
 
-describe("FooterPc", () => {
+describe(FooterPc, () => {
   it("共通リンクが表示されること", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
 
     expect(screen.getByRole("link", { name: "案件一覧" })).toHaveAttribute(
@@ -16,6 +19,7 @@ describe("FooterPc", () => {
   });
 
   it("isBrand のリンクはレバテックのホストで解決されること", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
     expect(screen.getByRole("link", { name: "利用規約" })).toHaveAttribute(
       "href",
@@ -24,11 +28,13 @@ describe("FooterPc", () => {
   });
 
   it("外部リンクは別タブで開くこと", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
     expect(screen.getByRole("link", { name: "運営会社" })).toHaveAttribute("target", "_blank");
   });
 
   it("おすすめの求人・案件一覧が表示されること", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
 
     expect(screen.getByText("おすすめの求人・案件一覧")).toBeInTheDocument();
@@ -39,6 +45,7 @@ describe("FooterPc", () => {
   });
 
   it("関連サービスのリンクが LtServices の URL で表示されること", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
     expect(screen.getByRole("link", { name: "IT転職ならレバテックキャリア" })).toHaveAttribute(
       "href",
@@ -47,6 +54,7 @@ describe("FooterPc", () => {
   });
 
   it("コピーライトに現在の年が表示されること", () => {
+    expect.hasAssertions();
     render(<FooterPc />);
     expect(
       screen.getByText(`© 2017-${new Date().getFullYear()} Levtech Co., Ltd.`),
@@ -54,6 +62,7 @@ describe("FooterPc", () => {
   });
 
   it("isShowPageTop が false の場合はページトップボタンが表示されないこと", () => {
+    expect.hasAssertions();
     render(<FooterPc isShowPageTop={false} />);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });

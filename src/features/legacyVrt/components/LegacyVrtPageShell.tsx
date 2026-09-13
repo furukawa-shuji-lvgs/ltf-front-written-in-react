@@ -1,17 +1,21 @@
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+import type { ReactNode } from "react";
+
 import type { PageRouteMatch, RouteFeature } from "@features/routeCatalog/types.ts";
+
 import { FooterPc } from "@shared/components/FooterPc/FooterPc.tsx";
 import { FooterSp } from "@shared/components/FooterSp/FooterSp.tsx";
 import { HeaderPc } from "@shared/components/HeaderPc/HeaderPc.tsx";
 import { HeaderSp } from "@shared/components/HeaderSp/HeaderSp.tsx";
 import { getRuntimeEnv } from "@shared/lib/runtimeEnv.ts";
-import type { ReactNode } from "react";
+
 import { visualStyleFor } from "../api/visualProfiles.ts";
 import { Actions, classNames, RouteParams, SearchPanel } from "./LegacyVrtPageParts.tsx";
 
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
 export interface LegacyVrtPageShellProps {
-  match: PageRouteMatch;
-  children: ReactNode;
+  readonly match: PageRouteMatch;
+  readonly children: ReactNode;
 }
 
 const featureLabels = {
@@ -27,13 +31,15 @@ const featureLabels = {
   service: "サービス",
   top: "レバテックフリーランス",
   word: "IT用語集",
-} satisfies Record<RouteFeature, string>;
+} satisfies Readonly<Record<RouteFeature, string>>;
 
 const isLegacyVisualRun = getRuntimeEnv("E2E_LEGACY_VISUAL") === "true";
 
 const shouldUseCompactSpFooter = (match: PageRouteMatch): boolean => {
   const { definition } = match;
-  if (definition.id === "women") return false;
+  if (definition.id === "women") {
+    return false;
+  }
   if (["achievement", "friend", "guide", "information", "word"].includes(definition.feature)) {
     return true;
   }
@@ -49,7 +55,7 @@ const shouldUseCompactSpFooter = (match: PageRouteMatch): boolean => {
   ].includes(definition.id);
 };
 
-const Hero = ({ match }: { match: PageRouteMatch }) => {
+const Hero = ({ match }: { readonly match: PageRouteMatch }) => {
   const { definition } = match;
   if (definition.feature === "top") {
     return (
@@ -85,12 +91,12 @@ const Hero = ({ match }: { match: PageRouteMatch }) => {
   );
 };
 
-const LegacyHeader = ({ match }: { match: PageRouteMatch }) => (
+const LegacyHeader = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <div className={styles.pcOnly}>
       <HeaderPc
         h1="VRT Mock"
-        isP={true}
+        isP
       />
     </div>
     <div className={styles.spOnly}>

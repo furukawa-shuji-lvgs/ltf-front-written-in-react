@@ -1,49 +1,84 @@
 export enum ProjectPayType {
-  PAY_TYPE_UNSPECIFIED = 0, // 指定なし
-  SETTLEMENT = 1, // 精算あり
-  FIXED = 2, // 固定
-  HOURLY_WAGE = 3, // 時給
-  NEGOTIATIONS = 4, // 交渉中
+  // 指定なし
+  PAY_TYPE_UNSPECIFIED = 0,
+  // 精算あり
+  SETTLEMENT = 1,
+  // 固定
+  FIXED = 2,
+  // 時給
+  HOURLY_WAGE = 3,
+  // 交渉中
+  NEGOTIATIONS = 4,
 }
 
 export enum ProjectContractType {
-  CONTRACT_TYPE_UNKNOWN = 0, // 不明
-  SUBCONTRACTOR = 1, // 業務委託
-  TEMPORARY = 2, // 派遣
-  EMPLOYMENT_PLACEMENT_DISPATCHING = 3, // 紹介予定派遣
-  DIRECT_EMPLOYMENT = 4, // 直接雇用
+  // 不明
+  CONTRACT_TYPE_UNKNOWN = 0,
+  // 業務委託
+  SUBCONTRACTOR = 1,
+  // 派遣
+  TEMPORARY = 2,
+  // 紹介予定派遣
+  EMPLOYMENT_PLACEMENT_DISPATCHING = 3,
+  // 直接雇用
+  DIRECT_EMPLOYMENT = 4,
 }
 
 export enum RemoteWorkAcceptable {
-  REMOTE_WORK_UNSPECIFIED = 0, // 指定なし
-  REMOTE_WORK_ACCEPTABLE = 1, // 可
-  REMOTE_WORK_UNACCEPTABLE = 2, // 不可
-  REMOTE_WORK_CHECKING = 3, // 確認中
+  // 指定なし
+  REMOTE_WORK_UNSPECIFIED = 0,
+  // 可
+  REMOTE_WORK_ACCEPTABLE = 1,
+  // 不可
+  REMOTE_WORK_UNACCEPTABLE = 2,
+  // 確認中
+  REMOTE_WORK_CHECKING = 3,
 }
 
 export enum SkillCategoryType {
-  UNKNOWN = 0, // 不明
-  LANGUAGE = 1, // 言語
-  FRAMEWORK = 2, // フレームワーク
-  DB = 3, // DB
-  OS = 4, // OS
-  DESIGN_TOOL = 5, // デザインツール
-  OTHER_TOOL = 6, // その他ツール
-  CLOUD = 7, // クラウド
-  WEB_SERVER = 8, // WEBサーバー
-  APPLICATION_SERVER = 9, // アプリケーションサーバー
-  GAME_ENGINE = 10, // ゲームエンジン
-  IDE = 11, // 統合開発環境
-  DEVELOP_TOOL = 12, // 開発ツール
+  // 不明
+  UNKNOWN = 0,
+  // 言語
+  LANGUAGE = 1,
+  // フレームワーク
+  FRAMEWORK = 2,
+  // DB
+  DB = 3,
+  // OS
+  OS = 4,
+  // デザインツール
+  DESIGN_TOOL = 5,
+  // その他ツール
+  OTHER_TOOL = 6,
+  // クラウド
+  CLOUD = 7,
+  // WEBサーバー
+  WEB_SERVER = 8,
+  // アプリケーションサーバー
+  APPLICATION_SERVER = 9,
+  // ゲームエンジン
+  GAME_ENGINE = 10,
+  // 統合開発環境
+  IDE = 11,
+  // 開発ツール
+  DEVELOP_TOOL = 12,
 }
 
 export enum WeekWorkDaysCondition {
-  UNSPECIFIED = 0, // 指定なし
-  FIVE = 1, // 週5が絶対
-  FOUR = 2, // 週4以上なら相談可
-  THREE = 3, // 週3以上なら相談可
-  TWO = 4, // 週2以上なら相談可
-  ONE = 5, // 週1以上なら相談可
-  SHORTENING = 6, // 時短可
-  OTHER = 7, // その他・相談可能
+  // 指定なし
+  UNSPECIFIED = 0,
+  // 週5が絶対
+  FIVE = 1,
+  // 週4以上なら相談可
+  FOUR = 2,
+  // 週3以上なら相談可
+  THREE = 3,
+  // 週2以上なら相談可
+  TWO = 4,
+  // 週1以上なら相談可
+  ONE = 5,
+  // 時短可
+  SHORTENING = 6,
+  // その他・相談可能
+  OTHER = 7,
 }

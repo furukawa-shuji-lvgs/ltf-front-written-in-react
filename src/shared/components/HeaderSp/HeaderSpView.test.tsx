@@ -1,14 +1,18 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { HeaderSpView } from "./HeaderSpView.tsx";
+
+import type { postLoginInflowInfo } from "@shared/lib/loginInflow.ts";
+
 import type { HeaderSpImage, HeaderSpViewData } from "./types.ts";
 
+import { HeaderSpView } from "./HeaderSpView.tsx";
+
 const { postLoginInflowInfoMock } = vi.hoisted(() => ({
-  postLoginInflowInfoMock: vi.fn().mockResolvedValue(undefined),
+  postLoginInflowInfoMock: vi.fn<typeof postLoginInflowInfo>().mockResolvedValue(),
 }));
 
-vi.mock("@shared/lib/loginInflow.ts", () => ({
+vi.mock(import("@shared/lib/loginInflow.ts"), () => ({
   postLoginInflowInfo: postLoginInflowInfoMock,
 }));
 
@@ -103,12 +107,13 @@ const buildViewData = (): HeaderSpViewData => ({
   },
 });
 
-afterEach(() => {
-  document.body.style.overflow = "";
-});
+describe("headerSpView > グローバルメニュー > 開閉", () => {
+  afterEach(() => {
+    document.body.style.overflow = "";
+  });
 
-describe("HeaderSpView > グローバルメニュー > 開閉", () => {
-  it("SPヘッダー / 検証: メニュー押下 / 期待: 登録導線を表示", async () => {
+  it("sPヘッダー / 検証: メニュー押下 / 期待: 登録導線を表示", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
     const data = buildViewData();
 
@@ -123,12 +128,13 @@ describe("HeaderSpView > グローバルメニュー > 開閉", () => {
 
     const nav = screen.getByRole("navigation");
     expect(
-      within(nav).getByRole("link", { name: /無料登録/ }),
+      within(nav).getByRole("link", { name: /無料登録/u }),
       "メニュー内の無料登録導線が表示される",
     ).toHaveAttribute("href", "/member/input/chat/");
   });
 
-  it("SPヘッダー / 検証: 案件カテゴリ展開 / 期待: Java案件リンクを表示", async () => {
+  it("sPヘッダー / 検証: 案件カテゴリ展開 / 期待: Java案件リンクを表示", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
     const data = buildViewData();
 
@@ -145,7 +151,8 @@ describe("HeaderSpView > グローバルメニュー > 開閉", () => {
     expect(screen.getByRole("link", { name: "Java" })).toHaveAttribute("href", "/project/skill-3/");
   });
 
-  it("SPヘッダー / 検証: ログイン押下 / 期待: ログイン流入情報を送信", async () => {
+  it("sPヘッダー / 検証: ログイン押下 / 期待: ログイン流入情報を送信", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
     const data = buildViewData();
 
@@ -162,7 +169,8 @@ describe("HeaderSpView > グローバルメニュー > 開閉", () => {
     expect(postLoginInflowInfoMock).toHaveBeenCalledWith("#login");
   });
 
-  it("SPヘッダー / 検証: メニュー表示 / 期待: bodyスクロールをロックして閉じるボタンへフォーカス", async () => {
+  it("sPヘッダー / 検証: メニュー表示 / 期待: bodyスクロールをロックして閉じるボタンへフォーカス", async () => {
+    expect.hasAssertions();
     // Arrange
     const user = userEvent.setup();
     const data = buildViewData();
@@ -181,7 +189,8 @@ describe("HeaderSpView > グローバルメニュー > 開閉", () => {
     expect(screen.getByRole("button", { name: "閉じる" })).toHaveFocus();
   });
 
-  it("SPヘッダー / 検証: Escapeキー / 期待: メニューを閉じて開閉ボタンへフォーカスを戻す", async () => {
+  it("sPヘッダー / 検証: Escapeキー / 期待: メニューを閉じて開閉ボタンへフォーカスを戻す", async () => {
+    expect.hasAssertions();
     // Arrange
     const user = userEvent.setup();
     const data = buildViewData();
@@ -203,7 +212,8 @@ describe("HeaderSpView > グローバルメニュー > 開閉", () => {
     expect(menuButton).toHaveFocus();
   });
 
-  it("SPヘッダー / 検証: Shift+Tab移動 / 期待: フォーカスをメニュー内で循環させる", async () => {
+  it("sPヘッダー / 検証: Shift+Tab移動 / 期待: フォーカスをメニュー内で循環させる", async () => {
+    expect.hasAssertions();
     // Arrange
     const user = userEvent.setup();
     const data = buildViewData();

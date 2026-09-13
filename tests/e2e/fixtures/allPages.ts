@@ -1,5 +1,6 @@
-import { pageDefinitions } from "../../../src/features/routeCatalog/routes.ts";
 import type { PageDefinition } from "../../../src/features/routeCatalog/types.ts";
+
+import { pageDefinitions } from "../../../src/features/routeCatalog/routes.ts";
 
 export type AllPageRouteFixture = {
   definitionId: string;
@@ -105,14 +106,14 @@ const routeFixtureOptionsById: Record<string, RouteFixtureOptions> = {
 };
 
 const appendQuery = (pathname: string, query?: string): string =>
-  query ? `${pathname}?${query}` : pathname;
+  query != null && query !== "" ? `${pathname}?${query}` : pathname;
 
 const defaultSlugFor = (definitionId: string): string =>
   definitionId
-    .replace(/-id/g, "")
-    .replace(/-pid$/g, "-page")
-    .replace(/-ppage$/g, "-page")
-    .replace(/-1$/g, "");
+    .replaceAll("-id", "")
+    .replaceAll(/-pid$/gu, "-page")
+    .replaceAll(/-ppage$/gu, "-page")
+    .replaceAll(/-1$/gu, "");
 
 const getParamValue = (definition: PageDefinition, paramName: string): string => {
   const options = routeFixtureOptionsById[definition.id];
@@ -120,7 +121,9 @@ const getParamValue = (definition: PageDefinition, paramName: string): string =>
 };
 
 const buildPathname = (definition: PageDefinition): string => {
-  if (definition.pattern.length === 0) return "/";
+  if (definition.pattern.length === 0) {
+    return "/";
+  }
 
   const segments = definition.pattern.map((segment) => {
     if (segment.startsWith(":")) {
@@ -139,7 +142,10 @@ const buildRouteFixture = (definition: PageDefinition): AllPageRouteFixture => {
   const options = routeFixtureOptionsById[definition.id];
   const pathname = buildPathname(definition);
   const path = appendQuery(pathname, options?.query);
-  const visualPath = options?.visualQuery ? appendQuery(pathname, options.visualQuery) : undefined;
+  const visualPath =
+    options?.visualQuery != null && options?.visualQuery !== ""
+      ? appendQuery(pathname, options.visualQuery)
+      : undefined;
 
   return {
     definitionId: definition.id,
@@ -151,8 +157,9 @@ const buildRouteFixture = (definition: PageDefinition): AllPageRouteFixture => {
   };
 };
 
-export const allPageRouteFixtures: readonly AllPageRouteFixture[] =
-  pageDefinitions.map(buildRouteFixture);
+export const allPageRouteFixtures: readonly AllPageRouteFixture[] = pageDefinitions.map((route) =>
+  buildRouteFixture(route),
+);
 
 export const allPageUxRoutes = allPageRouteFixtures.map(
   ({ path, slug, text, spText }): AllPageUxRoute => ({

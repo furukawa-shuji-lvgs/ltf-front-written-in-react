@@ -1,55 +1,64 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, vi, it } from "vitest";
 
-const { mockWarn, mockError } = vi.hoisted(() => ({
-  mockWarn: vi.fn(),
-  mockError: vi.fn(),
-}));
-
-vi.mock("@shared/lib/logger", () => ({
-  getLogger: vi.fn(() => ({
-    warn: mockWarn,
-    error: mockError,
-  })),
-}));
+import type { Logger } from "@shared/lib/logger.ts";
 
 import { getValidNonRootPath } from "./getValidNonRootPath.ts";
 
-describe("getValidNonRootPath", () => {
+const { mockWarn, mockError } = vi.hoisted(() => ({
+  mockWarn: vi.fn<Logger["warn"]>(),
+  mockError: vi.fn<Logger["error"]>(),
+}));
+
+vi.mock(import("@shared/lib/logger"), () => ({
+  getLogger: vi.fn<() => Logger>(() => ({
+    warn: mockWarn,
+    error: mockError,
+    info: vi.fn<Logger["info"]>(),
+  })),
+}));
+
+describe(getValidNonRootPath, () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test("path が有効な場合は path をそのまま返すこと", () => {
+  it("path が有効な場合は path をそのまま返すこと", () => {
+    expect.hasAssertions();
     expect(getValidNonRootPath({ path: "/guide/", fullPath: "/guide/?p=1" })).toBe("/guide/");
     expect(mockWarn).not.toHaveBeenCalled();
     expect(mockError).not.toHaveBeenCalled();
   });
 
-  test("path が '/' の場合は fullPath からクエリ・ハッシュを除いて返し、warn ログを出すこと", () => {
+  it("path が '/' の場合は fullPath からクエリ・ハッシュを除いて返し、warn ログを出すこと", () => {
+    expect.hasAssertions();
     expect(getValidNonRootPath({ path: "/", fullPath: "/guide/?p=1#top" })).toBe("/guide/");
-    expect(mockWarn).toHaveBeenCalledTimes(1);
+    expect(mockWarn).toHaveBeenCalledOnce();
   });
 
-  test("path が undefined の場合も fullPath にフォールバックすること", () => {
+  it("path が undefined の場合も fullPath にフォールバックすること", () => {
+    expect.hasAssertions();
     expect(getValidNonRootPath({ fullPath: "/word/" })).toBe("/word/");
-    expect(mockWarn).toHaveBeenCalledTimes(1);
+    expect(mockWarn).toHaveBeenCalledOnce();
   });
 
-  test("fullPath がクエリストリングから始まる場合は requestUrlPathname にフォールバックすること", () => {
+  it("fullPath がクエリストリングから始まる場合は requestUrlPathname にフォールバックすること", () => {
+    expect.hasAssertions();
     expect(
       getValidNonRootPath({ path: "/", fullPath: "?p=1", requestUrlPathname: "/guide/" }),
     ).toBe("/guide/");
-    expect(mockWarn).toHaveBeenCalledTimes(1);
+    expect(mockWarn).toHaveBeenCalledOnce();
   });
 
-  test("path と fullPath が無効な場合は requestUrlPathname を返し、warn ログを出すこと", () => {
+  it("path と fullPath が無効な場合は requestUrlPathname を返し、warn ログを出すこと", () => {
+    expect.hasAssertions();
     expect(getValidNonRootPath({ path: "/", fullPath: "/", requestUrlPathname: "/help/" })).toBe(
       "/help/",
     );
-    expect(mockWarn).toHaveBeenCalledTimes(1);
+    expect(mockWarn).toHaveBeenCalledOnce();
   });
 
-  test("すべて無効な場合は null を返し、error ログを出すこと", () => {
+  it("すべて無効な場合は null を返し、error ログを出すこと", () => {
+    expect.hasAssertions();
     expect(getValidNonRootPath({ path: "/", fullPath: "/", requestUrlPathname: "/" })).toBeNull();
     expect(getValidNonRootPath({})).toBeNull();
     expect(mockError).toHaveBeenCalledTimes(2);

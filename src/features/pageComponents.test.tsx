@@ -1,3 +1,10 @@
+import type { ComponentType } from "react";
+
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import { AchievementPage } from "@features/achievement/components/AchievementPage.tsx";
 import { ConsultationPage } from "@features/consultation/components/ConsultationPage.tsx";
 import { EntryPage } from "@features/entry/components/EntryPage.tsx";
@@ -8,18 +15,14 @@ import { MaintenancePage } from "@features/maintenance/components/MaintenancePag
 import { MemberPage } from "@features/member/components/MemberPage.tsx";
 import { ProjectPage } from "@features/project/components/ProjectPage.tsx";
 import { resolvePageRoute } from "@features/routeCatalog/routeMatcher.ts";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 import { ServicePage } from "@features/service/components/ServicePage.tsx";
 import { TopPage } from "@features/top/components/TopPage.tsx";
 import { WordPage } from "@features/word/components/WordPage.tsx";
-import { render, screen } from "@testing-library/react";
-import type { ComponentType } from "react";
-import { describe, expect, it } from "vitest";
 
 type PageCase = {
   feature: string;
   Component: ComponentType<{ match: PageRouteMatch }>;
-  segments: string[];
+  segments: readonly string[];
   expectedText: string;
 };
 
@@ -98,7 +101,7 @@ const pageCases = [
   },
 ] as const satisfies readonly PageCase[];
 
-const buildMatch = (segments: string[]): PageRouteMatch => {
+const buildMatch = (segments: readonly string[]): PageRouteMatch => {
   const match = resolvePageRoute(segments);
   if (!match) {
     throw new Error(`route should resolve: ${segments.join("/")}`);
@@ -106,9 +109,11 @@ const buildMatch = (segments: string[]): PageRouteMatch => {
   return match;
 };
 
-describe("Featureページコンポーネント > LegacyVrtPageShell接続 > 経路", () => {
-  for (const pageCase of pageCases) {
-    it(`${pageCase.feature} / 検証: ページコンポーネント表示 / 期待: 主要テキストを表示`, () => {
+describe("featureページコンポーネント > LegacyVrtPageShell接続 > 経路", () => {
+  it.each(pageCases)(
+    "$feature / 検証: ページコンポーネント表示 / 期待: 主要テキストを表示",
+    (pageCase) => {
+      expect.hasAssertions();
       const match = buildMatch(pageCase.segments);
       const { Component, expectedText } = pageCase;
 
@@ -118,6 +123,6 @@ describe("Featureページコンポーネント > LegacyVrtPageShell接続 > 経
         screen.getAllByText(expectedText, { exact: false }).length,
         `${pageCase.feature} の主要テキストが1件以上表示される`,
       ).toBeGreaterThan(0);
-    });
-  }
+    },
+  );
 });

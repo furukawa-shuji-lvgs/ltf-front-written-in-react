@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export interface OriginalLayoutProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 // 移行元: app/layouts/original.vue

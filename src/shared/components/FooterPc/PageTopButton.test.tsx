@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { PageTopButton } from "./PageTopButton.tsx";
 
 const buildImage = () => ({
@@ -10,14 +11,15 @@ const buildImage = () => ({
   alt: "ページ上部へ戻る",
 });
 
-describe("FooterPc > PageTopButton > クリック操作", () => {
+describe("footerPc > PageTopButton > クリック操作", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
   it("ページ下部 / 検証: ページトップボタン押下 / 期待: 画面先頭へスムーズスクロールする", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
-    const scrollTo = vi.fn();
+    const scrollTo = vi.fn<typeof globalThis.scrollTo>();
     vi.stubGlobal("scrollTo", scrollTo);
 
     render(<PageTopButton image={buildImage()} />);

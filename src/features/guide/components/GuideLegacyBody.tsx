@@ -1,3 +1,5 @@
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import {
   LegacyGuideListBody,
   LegacyProjectCardList,
@@ -5,8 +7,8 @@ import {
   legacyStartGuideCards,
   legacyStartGuideSteps,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
+
 import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
 const StartGuideBody = () => (
   <section className={styles.startGuidePage}>
@@ -78,7 +80,7 @@ const StartGuideBody = () => (
   </section>
 );
 
-const StartGuideResponsiveBody = ({ match }: { match: PageRouteMatch }) => (
+const StartGuideResponsiveBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <LegacyGuideListBody match={match} />
     <div className={styles.startGuideSpOnly}>
@@ -87,7 +89,7 @@ const StartGuideResponsiveBody = ({ match }: { match: PageRouteMatch }) => (
   </>
 );
 
-const GuideDetailResponsiveBody = ({ match }: { match: PageRouteMatch }) => (
+const GuideDetailResponsiveBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <LegacyGuideListBody match={match} />
     <div className={styles.spReplacement}>
@@ -150,11 +152,13 @@ const GuideDetailSpBody = () => (
   </article>
 );
 
-export const GuideLegacyBody = ({ match }: { match: PageRouteMatch }) => {
+export const GuideLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
   if (match.definition.id === "guide-freelance-start-guide") {
     return <StartGuideResponsiveBody match={match} />;
   }
-  if (match.definition.id === "guide-detail-id") return <GuideDetailResponsiveBody match={match} />;
+  if (match.definition.id === "guide-detail-id") {
+    return <GuideDetailResponsiveBody match={match} />;
+  }
 
   return <LegacyGuideListBody match={match} />;
 };

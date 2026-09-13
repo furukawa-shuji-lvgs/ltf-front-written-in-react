@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
+
 import { buildContentSecurityPolicy } from "./csp.ts";
 
-describe("Content Security Policy > script nonce > 経路", () => {
+describe("content Security Policy > script nonce > 経路", () => {
   it("本番CSP / 検証: script-src / 期待: nonceを許可しunsafe-inlineを許可しない", () => {
+    expect.hasAssertions();
     // Arrange
     const nonce = "nonce123";
 
@@ -16,6 +18,7 @@ describe("Content Security Policy > script nonce > 経路", () => {
   });
 
   it("開発CSP / 検証: script-src / 期待: Next dev server用にunsafe-evalだけ許可する", () => {
+    expect.hasAssertions();
     // Arrange
     const nonce = "nonce123";
 
@@ -27,7 +30,8 @@ describe("Content Security Policy > script nonce > 経路", () => {
     expect(policy).not.toContain("script-src 'self' 'unsafe-inline'");
   });
 
-  it("Report-Only CSP / 検証: style-src / 期待: inline style廃止候補をreport-onlyで検証する", () => {
+  it("report-Only CSP / 検証: style-src / 期待: inline style廃止候補をreport-onlyで検証する", () => {
+    expect.hasAssertions();
     // Arrange
     const nonce = "nonce123";
 

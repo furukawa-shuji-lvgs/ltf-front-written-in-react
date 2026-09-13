@@ -1,4 +1,6 @@
-import { type RefObject, useEffect } from "react";
+import type { RefObject } from "react";
+
+import { useEffect } from "react";
 
 const focusableSelector = [
   "a[href]",
@@ -9,16 +11,16 @@ const focusableSelector = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
-const getFocusableElements = (root: HTMLElement): HTMLElement[] =>
-  Array.from(root.querySelectorAll<HTMLElement>(focusableSelector)).filter(
+const getFocusableElements = (root: HTMLElement): readonly HTMLElement[] =>
+  [...root.querySelectorAll<HTMLElement>(focusableSelector)].filter(
     (element) => !element.hasAttribute("disabled") && element.tabIndex >= 0,
   );
 
 interface UseDialogFocusTrapOptions {
-  isOpen: boolean;
-  dialogRef: RefObject<HTMLElement | null>;
-  initialFocusRef: RefObject<HTMLElement | null>;
-  onClose: () => void;
+  readonly isOpen: boolean;
+  readonly dialogRef: RefObject<HTMLElement | null>;
+  readonly initialFocusRef: RefObject<HTMLElement | null>;
+  readonly onClose: () => void;
 }
 
 export const useDialogFocusTrap = ({
@@ -43,15 +45,21 @@ export const useDialogFocusTrap = ({
         onClose();
         return;
       }
-      if (event.key !== "Tab") return;
+      if (event.key !== "Tab") {
+        return;
+      }
 
       const dialog = dialogRef.current;
-      if (!dialog) return;
+      if (!dialog) {
+        return;
+      }
 
       const focusableElements = getFocusableElements(dialog);
-      const firstElement = focusableElements[0];
+      const [firstElement] = focusableElements;
       const lastElement = focusableElements.at(-1);
-      if (!(firstElement && lastElement)) return;
+      if (!(firstElement && lastElement)) {
+        return;
+      }
 
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
@@ -65,9 +73,9 @@ export const useDialogFocusTrap = ({
       }
     };
 
-    window.addEventListener("keydown", keepFocusInDialog);
+    globalThis.addEventListener("keydown", keepFocusInDialog);
     return () => {
-      window.removeEventListener("keydown", keepFocusInDialog);
+      globalThis.removeEventListener("keydown", keepFocusInDialog);
       document.body.style.overflow = previousBodyOverflow;
       previousFocus?.focus();
     };

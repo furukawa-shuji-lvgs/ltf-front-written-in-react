@@ -1,6 +1,24 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { z } from "zod";
+
+const percentageScale = 100;
+
+const metricSchema = z.object({
+  covered: z.number().nonnegative(),
+  total: z.number().nonnegative(),
+});
+const entrySchema = z.object({
+  branches: metricSchema,
+  functions: metricSchema,
+  lines: metricSchema,
+  statements: metricSchema,
+});
+/** @typedef {z.infer<typeof entrySchema>} CoverageEntry */
+/** @typedef {keyof CoverageEntry} Metric */
+/** @type {readonly Metric[]} */
+const metrics = ["branches", "functions", "lines", "statements"];
 
 const coverageSummaryPath = path.join(process.cwd(), "coverage", "coverage-summary.json");
 
@@ -56,21 +74,31 @@ if (!existsSync(coverageSummaryPath)) {
   process.exit(1);
 }
 
-const coverageSummary = JSON.parse(readFileSync(coverageSummaryPath, "utf8"));
+const coverageSummary = z
+  .record(z.string(), entrySchema)
+  .parse(JSON.parse(readFileSync(coverageSummaryPath, "utf8")));
 
+/** @param {string} value */
 const normalizePath = (value) => {
   const normalized = value.split(path.sep).join("/");
   const srcIndex = normalized.indexOf("src/");
-  return srcIndex >= 0 ? normalized.slice(srcIndex) : normalized;
+  return srcIndex === -1 ? normalized : normalized.slice(srcIndex);
 };
 
+/**
+ * @param {CoverageEntry} entry
+ * @param {Metric} metric
+ */
 const coveredMetric = (entry, metric) => ({
   covered: entry[metric].covered,
   total: entry[metric].total,
 });
 
-const ratio = ({ covered, total }) => (total === 0 ? 100 : (covered / total) * 100);
+/** @param {Readonly<{ covered: number; total: number }>} counts */
+const ratio = ({ covered, total }) =>
+  total === 0 ? percentageScale : (covered / total) * percentageScale;
 
+/** @param {string} directory */
 const aggregateDirectory = (directory) => {
   const entries = Object.entries(coverageSummary).filter(
     ([filePath]) => filePath !== "total" && normalizePath(filePath).startsWith(directory),
@@ -88,7 +116,7 @@ const aggregateDirectory = (directory) => {
   };
 
   return entries.reduce((accumulator, [, entry]) => {
-    for (const metric of Object.keys(initial)) {
+    for (const metric of metrics) {
       const current = coveredMetric(entry, metric);
       accumulator[metric].covered += current.covered;
       accumulator[metric].total += current.total;
@@ -102,7 +130,8 @@ const violations = [];
 for (const { directory, thresholds } of directoryThresholds) {
   const aggregate = aggregateDirectory(directory);
 
-  for (const [metric, threshold] of Object.entries(thresholds)) {
+  for (const metric of metrics) {
+    const threshold = thresholds[metric];
     const actual = ratio(aggregate[metric]);
     if (actual < threshold) {
       violations.push(`${directory} ${metric}: ${actual.toFixed(2)} < ${threshold}`);

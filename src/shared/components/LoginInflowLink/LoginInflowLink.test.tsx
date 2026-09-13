@@ -1,22 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+import type { postLoginInflowInfo } from "@shared/lib/loginInflow.ts";
+
 import { LoginInflowLink } from "./LoginInflowLink.tsx";
 
 const { postLoginInflowInfoMock } = vi.hoisted(() => ({
-  postLoginInflowInfoMock: vi.fn().mockResolvedValue(undefined),
+  postLoginInflowInfoMock: vi.fn<typeof postLoginInflowInfo>().mockResolvedValue(),
 }));
 
-vi.mock("@shared/lib/loginInflow.ts", () => ({
+vi.mock(import("@shared/lib/loginInflow.ts"), () => ({
   postLoginInflowInfo: postLoginInflowInfoMock,
 }));
 
-describe("LoginInflowLink > ログイン流入 > クリック", () => {
+describe("loginInflowLink > ログイン流入 > クリック", () => {
   afterEach(() => {
     postLoginInflowInfoMock.mockClear();
   });
 
   it("通常クリック / 検証: click / 期待: ログイン流入情報を送信", async () => {
+    expect.hasAssertions();
     // Arrange
     const user = userEvent.setup();
     render(<LoginInflowLink href="#login">ログイン</LoginInflowLink>);
@@ -29,12 +33,15 @@ describe("LoginInflowLink > ログイン流入 > クリック", () => {
   });
 
   it("既定動作キャンセル / 検証: click / 期待: ログイン流入情報を送信しない", async () => {
+    expect.hasAssertions();
     // Arrange
     const user = userEvent.setup();
     render(
       <LoginInflowLink
         href="#login"
-        onClick={(event) => event.preventDefault()}
+        onClick={(event) => {
+          event.preventDefault();
+        }}
       >
         ログイン
       </LoginInflowLink>,

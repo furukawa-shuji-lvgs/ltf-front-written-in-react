@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+
 import { GET, POST } from "@/app/api/ownd-inflow/session/route.ts";
+
+import { requireString } from "../assertions.ts";
 
 const extractSessionCookie = (setCookie: string): string =>
   setCookie
@@ -7,8 +10,9 @@ const extractSessionCookie = (setCookie: string): string =>
     .find((entry) => entry.trim().startsWith("ownd_inflow_session="))
     ?.trim() ?? "";
 
-describe("Ownd Inflow Session API > 流入セッション > 経路", () => {
+describe("ownd Inflow Session API > 流入セッション > 経路", () => {
   it("有効payload / 検証: 保存 / 期待: 流入情報をJSONとCookieに返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/ownd-inflow/session", {
       method: "POST",
@@ -39,6 +43,7 @@ describe("Ownd Inflow Session API > 流入セッション > 経路", () => {
   });
 
   it("保存済みCookie / 検証: 取得 / 期待: 保存した流入情報を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const postResponse = await POST(
       new Request("http://localhost/api/ownd-inflow/session", {
@@ -49,7 +54,7 @@ describe("Ownd Inflow Session API > 流入セッション > 経路", () => {
         }),
       }),
     );
-    const cookie = extractSessionCookie(postResponse.headers.get("set-cookie") ?? "");
+    const cookie = extractSessionCookie(requireString(postResponse.headers.get("set-cookie")));
     const request = new Request("http://localhost/api/ownd-inflow/session", {
       headers: { cookie },
     });
@@ -68,6 +73,7 @@ describe("Ownd Inflow Session API > 流入セッション > 経路", () => {
   });
 
   it("不正payload / 検証: 保存 / 期待: 400を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/ownd-inflow/session", {
       method: "POST",

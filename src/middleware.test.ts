@@ -1,13 +1,16 @@
 // @vitest-environment node
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
+
+import { requireString } from "../tests/assertions.ts";
 import { middleware } from "./middleware.ts";
 
 const run = (url: string) => middleware(new NextRequest(url));
 
-describe("middleware", () => {
+describe(middleware, () => {
   describe("旧コンサルティング詳細ページのリダイレクト", () => {
     it("マップに一致するパスは 301 でリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/consulting/detail/1/");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/guide/detail/491/");
@@ -16,12 +19,14 @@ describe("middleware", () => {
 
   describe("旧フリーランスページのリダイレクト", () => {
     it("/freelance/ は 301 で /guide/tag/1/ へリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/freelance/");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/guide/tag/1/");
     });
 
     it("移行元と同じくクエリパラメータは引き継がないこと", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/freelance/?foo=1");
       expect(response.headers.get("location")).toBe("http://localhost/guide/tag/1/");
     });
@@ -29,14 +34,16 @@ describe("middleware", () => {
 
   describe("旧ガイド詳細ページのリダイレクト", () => {
     it("マップに一致するパスは 301 でリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/guide/detail/4/");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/guide/detail/605/");
     });
   });
 
-  describe("Brand ページへの外部リダイレクト", () => {
+  describe("brand ページへの外部リダイレクト", () => {
     it("マップに一致するパスは 301 で levtech.jp へリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/guide/detail/942/");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe(
@@ -47,6 +54,7 @@ describe("middleware", () => {
 
   describe("旧案件検索ページのリダイレクト", () => {
     it("前方一致するパスは 301 で /project/search/ へリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/project/pre_search/foo/");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/project/search/");
@@ -55,12 +63,14 @@ describe("middleware", () => {
 
   describe("末尾スラッシュのリダイレクト", () => {
     it("末尾スラッシュなしのパスは 301 でスラッシュ付きパスへリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/guide");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/guide/");
     });
 
     it("クエリパラメータを維持してリダイレクトすること", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/project/search?page=2");
       expect(response.status).toBe(301);
       expect(response.headers.get("location")).toBe("http://localhost/project/search/?page=2");
@@ -69,6 +79,7 @@ describe("middleware", () => {
 
   describe("適用順序（Nuxt のファイル名アルファベット順と同じ）", () => {
     it("末尾スラッシュなしの旧ページは、まず末尾スラッシュのリダイレクトが適用されること（Nuxt と同じ2段リダイレクト）", () => {
+      expect.hasAssertions();
       const first = run("http://localhost/consulting/detail/1");
       expect(first.status).toBe(301);
       expect(first.headers.get("location")).toBe("http://localhost/consulting/detail/1/");
@@ -81,12 +92,14 @@ describe("middleware", () => {
 
   describe("リダイレクト対象外のパス", () => {
     it("末尾スラッシュ付きの通常パスはリダイレクトしないこと", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/project/search/");
       expect(response.headers.get("location")).toBeNull();
       expect(response.status).toBe(200);
     });
 
     it("トップページはリダイレクトしないこと", () => {
+      expect.hasAssertions();
       const response = run("http://localhost/");
       expect(response.headers.get("location")).toBeNull();
       expect(response.status).toBe(200);
@@ -95,6 +108,7 @@ describe("middleware", () => {
 
   describe("観測性", () => {
     it("通常ページ / 検証: request id / 期待: レスポンスにx-request-idを付与", () => {
+      expect.hasAssertions();
       // Arrange
       const request = new NextRequest("http://localhost/project/search/", {
         headers: { "x-request-id": "request-id-1" },
@@ -108,6 +122,7 @@ describe("middleware", () => {
     });
 
     it("リダイレクトページ / 検証: request id / 期待: リダイレクトレスポンスにx-request-idを付与", () => {
+      expect.hasAssertions();
       // Arrange
       const request = new NextRequest("http://localhost/guide", {
         headers: { "x-request-id": "request-id-2" },
@@ -124,12 +139,13 @@ describe("middleware", () => {
 
   describe("セキュリティ", () => {
     it("通常ページ / 検証: CSP nonce / 期待: script-srcにnonceを含めunsafe-inlineを許可しない", () => {
+      expect.hasAssertions();
       // Arrange
       const request = new NextRequest("http://localhost/project/search/");
 
       // Act
       const response = middleware(request);
-      const csp = response.headers.get("Content-Security-Policy") ?? "";
+      const csp = requireString(response.headers.get("Content-Security-Policy"));
 
       // Assert
       expect(csp).toContain("script-src 'self' 'nonce-");
@@ -138,6 +154,7 @@ describe("middleware", () => {
     });
 
     it("リダイレクトページ / 検証: CSP nonce / 期待: リダイレクトレスポンスにもCSPを付与する", () => {
+      expect.hasAssertions();
       // Arrange
       const request = new NextRequest("http://localhost/guide");
 

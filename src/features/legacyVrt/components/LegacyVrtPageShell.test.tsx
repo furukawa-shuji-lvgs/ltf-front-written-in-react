@@ -1,14 +1,15 @@
-import { resolvePageRoute } from "@features/routeCatalog/routeMatcher.ts";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import { resolvePageRoute } from "@features/routeCatalog/routeMatcher.ts";
+
+import { requireValue } from "../../../../tests/assertions.ts";
 import { LegacyVrtPageShell } from "./LegacyVrtPageShell.tsx";
 
-describe("LegacyVrtPageShell", () => {
+describe(LegacyVrtPageShell, () => {
   it("ガイド詳細 / 検証: ページ表示 / 期待: ページタイトルと主要導線を表示", () => {
-    const match = resolvePageRoute(["guide", "detail", "123"]);
-    if (!match) {
-      throw new Error("guide detail route should resolve");
-    }
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute(["guide", "detail", "123"]));
 
     render(
       <LegacyVrtPageShell match={match}>
@@ -28,10 +29,8 @@ describe("LegacyVrtPageShell", () => {
   });
 
   it("案件検索 / 検証: Shell描画 / 期待: 子要素を表示", () => {
-    const match = resolvePageRoute(["project", "search"]);
-    if (!match) {
-      throw new Error("project search route should resolve");
-    }
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute(["project", "search"]));
 
     render(
       <LegacyVrtPageShell match={match}>

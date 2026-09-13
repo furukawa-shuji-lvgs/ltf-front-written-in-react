@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { PaginationListEllipsis } from "./PaginationListEllipsis.tsx";
+
 import type { PaginationConstData, PaginationMeta } from "./pagination.ts";
+
+import { PaginationListEllipsis } from "./PaginationListEllipsis.tsx";
 
 const buildPaginationMeta = (overrides: Partial<PaginationMeta> = {}): PaginationMeta => ({
   itemCount: 10,
@@ -21,8 +23,9 @@ const buildPaginationConstData = (
   ...overrides,
 });
 
-describe("PaginationListEllipsis > ページ移動 > リンク生成", () => {
-  it("PC一覧 / 検証: 中央ページ表示 / 期待: 前後リンクと省略記号を表示", () => {
+describe("paginationListEllipsis > ページ移動 > リンク生成", () => {
+  it("pC一覧 / 検証: 中央ページ表示 / 期待: 前後リンクと省略記号を表示", () => {
+    expect.hasAssertions();
     const paginationMeta = buildPaginationMeta({
       totalItems: 300,
       totalPages: 30,
@@ -44,7 +47,8 @@ describe("PaginationListEllipsis > ページ移動 > リンク生成", () => {
     expect(screen.getAllByText("…")).toHaveLength(2);
   });
 
-  it("SP一覧 / 検証: 最大表示数 / 期待: 表示ページ数をSP用に絞る", () => {
+  it("sP一覧 / 検証: 最大表示数 / 期待: 表示ページ数をSP用に絞る", () => {
+    expect.hasAssertions();
     const paginationMeta = buildPaginationMeta({ currentPage: 3 });
     const paginationConstData = buildPaginationConstData();
 

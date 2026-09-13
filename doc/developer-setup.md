@@ -75,7 +75,7 @@ pnpm build
 pnpm verify
 ```
 
-`pnpm verify` は CI の主要ゲートで、Biome、境界チェック、型チェック、ユニット/統合テスト、proto CI、Next.js ビルドをまとめて実行します。
+`pnpm verify` は CI の主要ゲートで、oxlint / oxfmt、境界チェック、型チェック、ユニット/統合テスト、proto CI、Next.js ビルドをまとめて実行します。lint の自動修正は `pnpm lint:fix`、整形は `pnpm format` です。ルール方針と個別コマンドは [lint と format](./lint-format.md) を参照してください。
 
 ## E2E / VRT
 

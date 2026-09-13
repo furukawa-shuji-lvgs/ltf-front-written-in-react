@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
   createOwndInflowSession,
   decodeOwndInflowSessionCookie,
@@ -8,6 +9,7 @@ import {
 
 describe("owndInflowSession > 流入セッション > 変換", () => {
   it("ランディングURL / 検証: session生成 / 期待: クエリ値を流入情報へ写像", () => {
+    expect.hasAssertions();
     // Arrange
     const input = {
       fullPath: "/landing/special/?sip=abc&gclid=google&q=Java&_ga=GA1.1&msLpNo=42",
@@ -34,6 +36,7 @@ describe("owndInflowSession > 流入セッション > 変換", () => {
   });
 
   it("保存済みsession / 検証: cookie encode decode / 期待: 同じsessionへ復元", () => {
+    expect.hasAssertions();
     // Arrange
     const session = createOwndInflowSession(
       { fullPath: "/project/search/?sip=abc", referer: "" },
@@ -47,7 +50,8 @@ describe("owndInflowSession > 流入セッション > 変換", () => {
     expect(decoded).toStrictEqual(session);
   });
 
-  it("Cookieヘッダー / 検証: cookie抽出 / 期待: 対象cookie値だけ返す", () => {
+  it("cookieヘッダー / 検証: cookie抽出 / 期待: 対象cookie値だけ返す", () => {
+    expect.hasAssertions();
     // Arrange
     const cookieHeader = "foo=bar; ownd_inflow_session=session-value; other=value";
 

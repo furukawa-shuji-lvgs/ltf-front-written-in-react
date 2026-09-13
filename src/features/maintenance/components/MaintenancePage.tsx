@@ -1,9 +1,11 @@
-import { LegacyVrtPageShell } from "@features/legacyVrt/components/LegacyVrtPageShell.tsx";
 import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
+import { LegacyVrtPageShell } from "@features/legacyVrt/components/LegacyVrtPageShell.tsx";
+
 import { MaintenanceLegacyBody } from "./MaintenanceLegacyBody.tsx";
 
 export interface MaintenancePageProps {
-  match: PageRouteMatch;
+  readonly match: PageRouteMatch;
 }
 
 export const MaintenancePage = ({ match }: MaintenancePageProps) => (

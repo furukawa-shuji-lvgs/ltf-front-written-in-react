@@ -1,23 +1,29 @@
-import type { BreadCrumb } from "@shared/api/seo/types.ts";
-import { imageUrl } from "@shared/lib/image.ts";
+import type { CSSProperties } from "react";
+
 import Link from "next/link";
+
+import type { BreadCrumb } from "@shared/api/seo/types.ts";
+
+import { imageUrl } from "@shared/lib/image.ts";
+
 import styles from "./BreadcrumbsPc.module.scss";
 
 export interface BreadcrumbsPcProps {
-  breadcrumbs: BreadCrumb[];
-  size?: "-layout-l" | ""; // ヘッダーの横幅を1024pxに改修後は不要
+  readonly breadcrumbs: readonly BreadCrumb[];
+  // ヘッダーの横幅を1024pxに改修後は不要
+  readonly size?: "-layout-l" | "";
 }
 
-// schema.org/BreadcrumbList の microdata 構造化データを含む（移行元と同じ）
+const breadcrumbStyle: CSSProperties & Record<`--${string}`, string> = {
+  "--icon-arrow": `url("${imageUrl("/common/icon_arrow_black.png")}")`,
+};
+
+// Schema.org/BreadcrumbList の microdata 構造化データを含む（移行元と同じ）
 export const BreadcrumbsPc = ({ breadcrumbs, size = "" }: BreadcrumbsPcProps) => (
   <ol
     className={`${styles.breadcrumbList} ${size === "-layout-l" ? styles.layoutL : ""}`}
-    style={
-      {
-        "--icon-arrow": `url("${imageUrl("/common/icon_arrow_black.png")}")`,
-      } as React.CSSProperties
-    }
-    itemScope={true}
+    style={breadcrumbStyle}
+    itemScope
     itemType="https://schema.org/BreadcrumbList"
   >
     {breadcrumbs.map((breadcrumb, index) => (
@@ -25,7 +31,7 @@ export const BreadcrumbsPc = ({ breadcrumbs, size = "" }: BreadcrumbsPcProps) =>
         key={breadcrumb.url}
         className={styles.item}
         itemProp="itemListElement"
-        itemScope={true}
+        itemScope
         itemType="https://schema.org/ListItem"
       >
         {index === breadcrumbs.length - 1 ? (

@@ -1,11 +1,14 @@
+import Link from "next/link";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import {
   LegacyArticleBody,
   legacyHelpGroups,
   legacySitemapLinkItems,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
+
 import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
-import Link from "next/link";
 
 const SitemapBody = () => (
   <section className={styles.sitemapPage}>
@@ -25,7 +28,7 @@ const SitemapBody = () => (
   </section>
 );
 
-const HelpResponsiveBody = ({ match }: { match: PageRouteMatch }) => (
+const HelpResponsiveBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <LegacyArticleBody match={match} />
     <div className={styles.spReplacement}>
@@ -67,9 +70,13 @@ const HelpSpBody = () => (
   </section>
 );
 
-export const InformationLegacyBody = ({ match }: { match: PageRouteMatch }) => {
-  if (match.definition.id === "sitemap") return <SitemapBody />;
-  if (match.definition.id === "help") return <HelpResponsiveBody match={match} />;
+export const InformationLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
+  if (match.definition.id === "sitemap") {
+    return <SitemapBody />;
+  }
+  if (match.definition.id === "help") {
+    return <HelpResponsiveBody match={match} />;
+  }
 
   return <LegacyArticleBody match={match} />;
 };

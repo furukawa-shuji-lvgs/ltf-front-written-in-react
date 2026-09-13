@@ -1,35 +1,38 @@
 import "server-only";
+import type { Logger } from "@shared/lib/logger.ts";
 
-import { getLogger, type Logger } from "@shared/lib/logger.ts";
-
-type ErrorTrackingSource = "client" | "server";
-
-type ErrorTrackingContext = Record<string, string>;
-
-export interface ErrorTrackingEvent {
-  source: ErrorTrackingSource;
-  message: string;
-  digest?: string;
-  path?: string;
-  userAgent?: string;
-  cause?: unknown;
-  context?: ErrorTrackingContext;
-}
-
-type SerializedCause = {
-  name?: string;
-  message: string;
-  stack?: string;
-};
-
-export type ErrorTrackingPayload = Omit<ErrorTrackingEvent, "cause"> & {
-  cause?: SerializedCause;
-};
+import { getLogger } from "@shared/lib/logger.ts";
 
 const fallbackMessage = "Unknown error";
 
+type ErrorTrackingSource = "client" | "server";
+
+type ErrorTrackingContext = Readonly<Record<string, string>>;
+
+export interface ErrorTrackingEvent {
+  readonly source: ErrorTrackingSource;
+  readonly message: string;
+  readonly digest?: string;
+  readonly path?: string;
+  readonly userAgent?: string;
+  readonly cause?: unknown;
+  readonly context?: ErrorTrackingContext;
+}
+
+type SerializedCause = {
+  readonly name?: string;
+  readonly message: string;
+  readonly stack?: string;
+};
+
+export type ErrorTrackingPayload = Omit<ErrorTrackingEvent, "cause"> & {
+  readonly cause?: SerializedCause;
+};
+
 const serializeCause = (cause: unknown): SerializedCause | undefined => {
-  if (cause === undefined || cause === null) return undefined;
+  if (cause === undefined || cause === null) {
+    return undefined;
+  }
   if (cause instanceof Error) {
     return {
       name: cause.name,
@@ -37,7 +40,9 @@ const serializeCause = (cause: unknown): SerializedCause | undefined => {
       ...(cause.stack === undefined ? {} : { stack: cause.stack }),
     };
   }
-  if (typeof cause === "string") return { message: cause };
+  if (typeof cause === "string") {
+    return { message: cause };
+  }
 
   return { message: JSON.stringify(cause) };
 };

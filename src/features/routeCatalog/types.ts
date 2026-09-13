@@ -15,31 +15,31 @@ export type RouteFeature =
 export type RouteLayout = "standard" | "wide" | "form" | "maintenance";
 
 export interface PageAction {
-  label: string;
-  href: string;
+  readonly label: string;
+  readonly href: string;
 }
 
 export interface PageSection {
-  title: string;
-  body: string;
+  readonly title: string;
+  readonly body: string;
 }
 
 export interface PageDefinition {
-  id: string;
-  feature: RouteFeature;
-  source: string;
-  pattern: readonly string[];
-  title: string;
-  description: string;
-  eyebrow: string;
-  layout: RouteLayout;
-  actions: readonly PageAction[];
-  sections: readonly PageSection[];
-  ogType?: "article" | "website";
+  readonly id: string;
+  readonly feature: RouteFeature;
+  readonly source: string;
+  readonly pattern: readonly string[];
+  readonly title: string;
+  readonly description: string;
+  readonly eyebrow: string;
+  readonly layout: RouteLayout;
+  readonly actions: readonly PageAction[];
+  readonly sections: readonly PageSection[];
+  readonly ogType?: "article" | "website";
 }
 
 export interface PageRouteMatch {
-  definition: PageDefinition;
-  params: Record<string, string>;
-  pathname: string;
+  readonly definition: PageDefinition;
+  readonly params: Readonly<Record<string, string>>;
+  readonly pathname: string;
 }

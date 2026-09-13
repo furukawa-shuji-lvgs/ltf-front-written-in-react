@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
 import Page, { generateMetadata } from "@/app/[[...slug]]/page.tsx";
 
-describe("App Router catch-all page", () => {
+describe("app Router catch-all page", () => {
   it("案件検索 / 検証: Nuxt互換ルート描画 / 期待: 職種選択ウィザードを表示", async () => {
+    expect.hasAssertions();
     const element = await Page({
       params: Promise.resolve({ slug: ["project", "search"] }),
     });
@@ -17,11 +19,14 @@ describe("App Router catch-all page", () => {
   });
 
   it("ガイド詳細 / 検証: metadata生成 / 期待: canonicalを動的パスで返す", async () => {
+    expect.hasAssertions();
     const metadata = await generateMetadata({
       params: Promise.resolve({ slug: ["guide", "detail", "123"] }),
     });
 
     expect(metadata.title).toBe("フリーランスガイド記事");
-    expect(metadata.alternates).toEqual({ canonical: "http://localhost:3000/guide/detail/123/" });
+    expect(metadata.alternates).toStrictEqual({
+      canonical: "http://localhost:3000/guide/detail/123/",
+    });
   });
 });

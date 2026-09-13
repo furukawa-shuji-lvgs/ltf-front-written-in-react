@@ -1,19 +1,24 @@
-import { getCustomEnv, getEnv } from "@shared/lib/env.ts";
 import type { Metadata } from "next";
-import { pageDefinitions } from "./routes.ts";
+
+import { getCustomEnv, getEnv } from "@shared/lib/env.ts";
+
 import type { PageDefinition, PageRouteMatch } from "./types.ts";
+
+import { pageDefinitions } from "./routes.ts";
+
+const literalSegmentScore = 3;
 
 const numericParamNames = new Set(["id", "page", "tagId"]);
 
-const normalizeSlug = (slug?: string[]): string[] =>
+const normalizeSlug = (slug?: readonly string[]): readonly string[] =>
   (slug ?? []).filter((segment) => segment.length > 0);
 
-const isPositiveInteger = (value: string): boolean => /^[1-9]\d*$/.test(value);
+const isPositiveInteger = (value: string): boolean => /^[1-9]\d*$/u.test(value);
 
 const matchPattern = (
   pattern: readonly string[],
   slug: readonly string[],
-): { params: Record<string, string>; pathname: string } | null => {
+): { readonly params: Readonly<Record<string, string>>; readonly pathname: string } | null => {
   if (pattern.length !== slug.length) {
     return null;
   }
@@ -37,11 +42,11 @@ const matchPattern = (
     }
 
     if (patternSegment.startsWith("p:")) {
-      const match = /^p([1-9]\d*)$/.exec(slugSegment);
+      const match = /^p(?<page>[1-9]\d*)$/u.exec(slugSegment);
       if (!match) {
         return null;
       }
-      const page = match[1];
+      const [, page] = match;
       if (page === undefined) {
         return null;
       }
@@ -67,10 +72,10 @@ const segmentScore = (segment: string): number => {
   if (segment.startsWith("p:")) {
     return 2;
   }
-  return 3;
+  return literalSegmentScore;
 };
 
-const rankedPageDefinitions = [...pageDefinitions].sort((current, next) => {
+const rankedPageDefinitions = [...pageDefinitions].toSorted((current, next) => {
   const currentScore = current.pattern.reduce((score, segment) => score + segmentScore(segment), 0);
   const nextScore = next.pattern.reduce((score, segment) => score + segmentScore(segment), 0);
   return nextScore - currentScore;
@@ -87,7 +92,7 @@ const resolvePageDefinition = (slug: readonly string[]): PageRouteMatch | null =
   return null;
 };
 
-export const resolvePageRoute = (slug?: string[]): PageRouteMatch | null =>
+export const resolvePageRoute = (slug?: readonly string[]): PageRouteMatch | null =>
   resolvePageDefinition(normalizeSlug(slug));
 
 const buildPageUrl = (path: string): string => {
@@ -116,7 +121,7 @@ export const createMetadataForRoute = ({ definition, pathname }: PageRouteMatch)
   };
 };
 
-export const listLegacyPageSources = (): string[] =>
+export const listLegacyPageSources = (): readonly string[] =>
   pageDefinitions.map((definition) => definition.source);
 
 export const listPageDefinitionsByFeature = (

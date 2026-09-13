@@ -1,4 +1,7 @@
-import type * as cheerio from "cheerio";
+import type { CheerioAPI } from "cheerio";
+
+const asciiControlMaxCodePoint = 31;
+const asciiDeleteCodePoint = 127;
 
 const dangerousElementSelectors = [
   "base",
@@ -23,15 +26,15 @@ const urlAttributeNames = new Set([
 ]);
 
 const safeUrlProtocols = new Set(["http:", "https:", "mailto:", "tel:"]);
-const asciiControlMaxCodePoint = 0x1f;
-const asciiDeleteCodePoint = 0x7f;
 
-export function sanitizeArticleHtml($: cheerio.CheerioAPI): void {
+export function sanitizeArticleHtml($: CheerioAPI): void {
   $(dangerousElementSelectors.join(",")).remove();
 
   $("*").each((_, element) => {
     const attributes = "attribs" in element ? element.attribs : undefined;
-    if (!attributes) return;
+    if (!attributes) {
+      return;
+    }
 
     for (const attributeName of Object.keys(attributes)) {
       const normalizedAttributeName = attributeName.toLowerCase();
@@ -54,22 +57,28 @@ export function sanitizeArticleHtml($: cheerio.CheerioAPI): void {
 
 function isSafeUrlAttributeValue(value: string): boolean {
   const trimmed = value.trim();
-  if (trimmed.length === 0) return true;
-  if (trimmed.startsWith("#")) return true;
+  if (trimmed.length === 0) {
+    return true;
+  }
+  if (trimmed.startsWith("#")) {
+    return true;
+  }
 
-  const compact = Array.from(trimmed)
-    .filter((character) => {
-      const codePoint = character.codePointAt(0) ?? 0;
-      return (
-        codePoint > asciiControlMaxCodePoint &&
-        codePoint !== asciiDeleteCodePoint &&
-        character.trim().length > 0
-      );
-    })
-    .join("")
-    .toLowerCase();
+  let compact = "";
+  for (const character of trimmed) {
+    const codePoint = character.codePointAt(0) ?? 0;
+    if (
+      codePoint > asciiControlMaxCodePoint &&
+      codePoint !== asciiDeleteCodePoint &&
+      character.trim().length > 0
+    ) {
+      compact += character;
+    }
+  }
+  compact = compact.toLowerCase();
 
   if (
+    // oxlint-disable-next-line eslint/no-script-url -- 記事 HTML の危険な URL スキームを拒否する比較。
     compact.startsWith("javascript:") ||
     compact.startsWith("vbscript:") ||
     compact.startsWith("data:text/") ||
@@ -78,7 +87,7 @@ function isSafeUrlAttributeValue(value: string): boolean {
     return false;
   }
 
-  if (/^data:image\/(?:gif|jpeg|jpg|png|webp);base64,/i.test(trimmed)) {
+  if (/^data:image\/(?:gif|jpeg|jpg|png|webp);base64,/iu.test(trimmed)) {
     return true;
   }
 

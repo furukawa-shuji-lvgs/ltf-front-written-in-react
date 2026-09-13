@@ -1,10 +1,13 @@
+import Link from "next/link";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import {
   LegacyProjectCardList,
   legacyTechnologies,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
+
 import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
-import Link from "next/link";
 
 const WordBody = () => (
   <section className={styles.wordPage}>
@@ -28,7 +31,7 @@ const WordBody = () => (
   </section>
 );
 
-const WordListResponsiveBody = ({ paged }: { paged: boolean }) => (
+const WordListResponsiveBody = ({ paged }: { readonly paged: boolean }) => (
   <>
     <WordBody />
     <div className={styles.spReplacement}>
@@ -37,7 +40,7 @@ const WordListResponsiveBody = ({ paged }: { paged: boolean }) => (
   </>
 );
 
-const WordListSpBody = ({ paged }: { paged: boolean }) => (
+const WordListSpBody = ({ paged }: { readonly paged: boolean }) => (
   <section className={styles.wordListSpPage}>
     <div className={styles.contentInner}>
       <h2>の求人・案件一覧</h2>
@@ -71,7 +74,7 @@ const WordListSpBody = ({ paged }: { paged: boolean }) => (
   </section>
 );
 
-export const WordLegacyBody = ({ match }: { match: PageRouteMatch }) => {
+export const WordLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
   const { definition } = match;
 
   if (definition.id === "word-list-id" || definition.id === "word-list-id-ppage") {

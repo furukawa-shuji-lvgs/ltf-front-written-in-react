@@ -1,21 +1,26 @@
 import type { CheerioAPI } from "cheerio";
-import * as cheerio from "cheerio";
+
+import { load as loadHtml } from "cheerio";
+
 import type { TableOfContentsItem } from "./articleHtmlTypes.ts";
 
 const headingSelector = "h2.article__ttlL, h3.article__ttlM, h3.article__ttlL";
-const excludeH2Titles = ["目次", "ご登録者様限定機能詳しく見る"];
+
+const excludeH2Titles = new Set(["目次", "ご登録者様限定機能詳しく見る"]);
 
 export const articleHeadingSelector = headingSelector;
 
-export function getToc(html: string): TableOfContentsItem[] {
-  if (!html) return [];
+export function getToc(html: string): readonly TableOfContentsItem[] {
+  if (!html) {
+    return [];
+  }
 
-  return collectToc(cheerio.load(html));
+  return collectToc(loadHtml(html));
 }
 
-export function collectToc($: CheerioAPI): TableOfContentsItem[] {
+export function collectToc($: CheerioAPI): readonly TableOfContentsItem[] {
   const tocItems: TableOfContentsItem[] = [];
-  let currentH2: TableOfContentsItem | null = null;
+  let currentH2: { h2: TableOfContentsItem["h2"]; h3: TableOfContentsItem["h2"][] } | null = null;
   let globalIdCounter = 1;
 
   $(headingSelector).each((_, element) => {
@@ -24,7 +29,7 @@ export function collectToc($: CheerioAPI): TableOfContentsItem[] {
     const text = $element.text().trim();
 
     if (tagName === "h2") {
-      if (excludeH2Titles.includes(text)) {
+      if (excludeH2Titles.has(text)) {
         currentH2 = null;
         return;
       }

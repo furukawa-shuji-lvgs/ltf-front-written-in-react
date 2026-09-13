@@ -12,7 +12,7 @@ test.describe("移行済みページ smoke", () => {
     await page.goto("/guide/detail/123/");
     await expect(
       page.getByRole("heading", {
-        name: /フリーランスガイド記事|フリーランスエンジニアが案件を選ぶときのチェックポイント/,
+        name: /フリーランスガイド記事|フリーランスエンジニアが案件を選ぶときのチェックポイント/u,
       }),
     ).toBeVisible();
   });

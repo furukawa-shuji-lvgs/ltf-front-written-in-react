@@ -1,77 +1,77 @@
 export interface HeaderImage {
-  src: string;
-  width: number;
-  height: number;
-  alt?: string;
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+  readonly alt?: string;
 }
 
 export interface HeaderLink {
-  href: string;
-  text: string;
-  dataClickLabel: string;
+  readonly href: string;
+  readonly text: string;
+  readonly dataClickLabel: string;
 }
 
 export interface ProjectDropdownData {
-  title: string;
-  categories: {
-    title: {
-      icon: HeaderImage;
-      text: string;
+  readonly title: string;
+  readonly categories: readonly {
+    readonly title: {
+      readonly icon: HeaderImage;
+      readonly text: string;
     };
-    links: HeaderLink[];
+    readonly links: readonly HeaderLink[];
   }[];
-  searchLinks: {
-    refinement: HeaderLink;
-    ai: HeaderLink;
+  readonly searchLinks: {
+    readonly refinement: HeaderLink;
+    readonly ai: HeaderLink;
   };
 }
 
 export interface CommonDropdownLink extends HeaderLink {
-  target: string;
-  icon: HeaderImage | null;
+  readonly target: string;
+  readonly icon: HeaderImage | null;
 }
 
 export interface CommonNavData {
-  menuKey: "service" | "guide";
-  name: string;
-  dropdownHeaderName: string;
-  path: string;
-  dataClickLabel: string;
-  links: CommonDropdownLink[];
+  readonly menuKey: "service" | "guide";
+  readonly name: string;
+  readonly dropdownHeaderName: string;
+  readonly path: string;
+  readonly dataClickLabel: string;
+  readonly links: readonly CommonDropdownLink[];
 }
 
 /** Server Component 側で URL 解決済みの HeaderPc 表示データ */
 export interface HeaderPcViewData {
-  headerInfoLinks: { text: string; href: string }[];
-  logo: {
-    href: string;
-    dataClickLabel: string;
-    image: HeaderImage;
+  readonly headerInfoLinks: readonly { readonly text: string; readonly href: string }[];
+  readonly logo: {
+    readonly href: string;
+    readonly dataClickLabel: string;
+    readonly image: HeaderImage;
   };
-  projectNav: {
-    name: string;
-    path: string;
-    dataClickLabel: string;
-    dropdown: ProjectDropdownData;
+  readonly projectNav: {
+    readonly name: string;
+    readonly path: string;
+    readonly dataClickLabel: string;
+    readonly dropdown: ProjectDropdownData;
   };
-  commonNavs: CommonNavData[];
-  recruit: {
-    href: string;
-    text: string;
-    target: string;
+  readonly commonNavs: readonly CommonNavData[];
+  readonly recruit: {
+    readonly href: string;
+    readonly text: string;
+    readonly target: string;
   };
-  login: {
-    href: string;
-    text: string;
-    icon: HeaderImage;
-    dataClickLabel: string;
+  readonly login: {
+    readonly href: string;
+    readonly text: string;
+    readonly icon: HeaderImage;
+    readonly dataClickLabel: string;
   };
-  register: {
-    href: string;
-    lineLeft: string;
-    lineRight: string;
-    prefix: string;
-    text: string;
-    dataClickLabel: string;
+  readonly register: {
+    readonly href: string;
+    readonly lineLeft: string;
+    readonly lineRight: string;
+    readonly prefix: string;
+    readonly text: string;
+    readonly dataClickLabel: string;
   };
 }

@@ -1,6 +1,7 @@
-import { LegacyGuideListBody } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
 import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-export const AchievementLegacyBody = ({ match }: { match: PageRouteMatch }) => (
+import { LegacyGuideListBody } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
+
+export const AchievementLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <LegacyGuideListBody match={match} />
 );

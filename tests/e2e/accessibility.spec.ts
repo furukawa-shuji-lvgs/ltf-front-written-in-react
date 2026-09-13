@@ -1,15 +1,18 @@
-import AxeBuilder from "@axe-core/playwright";
+import type { Page } from "@playwright/test";
+
+import { AxeBuilder } from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+
 import { APP_ROOT_SELECTOR } from "./fixtures/allPages.ts";
 
-const waitForApp = async (page: import("@playwright/test").Page) => {
+const waitForApp = async (page: Page) => {
   await expect(page.locator(APP_ROOT_SELECTOR)).toBeVisible();
   await page.evaluate(async () => {
     await document.fonts.ready;
   });
 };
 
-const analyzeSemanticAccessibility = async (page: import("@playwright/test").Page) => {
+const analyzeSemanticAccessibility = async (page: Page) => {
   const result = await new AxeBuilder({ page })
     .include(APP_ROOT_SELECTOR)
     .withRules([
@@ -52,7 +55,7 @@ test.describe("アクセシビリティUX > ランドマークと名前 > 経路
     await page.goto("/", { waitUntil: "domcontentloaded" });
     await waitForApp(page);
 
-    await page.getByRole("button", { name: /メニュー/ }).click();
+    await page.getByRole("button", { name: /メニュー/u }).click();
 
     const dialog = page.getByRole("dialog", { name: "グローバルメニュー" });
     await expect(dialog).toBeVisible();

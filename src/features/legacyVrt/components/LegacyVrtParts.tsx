@@ -1,21 +1,20 @@
-import { Section } from "@features/legacyVrt/components/LegacyVrtPageParts.tsx";
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 import Link from "next/link";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
+import { Section } from "@features/legacyVrt/components/LegacyVrtPageParts.tsx";
+
+import type { LegacyProjectCardData } from "../api/legacyVrtFixtures.ts";
+
 import {
   faqItems,
   featureItems,
-  type LegacyProjectCardData,
   legacyArticleItems,
-  legacyHelpGroups,
-  legacyLocations,
   legacyProjectCards,
   legacyProjectListItems,
-  legacySitemapLinkItems,
-  legacyStartGuideCards,
-  legacyStartGuideSteps,
-  legacyTechnologies,
 } from "../api/legacyVrtFixtures.ts";
+
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
 
 export {
   legacyArticleItems,
@@ -25,9 +24,9 @@ export {
   legacyStartGuideCards,
   legacyStartGuideSteps,
   legacyTechnologies,
-};
+} from "../api/legacyVrtFixtures.ts";
 
-export const LegacyArticleBody = ({ match }: { match: PageRouteMatch }) => (
+export const LegacyArticleBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <Section title={match.definition.sections[0]?.title ?? match.definition.title}>
       <LegacyArticleGrid count={match.definition.id.includes("detail") ? 3 : 9} />
@@ -44,7 +43,7 @@ export const LegacyArticleBody = ({ match }: { match: PageRouteMatch }) => (
   </>
 );
 
-export const LegacyGuideListBody = ({ match }: { match: PageRouteMatch }) => (
+export const LegacyGuideListBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <section className={styles.guideListPage}>
     <div className={styles.contentInner}>
       <div className={styles.guideLayout}>
@@ -55,18 +54,10 @@ export const LegacyGuideListBody = ({ match }: { match: PageRouteMatch }) => (
               : "フリーランスに関する記事一覧"}
           </h2>
           {legacyArticleItems.slice(0, 3).map((item) => (
-            <article
+            <LegacyGuideArticle
               key={item.id}
-              className={styles.guideArticle}
-            >
-              <div className={styles.guideThumb}>
-                {item.id.endsWith("1") ? "320x180" : "Remote"}
-              </div>
-              <div>
-                <h3>{item.title}</h3>
-                <p>案件選びやキャリア形成に役立つ情報を、VRT確認用の本文量で表示しています。</p>
-              </div>
-            </article>
+              item={item}
+            />
           ))}
           <div className={styles.pagination}>1　2　3</div>
         </div>
@@ -92,7 +83,7 @@ export const LegacyProjectCardGrid = () => (
   </div>
 );
 
-export const LegacyProjectCardList = ({ count }: { count: number }) => (
+export const LegacyProjectCardList = ({ count }: { readonly count: number }) => (
   <div className={styles.projectCardList}>
     {legacyProjectListItems.slice(0, count).map((item) => (
       <LegacyProjectCard
@@ -103,7 +94,7 @@ export const LegacyProjectCardList = ({ count }: { count: number }) => (
   </div>
 );
 
-const LegacyProjectCard = ({ project }: { project: LegacyProjectCardData }) => (
+const LegacyProjectCard = ({ project }: { readonly project: LegacyProjectCardData }) => (
   <article className={styles.projectCard}>
     <h3>{project.title}</h3>
     <p>{project.price}</p>
@@ -116,7 +107,7 @@ const LegacyProjectCard = ({ project }: { project: LegacyProjectCardData }) => (
   </article>
 );
 
-export const LegacyFeatureGrid = ({ count }: { count: number }) => (
+export const LegacyFeatureGrid = ({ count }: { readonly count: number }) => (
   <div className={styles.featureGrid}>
     {featureItems.slice(0, count).map((item) => (
       <article
@@ -131,7 +122,7 @@ export const LegacyFeatureGrid = ({ count }: { count: number }) => (
   </div>
 );
 
-export const LegacyArticleGrid = ({ count }: { count: number }) => (
+export const LegacyArticleGrid = ({ count }: { readonly count: number }) => (
   <div className={styles.articleGrid}>
     {legacyArticleItems.slice(0, count).map((item) => (
       <article
@@ -177,7 +168,7 @@ export const LegacyInfoTable = () => (
   </dl>
 );
 
-export const LegacyFaqList = ({ count }: { count: number }) => (
+export const LegacyFaqList = ({ count }: { readonly count: number }) => (
   <div className={styles.faqList}>
     {faqItems.slice(0, count).map((item) => (
       <details
@@ -191,7 +182,7 @@ export const LegacyFaqList = ({ count }: { count: number }) => (
   </div>
 );
 
-export const LegacyFormBody = ({ match }: { match: PageRouteMatch }) => {
+export const LegacyFormBody = ({ match }: { readonly match: PageRouteMatch }) => {
   const isInput = match.definition.id.includes("input");
   const isChat = match.definition.id.includes("chat");
 
@@ -228,3 +219,20 @@ export const LegacyFormBody = ({ match }: { match: PageRouteMatch }) => {
     </main>
   );
 };
+
+const LegacyGuideArticle = ({
+  item,
+}: {
+  readonly item: { readonly id: string; readonly title: string };
+}) => (
+  <article
+    key={item.id}
+    className={styles.guideArticle}
+  >
+    <div className={styles.guideThumb}>{item.id.endsWith("1") ? "320x180" : "Remote"}</div>
+    <div>
+      <h3>{item.title}</h3>
+      <p>案件選びやキャリア形成に役立つ情報を、VRT確認用の本文量で表示しています。</p>
+    </div>
+  </article>
+);

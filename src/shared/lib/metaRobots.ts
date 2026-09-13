@@ -1,11 +1,8 @@
-/**
- * 各ページ用のmeta robots設定（アルファベット順）
- * ページが追加されたら記述を追加
- */
 export const META_ROBOTS_NOINDEX_NOFOLLOW = "noindex,nofollow";
 export const META_ROBOTS_INDEX_FOLLOW = "index,follow";
+/** 各ページ用のmeta robots設定（アルファベット順） ページが追加されたら記述を追加 */
 
-const MetaRobots: { [key: string]: string } = {
+const MetaRobots: Readonly<Record<string, string>> = {
   // "index,follow" 以外のものだけ指定
   "entry-complete": META_ROBOTS_NOINDEX_NOFOLLOW,
   "entry-input-chat-id": META_ROBOTS_NOINDEX_NOFOLLOW,
@@ -27,9 +24,9 @@ export const metaRobotsMapping = (path: string): string => {
   }
 
   const content = MetaRobots[path];
-  if (content) {
+  if (content != null && content !== "") {
     return content;
   }
-  // default MetaRobots
+  // Default MetaRobots
   return META_ROBOTS_INDEX_FOLLOW;
 };

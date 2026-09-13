@@ -1,17 +1,16 @@
 "use client";
-
 const loginInflowEndpoint = "/api/grpc/login/postLoginInflowInfo";
 const inflowMedia = "ltf";
 
 export interface LoginInflowPayload {
-  startPage: string;
-  endPage: string;
-  referer: string;
-  inflowMedia: typeof inflowMedia;
+  readonly startPage: string;
+  readonly endPage: string;
+  readonly referer: string;
+  readonly inflowMedia: typeof inflowMedia;
 }
 
 export const buildLoginInflowPayload = (endPage: string): LoginInflowPayload => ({
-  startPage: `${window.location.pathname}${window.location.search}${window.location.hash}`,
+  startPage: `${globalThis.location.pathname}${globalThis.location.search}${globalThis.location.hash}`,
   endPage,
   referer: document.referrer,
   inflowMedia,

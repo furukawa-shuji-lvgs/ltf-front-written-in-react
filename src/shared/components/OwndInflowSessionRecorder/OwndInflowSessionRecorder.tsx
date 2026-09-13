@@ -9,7 +9,7 @@ const isCompletePage = (pathname: string): boolean => pathname.endsWith("/comple
 
 const resolveFullPath = (location: Location, referrer: string): string => {
   const landingIndex = referrer.indexOf(landingSegment);
-  if (landingIndex >= 0) {
+  if (landingIndex !== -1) {
     return referrer.slice(landingIndex);
   }
 
@@ -18,11 +18,11 @@ const resolveFullPath = (location: Location, referrer: string): string => {
 
 export const OwndInflowSessionRecorder = () => {
   useEffect(() => {
-    if (isCompletePage(window.location.pathname)) {
+    if (isCompletePage(globalThis.location.pathname)) {
       return;
     }
 
-    const fullPath = resolveFullPath(window.location, document.referrer);
+    const fullPath = resolveFullPath(globalThis.location, document.referrer);
 
     void fetch(sessionEndpoint, {
       method: "POST",
@@ -32,7 +32,8 @@ export const OwndInflowSessionRecorder = () => {
         referer: document.referrer,
       }),
       keepalive: true,
-    }).catch(() => undefined);
+      // oxlint-disable-next-line promise/prefer-await-to-then -- 遷移や描画を待たせずに送信し、通信失敗だけを吸収する。
+    }).catch(() => {});
   }, []);
 
   return null;

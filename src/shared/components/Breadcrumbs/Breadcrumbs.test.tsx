@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
 import { BreadcrumbsPc } from "./BreadcrumbsPc.tsx";
 import { BreadcrumbsSp } from "./BreadcrumbsSp.tsx";
 
@@ -14,6 +15,7 @@ describe.each([
   ["BreadcrumbsSp", BreadcrumbsSp],
 ])("%s", (_name, Breadcrumbs) => {
   it("すべてのパンくずが表示されること", () => {
+    expect.hasAssertions();
     render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
 
     expect(screen.getByText("トップ")).toBeInTheDocument();
@@ -22,6 +24,7 @@ describe.each([
   });
 
   it("最後の要素以外はリンクとして表示されること", () => {
+    expect.hasAssertions();
     render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
 
     expect(screen.getByRole("link", { name: "トップ" })).toHaveAttribute("href", "/");
@@ -33,6 +36,7 @@ describe.each([
   });
 
   it("schema.org の構造化データ（microdata）が出力されること", () => {
+    expect.hasAssertions();
     const { container } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
 
     expect(
@@ -45,13 +49,14 @@ describe.each([
     const positions = [...container.querySelectorAll('meta[itemprop="position"]')].map((meta) =>
       meta.getAttribute("content"),
     );
-    expect(positions).toEqual(["1", "2", "3"]);
+    expect(positions).toStrictEqual(["1", "2", "3"]);
 
     const names = [...container.querySelectorAll('[itemprop="name"]')].map((el) => el.textContent);
-    expect(names).toEqual(["トップ", "案件検索", "Javaの求人・案件"]);
+    expect(names).toStrictEqual(["トップ", "案件検索", "Javaの求人・案件"]);
   });
 
   it("パンくずが1件の場合はリンクを表示しないこと", () => {
+    expect.hasAssertions();
     render(<Breadcrumbs breadcrumbs={[{ text: "トップ", url: "/" }]} />);
 
     expect(screen.getByText("トップ")).toBeInTheDocument();

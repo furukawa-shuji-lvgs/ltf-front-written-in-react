@@ -50,16 +50,16 @@ node tools/grpc-mock-server/server.mjs \
 
 ```json
 {
-    "getTdkh": {
-        "tdkh": {
-            "key": "mock",
-            "title": "VRT Mock",
-            "description": "VRT用のレスポンスです。",
-            "keywords": "VRT,Mock",
-            "h1": "VRT Mock"
-        },
-        "result": "Success"
-    }
+  "getTdkh": {
+    "tdkh": {
+      "key": "mock",
+      "title": "VRT Mock",
+      "description": "VRT用のレスポンスです。",
+      "keywords": "VRT,Mock",
+      "h1": "VRT Mock"
+    },
+    "result": "Success"
+  }
 }
 ```
 
@@ -81,10 +81,10 @@ node tools/grpc-mock-server/server.mjs \
 
 ```json
 {
-    "getTdkh": {
-        "__isError": true,
-        "code": 14,
-        "message": "UNAVAILABLE"
-    }
+  "getTdkh": {
+    "__isError": true,
+    "code": 14,
+    "message": "UNAVAILABLE"
+  }
 }
 ```

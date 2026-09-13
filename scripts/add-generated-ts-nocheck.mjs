@@ -2,13 +2,18 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const generatedDir = fileURLToPath(new URL("../contracts/grpc/generated", import.meta.url));
 const tsNoCheck = "// @ts-nocheck\n";
 
-async function listTsFiles(dir) {
+const generatedDir = fileURLToPath(new URL("../contracts/grpc/generated", import.meta.url));
+
+/**
+ * @param {string} dir
+ * @returns {Promise<string[]>}
+ */
+const listTsFiles = async (dir) => {
   const entries = await readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
-    entries.map((entry) => {
+    entries.map(async (entry) => {
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) {
         return listTsFiles(fullPath);
@@ -18,7 +23,7 @@ async function listTsFiles(dir) {
   );
 
   return files.flat();
-}
+};
 
 const files = await listTsFiles(generatedDir);
 

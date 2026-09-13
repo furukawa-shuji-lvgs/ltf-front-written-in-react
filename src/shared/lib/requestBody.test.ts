@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
+
 import {
   RequestBodyTooLargeError,
   readLimitedRequestJson,
   readLimitedRequestText,
 } from "./requestBody.ts";
 
-describe("Request Body Reader > Payload制限 > 経路", () => {
+describe("request Body Reader > Payload制限 > 経路", () => {
   it("上限内payload / 検証: text読取 / 期待: 本文を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api", {
       method: "POST",
@@ -21,6 +23,7 @@ describe("Request Body Reader > Payload制限 > 経路", () => {
   });
 
   it("上限超過payload / 検証: text読取 / 期待: サイズ超過エラーを投げる", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api", {
       method: "POST",
@@ -34,7 +37,8 @@ describe("Request Body Reader > Payload制限 > 経路", () => {
     await expect(result).rejects.toBeInstanceOf(RequestBodyTooLargeError);
   });
 
-  it("JSON payload / 検証: JSON読取 / 期待: objectへparseする", async () => {
+  it("jSON payload / 検証: JSON読取 / 期待: objectへparseする", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api", {
       method: "POST",
@@ -45,6 +49,6 @@ describe("Request Body Reader > Payload制限 > 経路", () => {
     const json = await readLimitedRequestJson(request, 64);
 
     // Assert
-    expect(json).toEqual({ message: "ok" });
+    expect(json).toStrictEqual({ message: "ok" });
   });
 });

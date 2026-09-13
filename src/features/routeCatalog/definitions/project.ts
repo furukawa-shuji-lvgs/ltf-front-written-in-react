@@ -1,4 +1,5 @@
 import type { PageDefinition } from "../types.ts";
+
 import { definePage } from "./common.ts";
 
 export const projectPageDefinitions = [

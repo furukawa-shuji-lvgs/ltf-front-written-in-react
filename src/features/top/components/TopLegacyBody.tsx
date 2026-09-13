@@ -1,3 +1,5 @@
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import {
   Actions,
   SearchPanel,
@@ -9,10 +11,10 @@ import {
   LegacyStepList,
   legacyLocations,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-export const TopLegacyBody = ({ match }: { match: PageRouteMatch }) => (
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+export const TopLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <section className={styles.assessBand}>
       <div className={styles.contentInner}>

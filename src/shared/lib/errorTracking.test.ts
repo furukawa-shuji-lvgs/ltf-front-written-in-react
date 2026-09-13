@@ -1,15 +1,18 @@
-import type { Logger } from "@shared/lib/logger.ts";
 import { describe, expect, it, vi } from "vitest";
+
+import type { Logger } from "@shared/lib/logger.ts";
+
 import { buildErrorTrackingPayload, trackError } from "./errorTracking.ts";
 
 const buildLogger = (): Logger => ({
-  info: vi.fn(),
-  warn: vi.fn(),
-  error: vi.fn(),
+  info: vi.fn<Logger["info"]>(),
+  warn: vi.fn<Logger["warn"]>(),
+  error: vi.fn<Logger["error"]>(),
 });
 
 describe("errorTracking > エラーペイロード > 生成", () => {
   it("サーバーエラー / 検証: Error cause / 期待: nameとmessageを構造化する", () => {
+    expect.hasAssertions();
     // Arrange
     const cause = new TypeError("failed to render");
 
@@ -33,6 +36,7 @@ describe("errorTracking > エラーペイロード > 生成", () => {
 
 describe("errorTracking > エラーログ > 記録", () => {
   it("クライアントエラー / 検証: trackError / 期待: 構造化ログとして出力する", () => {
+    expect.hasAssertions();
     // Arrange
     const logger = buildLogger();
 

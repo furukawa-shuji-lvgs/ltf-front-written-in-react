@@ -1,44 +1,56 @@
-import { Result } from "@generated/results/result.ts";
-import type { GetTdkhResponse } from "@generated/shared/seo.ts";
 import { Metadata } from "@grpc/grpc-js";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, vi, it } from "vitest";
+
+import type { GetTdkhRequest, GetTdkhResponse } from "@generated/shared/seo.ts";
+import type { callGrpcRequest } from "@shared/lib/grpc/request.ts";
+import type { Logger } from "@shared/lib/logger.ts";
+
+import { Result } from "@generated/results/result.ts";
+
+import { getTdkh } from "./getTdkh.ts";
+
+type SeoMethod = Parameters<
+  typeof callGrpcRequest<GetTdkhRequest, Partial<GetTdkhResponse>, unknown>
+>[0]["method"];
 
 const { getTdkhMock } = vi.hoisted(() => ({
-  getTdkhMock: vi.fn(),
+  getTdkhMock: vi.fn<SeoMethod>(),
 }));
 
+// oxlint-disable-next-line vitest/prefer-import-in-mock -- 使用するRPCだけを実装する部分モックのため、モジュール全体の型照合を行わない。
 vi.mock("@generated/shared/seo.grpc-client", () => ({
-  SharedSeoClient: vi.fn(() => ({
+  SharedSeoClient: vi.fn<() => { getTdkh: SeoMethod }>(() => ({
     getTdkh: getTdkhMock,
   })),
 }));
 
+// oxlint-disable-next-line vitest/prefer-import-in-mock -- 使用するRPCだけを実装する部分モックのため、モジュール全体の型照合を行わない。
 vi.mock("@shared/lib/grpc/credentials", () => ({
   grpcCredentials: {},
   grpcCredentialOptions: {},
 }));
 
-vi.mock("@shared/lib/logger", () => ({
-  getLogger: vi.fn(() => ({
-    warn: vi.fn(),
+vi.mock(import("@shared/lib/logger"), () => ({
+  getLogger: vi.fn<() => Logger>(() => ({
+    warn: vi.fn<Logger["warn"]>(),
+    info: vi.fn<Logger["info"]>(),
+    error: vi.fn<Logger["error"]>(),
   })),
 }));
 
-import { getTdkh } from "./getTdkh.ts";
-
 const mockResponse = (response: Partial<GetTdkhResponse>) => {
-  getTdkhMock.mockImplementation((...args: unknown[]) => {
-    const callback = args.at(-1) as (err: unknown, response?: Partial<GetTdkhResponse>) => void;
+  getTdkhMock.mockImplementation((_request, _metadata, _options, callback) => {
     callback(null, response);
   });
 };
 
-describe("getTdkh", () => {
+describe(getTdkh, () => {
   beforeEach(() => {
     getTdkhMock.mockReset();
   });
 
-  test("Success の場合に protobuf レスポンスを DTO にマッピングすること", async () => {
+  it("success の場合に protobuf レスポンスを DTO にマッピングすること", async () => {
+    expect.hasAssertions();
     mockResponse({
       result: Result.Success,
       tdkh: {
@@ -55,10 +67,10 @@ describe("getTdkh", () => {
     expect(getTdkhMock).toHaveBeenCalledWith(
       { key: "guide" },
       expect.any(Metadata),
-      expect.objectContaining({ deadline: expect.any(Date) }),
+      expect.objectContaining({ deadline: anyDate }),
       expect.any(Function),
     );
-    expect(result).toEqual({
+    expect(result).toStrictEqual({
       tdkh: {
         key: "guide",
         title: "タイトル",
@@ -69,35 +81,39 @@ describe("getTdkh", () => {
     });
   });
 
-  test("Success でも tdkh が欠けている場合は空文字でフォールバックすること", async () => {
+  it("success でも tdkh が欠けている場合は空文字でフォールバックすること", async () => {
+    expect.hasAssertions();
     mockResponse({ result: Result.Success });
 
     const result = await getTdkh({ key: "guide" });
 
-    expect(result).toEqual({
+    expect(result).toStrictEqual({
       tdkh: { key: "", title: "", description: "", keywords: "", h1: "" },
     });
   });
 
-  test("Success 以外の場合に空の DTO を返すこと", async () => {
+  it("success 以外の場合に空の DTO を返すこと", async () => {
+    expect.hasAssertions();
     mockResponse({ result: Result.NotFound });
 
     const result = await getTdkh({ key: "unknown" });
 
-    expect(result).toEqual({
+    expect(result).toStrictEqual({
       tdkh: { key: "", title: "", description: "", keywords: "", h1: "" },
     });
   });
 
-  test("通信エラーの場合に空の DTO を返すこと", async () => {
+  it("通信エラーの場合に空の DTO を返すこと", async () => {
+    expect.hasAssertions();
     const grpcError = new Error("UNAVAILABLE");
-    getTdkhMock.mockImplementation((...args: unknown[]) => {
-      const callback = args.at(-1) as (err: unknown) => void;
+    getTdkhMock.mockImplementation((_request, _metadata, _options, callback) => {
       callback(grpcError);
     });
 
-    await expect(getTdkh({ key: "guide" })).resolves.toEqual({
+    await expect(getTdkh({ key: "guide" })).resolves.toStrictEqual({
       tdkh: { key: "", title: "", description: "", keywords: "", h1: "" },
     });
   });
 });
+
+const anyDate: unknown = expect.any(Date);

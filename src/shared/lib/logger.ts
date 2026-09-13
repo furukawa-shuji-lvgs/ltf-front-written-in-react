@@ -1,33 +1,33 @@
 /**
  * 簡易ロガー
  *
- * 移行メモ: 移行元の @lv-levtech/pino は internal-libs/fusion/pino の PinoInitializer を使う。
- * ltf-react では同じ呼び出しシグネチャ（`logger.warn(obj, msg)` / `logger.warn(msg)`）を保った
- * console ベース実装にして、Vercel/Next の標準出力へJSONログを流す。
+ * 移行メモ: 移行元の @lv-levtech/pino は internal-libs/fusion/pino の PinoInitializer を使う。 ltf-react
+ * では同じ呼び出しシグネチャ（`logger.warn(obj, msg)` / `logger.warn(msg)`）を保った console ベース実装にして、Vercel/Next
+ * の標準出力へJSONログを流す。
  */
 
 import { getRuntimeEnv } from "./runtimeEnv.ts";
 
-type LogPayload = Record<string, unknown>;
+type LogPayload = Readonly<Record<string, unknown>>;
 type LogInput = LogPayload | Error | string;
 type LogMethod = (objOrMessage: LogInput, message?: string) => void;
 type LogLevel = "info" | "warn" | "error";
 
 export interface Logger {
-  info: LogMethod;
-  warn: LogMethod;
-  error: LogMethod;
+  readonly info: LogMethod;
+  readonly warn: LogMethod;
+  readonly error: LogMethod;
 }
 
 export interface LoggerOptions {
-  requestId?: string;
+  readonly requestId?: string;
 }
 
 const logLevelPriority = {
   info: 20,
   warn: 30,
   error: 40,
-} as const satisfies Record<LogLevel, number>;
+} as const satisfies Readonly<Record<LogLevel, number>>;
 
 const hostName = getRuntimeEnv("HOSTNAME") ?? "unknown";
 
@@ -45,6 +45,13 @@ const serializeError = (error: Error) => ({
   ...(error.stack === undefined ? {} : { stack: error.stack }),
 });
 
+const createLogPayload = (input: LogInput): LogPayload => {
+  if (input instanceof Error) {
+    return { err: serializeError(input) };
+  }
+  return typeof input === "string" ? {} : input;
+};
+
 const serializeLog = (
   level: LogLevel,
   name: string,
@@ -52,12 +59,7 @@ const serializeLog = (
   objOrMessage: LogInput,
   message?: string,
 ) => {
-  const payload =
-    objOrMessage instanceof Error
-      ? { err: serializeError(objOrMessage) }
-      : typeof objOrMessage === "string"
-        ? {}
-        : objOrMessage;
+  const payload = createLogPayload(objOrMessage);
 
   return JSON.stringify({
     level: level.toUpperCase(),
@@ -74,12 +76,14 @@ const serializeLog = (
 const log =
   (
     level: LogLevel,
-    output: (...args: unknown[]) => void,
+    output: (...args: readonly unknown[]) => void,
     name: string,
     options?: LoggerOptions,
   ): LogMethod =>
   (objOrMessage, message) => {
-    if (!isEnabled(level)) return;
+    if (!isEnabled(level)) {
+      return;
+    }
     output(serializeLog(level, name, options, objOrMessage, message));
   };
 

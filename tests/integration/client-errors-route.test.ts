@@ -1,24 +1,30 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+import type { Logger } from "@shared/lib/logger.ts";
+
 import { POST } from "@/app/api/client-errors/route.ts";
 import { clearRateLimitBuckets } from "@/shared/lib/rateLimit.ts";
 
 const { errorMock } = vi.hoisted(() => ({
-  errorMock: vi.fn(),
+  errorMock: vi.fn<Logger["error"]>(),
 }));
 
-vi.mock("@shared/lib/logger", () => ({
-  getLogger: vi.fn(() => ({
+vi.mock(import("@shared/lib/logger"), () => ({
+  getLogger: vi.fn<() => Logger>(() => ({
     error: errorMock,
+    info: vi.fn<Logger["info"]>(),
+    warn: vi.fn<Logger["warn"]>(),
   })),
 }));
 
-afterEach(() => {
-  vi.useRealTimers();
-  clearRateLimitBuckets();
-});
+describe("client Errors API > クライアントエラー > 経路", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    clearRateLimitBuckets();
+  });
 
-describe("Client Errors API > クライアントエラー > 経路", () => {
   it("有効payload / 検証: 受付 / 期待: 204で記録する", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/client-errors", {
       method: "POST",
@@ -61,6 +67,7 @@ describe("Client Errors API > クライアントエラー > 経路", () => {
   });
 
   it("不正JSON / 検証: 受付 / 期待: 400を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/client-errors", {
       method: "POST",
@@ -72,16 +79,17 @@ describe("Client Errors API > クライアントエラー > 経路", () => {
 
     // Assert
     expect(response.status).toBe(400);
-    await expect(response.json()).resolves.toEqual({
+    await expect(response.json()).resolves.toStrictEqual({
       message: "Invalid client error payload.",
     });
   });
 
   it("巨大payload / 検証: 受付 / 期待: 413を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/client-errors", {
       method: "POST",
-      body: JSON.stringify({ message: "x".repeat(9_000) }),
+      body: JSON.stringify({ message: "x".repeat(9000) }),
     });
 
     // Act
@@ -89,25 +97,19 @@ describe("Client Errors API > クライアントエラー > 経路", () => {
 
     // Assert
     expect(response.status).toBe(413);
-    await expect(response.json()).resolves.toEqual({
+    await expect(response.json()).resolves.toStrictEqual({
       message: "Client error payload is too large.",
     });
   });
 
   it("連続送信 / 検証: rate limit / 期待: 429とretry-afterを返す", async () => {
+    expect.hasAssertions();
     // Arrange
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-07-05T00:00:00.000Z"));
-    const buildRequest = () =>
-      new Request("http://localhost/api/client-errors", {
-        method: "POST",
-        headers: {
-          "x-forwarded-for": "203.0.113.10",
-        },
-        body: JSON.stringify({ message: "failed" }),
-      });
 
-    for (let i = 0; i < 30; i++) {
+    for (let index = 0; index < 30; index++) {
+      // oxlint-disable-next-line eslint/no-await-in-loop -- 同じクライアントのリクエストを順に送りレート制限を確認する。
       await POST(buildRequest());
     }
 
@@ -117,8 +119,17 @@ describe("Client Errors API > クライアントエラー > 経路", () => {
     // Assert
     expect(response.status).toBe(429);
     expect(response.headers.get("retry-after")).toBe("60");
-    await expect(response.json()).resolves.toEqual({
+    await expect(response.json()).resolves.toStrictEqual({
       message: "Too many client error reports.",
     });
   });
 });
+
+const buildRequest = () =>
+  new Request("http://localhost/api/client-errors", {
+    method: "POST",
+    headers: {
+      "x-forwarded-for": "203.0.113.10",
+    },
+    body: JSON.stringify({ message: "failed" }),
+  });

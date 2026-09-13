@@ -1,22 +1,25 @@
+import type { Page } from "@playwright/test";
+
 import { expect, test } from "@playwright/test";
+
 import { APP_ROOT_SELECTOR, allPageUxRoutes } from "./fixtures/allPages.ts";
 
-const waitForApp = async (page: import("@playwright/test").Page) => {
+const waitForApp = async (page: Page) => {
   await expect(page.locator(APP_ROOT_SELECTOR)).toBeVisible();
   await page.evaluate(async () => {
     await document.fonts.ready;
   });
 };
 
-const openSpGlobalMenu = async (page: import("@playwright/test").Page) => {
+const openSpGlobalMenu = async (page: Page) => {
   const dialog = page.getByRole("dialog", { name: "グローバルメニュー" });
 
   await expect(async () => {
     if (!(await dialog.isVisible().catch(() => false))) {
-      await page.getByRole("button", { name: /メニュー/ }).click();
+      await page.getByRole("button", { name: /メニュー/u }).click();
     }
 
-    await expect(dialog).toBeVisible({ timeout: 1_000 });
+    await expect(dialog).toBeVisible({ timeout: 1000 });
   }).toPass({ timeout: 30_000 });
 
   return dialog;
@@ -51,13 +54,13 @@ test.describe("共通導線UX > ヘッダー操作 > 経路", () => {
     await waitForApp(page);
 
     const pcNav = page.getByTestId("header-pc-global-nav");
-    const projectNav = pcNav.getByRole("link", { name: /案件検索/ });
-    const javaLink = pcNav.locator("a[href='/project/skill-3/']").filter({ hasText: /^Java$/ });
+    const projectNav = pcNav.getByRole("link", { name: /案件検索/u });
+    const javaLink = pcNav.locator("a[href='/project/skill-3/']").filter({ hasText: /^Java$/u });
 
     await expect(async () => {
       await projectNav.focus();
       await projectNav.hover();
-      await expect(javaLink).toBeVisible({ timeout: 1_000 });
+      await expect(javaLink).toBeVisible({ timeout: 1000 });
     }).toPass({ timeout: 30_000 });
 
     await expect(javaLink).toHaveAttribute("href", "/project/skill-3/");
@@ -95,9 +98,10 @@ test.describe("主要操作UX > 検索とフォーム > 経路", () => {
   test("ガイド / 検証: 流入セッション送信 / 期待: 現在パスをownd-inflow APIへPOST", async ({
     page,
   }) => {
-    const requestPromise = page.waitForRequest((request) => {
-      return request.method() === "POST" && request.url().endsWith("/api/ownd-inflow/session");
-    });
+    const requestPromise = page.waitForRequest(
+      (request) =>
+        request.method() === "POST" && request.url().endsWith("/api/ownd-inflow/session"),
+    );
 
     await page.goto("/guide/?sip=e2e", { waitUntil: "domcontentloaded" });
     await waitForApp(page);
@@ -116,7 +120,7 @@ test.describe("主要操作UX > 検索とフォーム > 経路", () => {
     await searchbox.fill("Java");
     await searchbox.press("Enter");
 
-    await expect(page).toHaveURL(/\/project\/search\/\?keyword=Java$/);
+    await expect(page).toHaveURL(/\/project\/search\/\?keyword=Java$/u);
   });
 
   test("案件検索 / 検証: 職種選択 / 期待: 選択状態が画面に反映される", async ({ page }) => {

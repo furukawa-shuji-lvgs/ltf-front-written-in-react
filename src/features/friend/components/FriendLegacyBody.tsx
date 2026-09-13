@@ -1,13 +1,15 @@
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import { Section } from "@features/legacyVrt/components/LegacyVrtPageParts.tsx";
 import {
   LegacyFeatureGrid,
   LegacyFormBody,
   LegacyStepList,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-const FriendBody = ({ campaign }: { campaign: boolean }) => (
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+const FriendBody = ({ campaign }: { readonly campaign: boolean }) => (
   <>
     <section className={campaign ? styles.friendCampaignHero : styles.friendHero}>
       <div className={styles.contentInner}>
@@ -62,9 +64,13 @@ const FriendCpCompleteBody = () => (
   </main>
 );
 
-export const FriendLegacyBody = ({ match }: { match: PageRouteMatch }) => {
-  if (match.definition.id === "friend-cp-complete") return <FriendCpCompleteBody />;
-  if (match.definition.layout === "form") return <LegacyFormBody match={match} />;
+export const FriendLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
+  if (match.definition.id === "friend-cp-complete") {
+    return <FriendCpCompleteBody />;
+  }
+  if (match.definition.layout === "form") {
+    return <LegacyFormBody match={match} />;
+  }
 
   return <FriendBody campaign={match.definition.id === "friend-cp"} />;
 };

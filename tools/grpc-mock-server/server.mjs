@@ -2,24 +2,47 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { pathToFileURL } from "node:url";
 
-const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+import { sampleText, sampleNumber } from "./samples.mjs";
+import {
+  errorSchema,
+  messageDefinitionSchema,
+  responseDefinitionSchema,
+  stubSchema,
+} from "./schemas.mjs";
+
+/** @typedef {import("zod").infer<typeof import("./schemas.mjs").fieldSchema>} Field */
+/** @typedef {import("zod").infer<typeof import("./schemas.mjs").messageSchema>} Message */
+/** @typedef {{ registry: Map<string, Message>; simpleNames: Map<string, Message | null> }} MessageRegistry */
+/** @typedef {{ messageRegistry: MessageRegistry; packageName: string }} MessageContext */
+/** @typedef {import("@grpc/grpc-js").ServiceDefinition} ServiceDefinition */
+
+/**
+ * @param {unknown} value
+ * @returns {value is Record<string, unknown>}
+ */
+const isRecord = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
+
+const scriptDir = import.meta.dirname;
 const workspaceRoot = path.resolve(scriptDir, "../..");
 
+/** @param {readonly string[]} argv */
 const parseArgs = (argv) => {
   const options = {
     protoDir: path.join(workspaceRoot, "ltf-front/proto"),
     stubDir: path.join(scriptDir, "stubs"),
     depsDir: path.join(workspaceRoot, "ltf-front"),
-    port: Number(process.env.GRPC_MOCK_PORT ?? 60051),
+    port: Number(process.env.GRPC_MOCK_PORT ?? 60_051),
     host: process.env.GRPC_MOCK_HOST ?? "0.0.0.0",
     verbose: false,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
-    if (!arg.startsWith("--")) continue;
+    if (arg === undefined || !arg.startsWith("--")) {
+      continue;
+    }
     const key = arg.slice(2);
     const value = argv[index + 1];
 
@@ -28,14 +51,14 @@ const parseArgs = (argv) => {
       continue;
     }
 
-    if (!value || value.startsWith("--")) {
+    if (!(value != null && value !== "") || value.startsWith("--")) {
       throw new Error(`Missing value for --${key}`);
     }
     index += 1;
 
     if (key === "port") {
       options.port = Number(value);
-    } else if (key in options) {
+    } else if (key === "protoDir" || key === "stubDir" || key === "depsDir" || key === "host") {
       options[key] =
         path.isAbsolute(value) || key === "host" ? value : path.resolve(process.cwd(), value);
     } else {
@@ -46,8 +69,10 @@ const parseArgs = (argv) => {
   return options;
 };
 
+/** @param {string} filePath */
 const fileExists = (filePath) => fs.existsSync(filePath);
 
+/** @param {string} depsDir */
 const resolveDependencyRequire = (depsDir) => {
   const packageJsonPath = path.join(depsDir, "package.json");
   if (!fileExists(packageJsonPath)) {
@@ -56,33 +81,52 @@ const resolveDependencyRequire = (depsDir) => {
   return createRequire(pathToFileURL(packageJsonPath));
 };
 
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 const findProtoFiles = (dir) => {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   return entries.flatMap((entry) => {
     const entryPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) return findProtoFiles(entryPath);
+    if (entry.isDirectory()) {
+      return findProtoFiles(entryPath);
+    }
     return entry.isFile() && entry.name.endsWith(".proto") ? [entryPath] : [];
   });
 };
 
+/** @param {string} filePath */
 const hasServiceDefinition = (filePath) =>
-  /^service\s+\w+/m.test(fs.readFileSync(filePath, "utf8"));
+  /^service\s+\w+/mu.test(fs.readFileSync(filePath, "utf8"));
 
-const toCamelCase = (value) => value.replace(/_([a-z0-9])/g, (_, char) => char.toUpperCase());
+/** @param {string} value */
+const toCamelCase = (value) =>
+  value.replaceAll(/_(?<lowercase>[a-z0-9])/gu, (_match, /** @type {string} */ char) =>
+    char.toUpperCase(),
+  );
 
+/** @param {string} value */
 const toSnakeCase = (value) =>
   value
-    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
-    .replace(/[-\s]+/g, "_")
+    .replaceAll(/(?<lowercase>[a-z0-9])(?<uppercase>[A-Z])/gu, "$1_$2")
+    .replaceAll(/[-\s]+/gu, "_")
     .toLowerCase();
 
+/** @param {string} value */
 const lowerFirst = (value) => value.charAt(0).toLowerCase() + value.slice(1);
 
+/**
+ * @param {unknown} value
+ * @returns {unknown}
+ */
 const normalizeResponseObject = (value) => {
   if (Array.isArray(value)) {
-    return value.map(normalizeResponseObject);
+    /** @type {unknown[]} */
+    const items = value;
+    return items.map((item) => normalizeResponseObject(item));
   }
-  if (!value || typeof value !== "object") {
+  if (!isRecord(value)) {
     return value;
   }
 
@@ -100,7 +144,9 @@ const normalizeResponseObject = (value) => {
   );
 };
 
+/** @param {string} value */
 const resultNameToNumber = (value) => {
+  /** @type {Record<string, number>} */
   const resultValues = {
     Unknown: 0,
     Success: 1,
@@ -114,40 +160,55 @@ const resultNameToNumber = (value) => {
 const repeatedItemCount = 3;
 const maxMessageDepth = 5;
 
-const isProtobufMessage = (value) =>
-  value?.format === "Protocol Buffer 3 DescriptorProto" && Array.isArray(value.type?.field);
+/** @param {string} typeName */
+const normalizeTypeName = (typeName) => typeName.replace(/^\./u, "");
 
-const normalizeTypeName = (typeName) => typeName.replace(/^\./, "");
-
+/**
+ * @param {import("@grpc/proto-loader").PackageDefinition} packageDefinition
+ * @returns {MessageRegistry}
+ */
 const createMessageRegistry = (packageDefinition) => {
+  /** @type {Map<string, Message>} */
   const registry = new Map();
+  /** @type {Map<string, Message | null>} */
   const simpleNames = new Map();
 
   for (const [key, value] of Object.entries(packageDefinition)) {
-    if (!isProtobufMessage(value)) continue;
-
-    const normalizedKey = normalizeTypeName(key);
-    registry.set(normalizedKey, value.type);
-    if (normalizedKey.startsWith("ltf.")) {
-      registry.set(normalizedKey.slice("ltf.".length), value.type);
+    const parsed = messageDefinitionSchema.safeParse(value);
+    if (!parsed.success) {
+      continue;
     }
 
-    const simpleName = normalizedKey.split(".").at(-1);
-    simpleNames.set(simpleName, simpleNames.has(simpleName) ? null : value.type);
+    const normalizedKey = normalizeTypeName(key);
+    registry.set(normalizedKey, parsed.data.type);
+    if (normalizedKey.startsWith("ltf.")) {
+      registry.set(normalizedKey.slice("ltf.".length), parsed.data.type);
+    }
+
+    const simpleName = normalizedKey.split(".").at(-1) ?? normalizedKey;
+    simpleNames.set(simpleName, simpleNames.has(simpleName) ? null : parsed.data.type);
   }
 
   return { registry, simpleNames };
 };
 
+/** @param {ServiceDefinition[string] | undefined} methodDefinition */
 const getServicePackage = (methodDefinition) => {
-  const servicePath = methodDefinition?.path?.replace(/^\//, "").split("/").at(0) ?? "";
+  const servicePath = methodDefinition?.path?.replace(/^\//u, "").split("/").at(0) ?? "";
   return servicePath.split(".").slice(0, -1).join(".");
 };
 
+/**
+ * @param {string} typeName
+ * @param {MessageContext} context
+ * @param {Message} parentType
+ */
 const resolveMessageType = (typeName, context, parentType) => {
   const normalizedTypeName = normalizeTypeName(typeName);
   const nestedType = parentType?.nestedType?.find((type) => type.name === normalizedTypeName);
-  if (nestedType) return nestedType;
+  if (nestedType) {
+    return nestedType;
+  }
 
   const candidates = [
     normalizedTypeName,
@@ -157,93 +218,34 @@ const resolveMessageType = (typeName, context, parentType) => {
 
   for (const candidate of candidates) {
     const descriptor = context.messageRegistry.registry.get(normalizeTypeName(candidate));
-    if (descriptor) return descriptor;
+    if (descriptor) {
+      return descriptor;
+    }
   }
 
   for (const [key, descriptor] of context.messageRegistry.registry.entries()) {
-    if (key.endsWith(`.${normalizedTypeName}`)) return descriptor;
+    if (key.endsWith(`.${normalizedTypeName}`)) {
+      return descriptor;
+    }
   }
 
   return context.messageRegistry.simpleNames.get(normalizedTypeName) ?? null;
 };
 
-const fieldNameOf = (field) => field.jsonName || toCamelCase(field.name);
+/** @param {Field} field */
+const fieldNameOf = (field) =>
+  field.jsonName === undefined || field.jsonName === "" ? toCamelCase(field.name) : field.jsonName;
 
-const sampleText = (fieldName, index) => {
-  const normalized = fieldName.toLowerCase();
-  const number = index + 1;
-
-  if (normalized.includes("mail")) return "mock@example.com";
-  if (normalized.includes("phone") || normalized.includes("tel")) return "03-1234-5678";
-  if (
-    normalized.includes("image") ||
-    normalized.includes("thumbnail") ||
-    normalized.includes("ogp")
-  ) {
-    return `https://placehold.jp/640x360.png?text=VRT+Mock+${number}`;
-  }
-  if (normalized.includes("url") || normalized.includes("uri") || normalized.includes("link")) {
-    return `/project/detail/${1000 + number}/`;
-  }
-  if (normalized.includes("date")) return "2026-07-04";
-  if (normalized.includes("station")) return "渋谷";
-  if (normalized.includes("prefecture")) return "東京都";
-  if (normalized.includes("skill"))
-    return number === 1 ? "Java" : number === 2 ? "TypeScript" : "React";
-  if (normalized.includes("jobtype") || normalized.includes("position"))
-    return "サーバーサイドエンジニア";
-  if (normalized.includes("category")) return number === 1 ? "Webサービス" : "業務システム";
-  if (normalized.includes("title")) return `VRT用の詳細タイトル ${number}`;
-  if (normalized.includes("subtitle")) return "画面確認用のサブタイトル";
-  if (normalized.includes("description") || normalized.includes("meta")) {
-    return "VRTで余白、折り返し、説明文エリアを確認するための十分な長さを持つモック説明文です。";
-  }
-  if (
-    normalized.includes("content") ||
-    normalized.includes("body") ||
-    normalized.includes("html")
-  ) {
-    return "<p>VRT確認用の本文です。見出し、段落、一覧表示が崩れないことを確認できるよう、実画面に近い文章量を入れています。</p><h2>案件の特徴</h2><ul><li>リモート相談可</li><li>長期参画を想定</li><li>チーム開発</li></ul>";
-  }
-  if (normalized.includes("message") || normalized.includes("text")) {
-    return "VRT確認用のテキストです。複数行になっても表示崩れが分かるように少し長めにしています。";
-  }
-  if (normalized.includes("name"))
-    return number === 1 ? "Java開発支援" : number === 2 ? "TypeScript移行支援" : "React画面改善";
-  if (normalized.includes("keyword")) return number === 1 ? "Java" : "リモート";
-  if (normalized.includes("sip")) return "vrt-mock-sip";
-
-  return `VRT Mock ${number}`;
-};
-
-const sampleNumber = (fieldName, index) => {
-  const normalized = fieldName.toLowerCase();
-  const number = index + 1;
-
-  if (normalized === "id" || normalized.endsWith("id")) return 1000 + number;
-  if (normalized.includes("count") || normalized.includes("total"))
-    return normalized.includes("page") ? 3 : 42;
-  if (normalized.includes("currentpage")) return 1;
-  if (normalized.includes("itemsperpage")) return 20;
-  if (
-    normalized.includes("price") ||
-    normalized.includes("payment") ||
-    normalized.includes("income")
-  ) {
-    return 700000 + index * 100000;
-  }
-  if (normalized.includes("assess")) return 780000 + index * 50000;
-  if (normalized.includes("year")) return index + 2;
-  if (normalized.includes("day")) return index + 3;
-  if (normalized.includes("month")) return 12;
-
-  return number;
-};
-
+/**
+ * @param {string} typeName
+ * @param {string} fieldName
+ * @param {number} index
+ */
 const sampleWrapperValue = (typeName, fieldName, index) => {
   const normalizedTypeName = normalizeTypeName(typeName);
-  if (normalizedTypeName === "google.protobuf.StringValue")
+  if (normalizedTypeName === "google.protobuf.StringValue") {
     return { value: sampleText(fieldName, index) };
+  }
   if (
     normalizedTypeName === "google.protobuf.Int32Value" ||
     normalizedTypeName === "google.protobuf.UInt32Value" ||
@@ -258,52 +260,80 @@ const sampleWrapperValue = (typeName, fieldName, index) => {
   ) {
     return { value: sampleNumber(fieldName, index) + 0.5 };
   }
-  if (normalizedTypeName === "google.protobuf.BoolValue") return { value: true };
+  if (normalizedTypeName === "google.protobuf.BoolValue") {
+    return { value: true };
+  }
 
   return null;
 };
 
+/** @param {string} fieldName */
 const shouldSkipSuccessField = (fieldName) =>
   fieldName === "errors" || fieldName === "error" || fieldName === "failed";
 
+/**
+ * @param {Field} field
+ * @param {number} index
+ */
 const createScalarValue = (field, index) => {
   const fieldName = fieldNameOf(field);
 
-  if (fieldName === "result") return 1;
+  if (fieldName === "result") {
+    return 1;
+  }
 
   switch (field.type) {
-    case "TYPE_BOOL":
+    case "TYPE_BOOL": {
       return !fieldName.toLowerCase().includes("closed");
+    }
     case "TYPE_DOUBLE":
-    case "TYPE_FLOAT":
+    case "TYPE_FLOAT": {
       return sampleNumber(fieldName, index) + 0.5;
+    }
     case "TYPE_INT64":
     case "TYPE_UINT64":
     case "TYPE_SINT64":
     case "TYPE_FIXED64":
-    case "TYPE_SFIXED64":
+    case "TYPE_SFIXED64": {
       return String(sampleNumber(fieldName, index));
+    }
     case "TYPE_INT32":
     case "TYPE_UINT32":
     case "TYPE_SINT32":
     case "TYPE_FIXED32":
-    case "TYPE_SFIXED32":
+    case "TYPE_SFIXED32": {
       return sampleNumber(fieldName, index);
-    case "TYPE_ENUM":
+    }
+    case "TYPE_ENUM": {
       return 1;
-    case "TYPE_STRING":
+    }
+    case "TYPE_STRING": {
       return sampleText(fieldName, index);
-    default:
+    }
+    default: {
       return null;
+    }
   }
 };
 
+/**
+ * @param {Field} field
+ * @param {MessageContext} context
+ * @param {Message} parentType
+ * @param {number} depth
+ * @param {number} index
+ * @returns {unknown}
+ */
 const createFieldValue = (field, context, parentType, depth, index) => {
   const fieldName = fieldNameOf(field);
-  if (shouldSkipSuccessField(fieldName)) return undefined;
+  if (shouldSkipSuccessField(fieldName)) {
+    return;
+  }
 
   if (field.label === "LABEL_REPEATED") {
-    if (fieldName === "errors") return [];
+    if (fieldName === "errors") {
+      return [];
+    }
     return Array.from({ length: repeatedItemCount }, (_value, itemIndex) =>
       createSingleFieldValue(field, context, parentType, depth, itemIndex),
     ).filter((value) => value !== undefined);
@@ -312,35 +342,65 @@ const createFieldValue = (field, context, parentType, depth, index) => {
   return createSingleFieldValue(field, context, parentType, depth, index);
 };
 
+/**
+ * @param {Field} field
+ * @param {MessageContext} context
+ * @param {Message} parentType
+ * @param {number} depth
+ * @param {number} index
+ * @returns {unknown}
+ */
 const createSingleFieldValue = (field, context, parentType, depth, index) => {
   const fieldName = fieldNameOf(field);
-  if (field.type !== "TYPE_MESSAGE") return createScalarValue(field, index);
+  if (field.type !== "TYPE_MESSAGE") {
+    return createScalarValue(field, index);
+  }
 
   const wrapperValue = sampleWrapperValue(field.typeName, fieldName, index);
-  if (wrapperValue) return wrapperValue;
+  if (wrapperValue) {
+    return wrapperValue;
+  }
 
   const messageType = resolveMessageType(field.typeName, context, parentType);
-  if (!messageType || depth >= maxMessageDepth) return {};
+  if (!messageType || depth >= maxMessageDepth) {
+    return {};
+  }
 
   return createMessageValue(messageType, context, depth + 1, index);
 };
 
+/**
+ * @param {Message} messageType
+ * @param {MessageContext} context
+ * @param {number} [depth]
+ * @param {number} [index]
+ * @returns {Record<string, unknown>}
+ */
 const createMessageValue = (messageType, context, depth = 0, index = 0) => {
+  /** @type {Record<string, unknown>} */
   const response = {};
 
   for (const field of messageType.field ?? []) {
     const fieldName = fieldNameOf(field);
     const value = createFieldValue(field, context, messageType, depth, index);
-    if (value === undefined) continue;
+    if (value === undefined) {
+      continue;
+    }
     response[fieldName] = value;
   }
 
   return response;
 };
 
+/**
+ * @param {ServiceDefinition[string] | undefined} methodDefinition
+ * @param {MessageRegistry} messageRegistry
+ * @param {unknown} request
+ */
 const createFallbackResponse = (methodDefinition, messageRegistry, request) => {
   const packageName = getServicePackage(methodDefinition);
-  const responseType = methodDefinition?.responseType?.type;
+  const parsed = responseDefinitionSchema.safeParse(methodDefinition);
+  const responseType = parsed.success ? parsed.data.responseType.type : undefined;
   if (!responseType) {
     return {
       result: 1,
@@ -357,12 +417,15 @@ const createFallbackResponse = (methodDefinition, messageRegistry, request) => {
 };
 
 class StubRepository {
+  /** @type {Map<string, number>} */
   counters = new Map();
 
+  /** @param {string} stubDir */
   constructor(stubDir) {
     this.stubDir = stubDir;
   }
 
+  /** @param {string} serviceName */
   readService(serviceName) {
     const candidates = [
       serviceName,
@@ -371,12 +434,19 @@ class StubRepository {
       serviceName.toLowerCase(),
     ].flatMap((name) => [path.join(this.stubDir, `${name}.json`), path.join(this.stubDir, name)]);
 
-    const filePath = candidates.find(fileExists);
-    if (!filePath) return null;
+    const filePath = candidates.find((file) => fileExists(file));
+    if (!(filePath != null && filePath !== "")) {
+      return null;
+    }
 
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return stubSchema.parse(JSON.parse(fs.readFileSync(filePath, "utf8")));
   }
 
+  /**
+   * @param {string} serviceName
+   * @param {string} methodName
+   * @param {unknown} request
+   */
   responseFor(serviceName, methodName, request) {
     const serviceStub = this.readService(serviceName);
     const methodCandidates = [
@@ -391,15 +461,19 @@ class StubRepository {
       .map((name) => serviceStub?.[name])
       .find((response) => response !== undefined);
 
-    if (rawResponse === undefined) return this.defaultResponse(serviceName, methodName, request);
+    if (rawResponse === undefined) {
+      return this.defaultResponse(serviceName, methodName, request);
+    }
 
     const selected = this.selectResponse(serviceName, methodName, rawResponse);
-    if (typeof selected === "function") {
-      return selected(request);
-    }
     return selected;
   }
 
+  /**
+   * @param {string} serviceName
+   * @param {string} methodName
+   * @param {unknown} response
+   */
   selectResponse(serviceName, methodName, response) {
     if (!Array.isArray(response)) {
       return response;
@@ -408,15 +482,30 @@ class StubRepository {
     const key = `${serviceName}.${methodName}`;
     const count = this.counters.get(key) ?? 0;
     this.counters.set(key, count + 1);
-    return response[count % response.length];
+    /** @type {unknown[]} */
+    const responses = response;
+    return responses[count % responses.length];
   }
 
+  /**
+   * @param {string} serviceName
+   * @param {string} methodName
+   * @param {unknown} _request
+   */
   defaultResponse(serviceName, methodName, _request) {
     const defaultStub = this.readService("__default");
     return defaultStub?.[`${serviceName}.${methodName}`] ?? defaultStub?.[methodName];
   }
 }
 
+/**
+ * @param {string} serviceName
+ * @param {ServiceDefinition} serviceDefinition
+ * @param {StubRepository} repository
+ * @param {MessageRegistry} messageRegistry
+ * @param {boolean} verbose
+ * @returns {import("@grpc/grpc-js").UntypedServiceImplementation}
+ */
 const createServiceHandler = (
   serviceName,
   serviceDefinition,
@@ -428,9 +517,15 @@ const createServiceHandler = (
     {},
     {
       get: (_target, prop) => {
-        if (typeof prop !== "string") return undefined;
+        if (typeof prop !== "string") {
+          return;
+        }
 
-        return (call, callback) => {
+        /**
+         * @param {import("@grpc/grpc-js").ServerUnaryCall<unknown, unknown>} call
+         * @param {import("@grpc/grpc-js").sendUnaryData<unknown>} callback
+         */
+        const handleCall = (call, callback) => {
           const request = call.request ?? {};
           const rawResponse =
             repository.responseFor(serviceName, prop, request) ??
@@ -439,46 +534,82 @@ const createServiceHandler = (
             console.log(`[grpc-mock] ${serviceName}.${prop}`, JSON.stringify(request));
           }
 
-          if (rawResponse?.__isError || rawResponse?.__error) {
-            const error = new Error(rawResponse.message ?? `Mock error: ${serviceName}.${prop}`);
-            error.code = rawResponse.code ?? 13;
-            error.details = rawResponse.details ?? error.message;
+          const parsedError = errorSchema.safeParse(rawResponse);
+          if (
+            parsedError.success &&
+            (parsedError.data.__isError === true || Boolean(parsedError.data.__error))
+          ) {
+            const mockError = parsedError.data;
+            const message = mockError.message ?? `Mock error: ${serviceName}.${prop}`;
+            const error = Object.assign(new Error(message), {
+              code: mockError.code ?? 13,
+              details: mockError.details ?? message,
+            });
             callback(error);
             return;
           }
 
           callback(null, normalizeResponseObject(rawResponse));
         };
+        return handleCall;
       },
     },
   );
 
+/** @param {unknown} value */
 const isProtobufType = (value) =>
-  value &&
+  value !== null &&
   typeof value === "object" &&
   "format" in value &&
   "type" in value &&
   "fileDescriptorProtos" in value;
 
+/**
+ * @param {unknown} value
+ * @returns {value is import("@grpc/grpc-js").ServiceClientConstructor}
+ */
 const isGrpcService = (value) => {
   if (
-    !value ||
+    value === null ||
     (typeof value !== "object" && typeof value !== "function") ||
     !("service" in value)
   ) {
     return false;
   }
 
-  const methods = Object.values(value.service ?? {});
+  if (value.service === null || typeof value.service !== "object") {
+    return false;
+  }
+  /** @type {unknown[]} */
+  const methods = Object.values(value.service);
   return (
     methods.length > 0 &&
-    methods.every((method) => method?.path && method?.requestSerialize && method?.responseSerialize)
+    methods.every(
+      (method) =>
+        method !== null &&
+        typeof method === "object" &&
+        "path" in method &&
+        typeof method.path === "string" &&
+        "requestSerialize" in method &&
+        typeof method.requestSerialize === "function" &&
+        "responseSerialize" in method &&
+        typeof method.responseSerialize === "function",
+    )
   );
 };
 
+/**
+ * @param {import("@grpc/grpc-js").Server} server
+ * @param {import("@grpc/grpc-js").GrpcObject} grpcObject
+ * @param {StubRepository} repository
+ * @param {MessageRegistry} messageRegistry
+ * @param {boolean} verbose
+ */
 const registerServices = (server, grpcObject, repository, messageRegistry, verbose) => {
   for (const [key, value] of Object.entries(grpcObject)) {
-    if (isProtobufType(value)) continue;
+    if (isProtobufType(value)) {
+      continue;
+    }
     if (isGrpcService(value)) {
       console.log(`[grpc-mock] register ${key}`);
       server.addService(
@@ -487,12 +618,13 @@ const registerServices = (server, grpcObject, repository, messageRegistry, verbo
       );
       continue;
     }
-    if (value && typeof value === "object") {
+    if (typeof value === "object") {
       registerServices(server, value, repository, messageRegistry, verbose);
     }
   }
 };
 
+/** @param {string} depsDir */
 const collectWellKnownProtoDirs = (depsDir) => {
   const candidates = [
     path.join(depsDir, "node_modules/grpc-tools/bin"),
@@ -504,14 +636,18 @@ const collectWellKnownProtoDirs = (depsDir) => {
   return candidates.filter((dir) => fileExists(path.join(dir, "google/protobuf/wrappers.proto")));
 };
 
-const run = async () => {
+const run = () => {
   const options = parseArgs(process.argv.slice(2));
   const requireFromDeps = resolveDependencyRequire(options.depsDir);
-  const grpc = requireFromDeps("@grpc/grpc-js");
-  const protoLoader = requireFromDeps("@grpc/proto-loader");
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- depsDir で解決した公式パッケージに公開型を付与する。
+  const grpc = /** @type {typeof import("@grpc/grpc-js")} */ (requireFromDeps("@grpc/grpc-js"));
+  const protoLoader = /** @type {typeof import("@grpc/proto-loader")} */ (
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- depsDir で解決した公式パッケージに公開型を付与する。
+    requireFromDeps("@grpc/proto-loader")
+  );
 
   const protoFiles = findProtoFiles(options.protoDir);
-  const serviceProtoFiles = protoFiles.filter(hasServiceDefinition);
+  const serviceProtoFiles = protoFiles.filter((file) => hasServiceDefinition(file));
   if (serviceProtoFiles.length === 0) {
     throw new Error(`No service proto files found in ${options.protoDir}`);
   }
@@ -535,15 +671,19 @@ const run = async () => {
 
   const bindAddress = `${options.host}:${options.port}`;
   server.bindAsync(bindAddress, grpc.ServerCredentials.createInsecure(), (error, port) => {
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
     console.log(`[grpc-mock] listening on ${bindAddress} (bound:${port})`);
     console.log(`[grpc-mock] protoDir=${options.protoDir}`);
     console.log(`[grpc-mock] stubDir=${options.stubDir}`);
   });
 };
 
-run().catch((error) => {
+try {
+  run();
+} catch (error) {
   console.error("[grpc-mock] failed to start");
   console.error(error);
   process.exitCode = 1;
-});
+}

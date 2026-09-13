@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
+
 import { createMapRedirectResolver, createPrefixRedirectResolver } from "./redirectResolver.ts";
 
-describe("Redirect Resolver > データ定義 > 経路", () => {
+describe("redirect Resolver > データ定義 > 経路", () => {
   it("完全一致マップ / 検証: redirect解決 / 期待: 対応する宛先を返す", () => {
+    expect.hasAssertions();
     // Arrange
     const resolveRedirect = createMapRedirectResolver({ "/old/": "/new/" });
 
@@ -14,6 +16,7 @@ describe("Redirect Resolver > データ定義 > 経路", () => {
   });
 
   it("完全一致マップ / 検証: 未定義path / 期待: nullを返す", () => {
+    expect.hasAssertions();
     // Arrange
     const resolveRedirect = createMapRedirectResolver({ "/old/": "/new/" });
 
@@ -25,6 +28,7 @@ describe("Redirect Resolver > データ定義 > 経路", () => {
   });
 
   it("変換付きマップ / 検証: redirect解決 / 期待: 変換後の宛先を返す", () => {
+    expect.hasAssertions();
     // Arrange
     const resolveRedirect = createMapRedirectResolver(
       { "/brand/": "/article/" },
@@ -39,6 +43,7 @@ describe("Redirect Resolver > データ定義 > 経路", () => {
   });
 
   it("前方一致リスト / 検証: 配下path / 期待: 共通宛先を返す", () => {
+    expect.hasAssertions();
     // Arrange
     const resolveRedirect = createPrefixRedirectResolver(["/legacy/search/"], "/search/");
 

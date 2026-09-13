@@ -1,7 +1,8 @@
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
 import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-export const MaintenanceLegacyBody = (_props: { match: PageRouteMatch }) => (
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+export const MaintenanceLegacyBody = (_props: { readonly match: PageRouteMatch }) => (
   <main className={styles.maintenanceMain}>
     <h1>メンテナンス中です</h1>
     <p>

@@ -2,7 +2,8 @@ import { createMapRedirectResolver } from "./redirectResolver.ts";
 
 const guideUri = "/guide/detail/";
 const consultingUri = "/consulting/detail/";
-export const consultingDetailRedirectMap: Record<string, string> = {
+
+export const consultingDetailRedirectMap: Readonly<Record<string, string>> = {
   [`${consultingUri}1/`]: `${guideUri}491/`,
   [`${consultingUri}2/`]: `${guideUri}491/`,
   [`${consultingUri}3/`]: `${guideUri}492/`,
@@ -328,7 +329,7 @@ export const consultingDetailRedirectMap: Record<string, string> = {
 };
 
 /**
- * 旧コンサルティング詳細ページ → ガイド詳細ページへの301リダイレクト
- * 移行元: ltf-front app/middleware/redirectConsultingDetailOldPage.global.ts
+ * 旧コンサルティング詳細ページ → ガイド詳細ページへの301リダイレクト 移行元: ltf-front
+ * app/middleware/redirectConsultingDetailOldPage.global.ts
  */
 export const getConsultingDetailRedirect = createMapRedirectResolver(consultingDetailRedirectMap);

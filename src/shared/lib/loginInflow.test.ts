@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { buildLoginInflowPayload, postLoginInflowInfo } from "./loginInflow.ts";
 
-const fetchMock = vi.fn();
+const fetchMock = vi.fn<typeof fetch>();
 
 const setReferrer = (value: string): void => {
   Object.defineProperty(document, "referrer", {
@@ -15,13 +16,14 @@ describe("loginInflow > ログイン流入 > 送信", () => {
     fetchMock.mockReset();
     vi.unstubAllGlobals();
     setReferrer("");
-    window.history.pushState({}, "", "/");
+    globalThis.history.pushState({}, "", "/");
   });
 
   it("検索ページ / 検証: payload生成 / 期待: 現在ページと遷移先を含める", () => {
+    expect.hasAssertions();
     // Arrange
     setReferrer("https://example.com/ref");
-    window.history.pushState({}, "", "/project/search/?keyword=Java");
+    globalThis.history.pushState({}, "", "/project/search/?keyword=Java");
 
     // Act
     const payload = buildLoginInflowPayload("https://platform.levtech.jp/login?inflowMedia=ltf");
@@ -36,10 +38,11 @@ describe("loginInflow > ログイン流入 > 送信", () => {
   });
 
   it("ログイン押下 / 検証: 送信 / 期待: 流入APIへpayloadをPOSTする", async () => {
+    expect.hasAssertions();
     // Arrange
     vi.stubGlobal("fetch", fetchMock.mockResolvedValue(new Response(null, { status: 200 })));
     setReferrer("https://example.com/ref");
-    window.history.pushState({}, "", "/guide/");
+    globalThis.history.pushState({}, "", "/guide/");
 
     // Act
     await postLoginInflowInfo("https://platform.levtech.jp/login?inflowMedia=ltf");

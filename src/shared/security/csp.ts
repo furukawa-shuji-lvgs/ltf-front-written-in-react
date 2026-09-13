@@ -7,9 +7,9 @@ export const nonceHeaderName = "x-nonce";
 const imageSources = ["'self'", "data:", "blob:"] as const;
 
 interface ContentSecurityPolicyOptions {
-  nonce: string;
-  nodeEnv?: string;
-  reportOnly?: boolean;
+  readonly nonce: string;
+  readonly nodeEnv?: string;
+  readonly reportOnly?: boolean;
 }
 
 export const buildContentSecurityPolicy = ({

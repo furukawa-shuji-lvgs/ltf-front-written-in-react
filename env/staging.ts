@@ -1,6 +1,6 @@
 import type { LogLevelType } from "../src/shared/types/env.ts";
 
-export default {
+const stagingEnv = {
   BASE_URL: "freelance.stg.levtech.org",
   LTID_BASE_URL: "https://auth.stg-new.levtech.org",
 
@@ -20,3 +20,5 @@ export default {
   OWND_INFLOW_REDIS_URL:
     "redis://ltf-front-cache-rg-v1.vsemz5.clustercfg.apne1.cache.amazonaws.com:6379",
 };
+
+export default stagingEnv;

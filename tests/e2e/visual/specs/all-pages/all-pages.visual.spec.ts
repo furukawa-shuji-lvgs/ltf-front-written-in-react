@@ -1,11 +1,14 @@
-import { devices, expect, type Locator, type Page, test } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+
+import { devices, expect, test } from "@playwright/test";
+
 import { APP_ROOT_SELECTOR, allPageVisualRoutes } from "../../../fixtures/allPages.ts";
 
 const PC_VIEWPORT = { width: 1280, height: 720 };
 const SP_VIEWPORT = { width: 375, height: 812 };
 const SP_USER_AGENT = devices["iPhone 13"].userAgent;
 const STYLE_PATH = "tests/e2e/visual/specs/all-pages/all-pages.visual.css";
-const IMAGE_DECODE_TIMEOUT_MS = 2_000;
+const IMAGE_DECODE_TIMEOUT_MS = 2000;
 
 const VIEWPORTS = [
   {
@@ -40,20 +43,23 @@ const addStableCookies = async (page: Page, baseUrl: string) => {
     { name: "LTF9525AbTest", value: "LTF9525AbTest-A", url: cookieUrl },
   ]);
   await page.addInitScript(() => {
-    window.sessionStorage.setItem("projectDetailViewedIds", "1001\t1002\t1003");
+    globalThis.sessionStorage.setItem("projectDetailViewedIds", "1001\t1002\t1003");
   });
 };
 
 const waitForImagesReady = async (target: Locator) => {
   await target.evaluate(async (element, timeoutMs) => {
+    // oxlint-disable-next-line promise/avoid-new -- ブラウザのタイマーを画像のデコード完了と競争させる。
     const timeout = new Promise((resolve) => {
-      window.setTimeout(resolve, timeoutMs);
+      globalThis.setTimeout(resolve, timeoutMs);
     });
-    const images = Array.from(element.querySelectorAll("img"));
+    const images = [...element.querySelectorAll("img")];
     await Promise.all(
       images.map(async (image) => {
-        if (image.complete) return;
-        await Promise.race([image.decode().catch(() => undefined), timeout]);
+        if (image.complete) {
+          return;
+        }
+        await Promise.race([image.decode().catch(() => {}), timeout]);
       }),
     );
   }, IMAGE_DECODE_TIMEOUT_MS);
@@ -62,15 +68,27 @@ const waitForImagesReady = async (target: Locator) => {
 const waitForHeightStable = async (page: Page) => {
   await page.waitForFunction(async (selector) => {
     const element = document.querySelector(selector);
-    if (!element) return false;
+    if (!element) {
+      return false;
+    }
 
-    const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+    // oxlint-disable-next-line unicorn/consistent-function-scoping -- Playwright がブラウザで単独実行する関数内に定義する必要がある。
+    const nextFrame = () =>
+      // oxlint-disable-next-line promise/avoid-new -- requestAnimationFrame のコールバックを待機可能にする。
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          resolve();
+        });
+      });
     let previousHeight = element.getBoundingClientRect().height;
 
     for (let index = 0; index < 5; index += 1) {
+      // oxlint-disable-next-line eslint/no-await-in-loop -- スクリーンショット前に連続する描画フレームを待つ。
       await nextFrame();
       const currentHeight = element.getBoundingClientRect().height;
-      if (currentHeight !== previousHeight) return false;
+      if (currentHeight !== previousHeight) {
+        return false;
+      }
       previousHeight = currentHeight;
     }
 
@@ -91,10 +109,10 @@ const waitForPageReady = async (page: Page) => {
 
 for (const { label, suffix, viewport, userAgent } of VIEWPORTS) {
   test.describe(`all ltf-react pages ${label} visual`, () => {
-    test.use(userAgent ? { viewport, userAgent } : { viewport });
+    test.use(userAgent != null && userAgent !== "" ? { viewport, userAgent } : { viewport });
 
     for (const route of allPageVisualRoutes) {
-      test(`${route.slug}`, async ({ page, baseURL }) => {
+      test(route.slug, async ({ page, baseURL }) => {
         await addStableCookies(page, baseURL ?? "http://127.0.0.1:3001");
         await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await waitForPageReady(page);

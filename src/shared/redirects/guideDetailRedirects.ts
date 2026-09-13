@@ -1,7 +1,8 @@
 import { createMapRedirectResolver } from "./redirectResolver.ts";
 
 const guideUri = "/guide/detail/";
-export const guideDetailRedirectMap: Record<string, string> = {
+
+export const guideDetailRedirectMap: Readonly<Record<string, string>> = {
   [`${guideUri}1/`]: `${guideUri}1508/`,
   [`${guideUri}1/p2/`]: `${guideUri}1508#2`,
   [`${guideUri}1/p3/`]: `${guideUri}1508#3`,
@@ -143,8 +144,5 @@ export const guideDetailRedirectMap: Record<string, string> = {
   [`${guideUri}1506/`]: `${guideUri}921/`,
 };
 
-/**
- * 旧ガイド詳細ページ → 新ガイド詳細ページへの301リダイレクト
- * 移行元: ltf-front app/middleware/redirectGuideDetailPage.global.ts
- */
+/** 旧ガイド詳細ページ → 新ガイド詳細ページへの301リダイレクト 移行元: ltf-front app/middleware/redirectGuideDetailPage.global.ts */
 export const getGuideDetailRedirect = createMapRedirectResolver(guideDetailRedirectMap);

@@ -1,10 +1,13 @@
-import { LtServices } from "@shared/constants/ltServices.ts";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import { LtServices } from "@shared/constants/ltServices.ts";
+
 import { FooterSp } from "./FooterSp.tsx";
 
-describe("FooterSp", () => {
+describe(FooterSp, () => {
   it("案件検索リンクがカテゴリごとに表示されること", () => {
+    expect.hasAssertions();
     render(<FooterSp />);
 
     expect(screen.getByText("スキル")).toBeInTheDocument();
@@ -17,6 +20,7 @@ describe("FooterSp", () => {
   });
 
   it("ボトムリンクが表示され isBrand のリンクはレバテックのホストで解決されること", () => {
+    expect.hasAssertions();
     render(<FooterSp />);
 
     expect(screen.getByRole("link", { name: "サイトマップ" })).toHaveAttribute("href", "/sitemap");
@@ -27,6 +31,7 @@ describe("FooterSp", () => {
   });
 
   it("関連サービスのリンクが LtServices の URL で表示されること", () => {
+    expect.hasAssertions();
     render(<FooterSp />);
     expect(screen.getByRole("link", { name: "IT転職ならレバテックキャリア" })).toHaveAttribute(
       "href",
@@ -35,6 +40,7 @@ describe("FooterSp", () => {
   });
 
   it("コピーライトに現在の年が表示されること", () => {
+    expect.hasAssertions();
     render(<FooterSp />);
     expect(
       screen.getByText(`© 2017-${new Date().getFullYear()} Levtech Co., Ltd.`),

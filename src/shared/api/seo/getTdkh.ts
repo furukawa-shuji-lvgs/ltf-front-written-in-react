@@ -1,9 +1,11 @@
 import "server-only";
-
 import type { GetTdkhRequest, GetTdkhResponse } from "@generated/shared/seo.ts";
+
 import { callGrpcRequest, isGrpcResultSuccess } from "@shared/lib/grpc/request.ts";
-import { sharedSeoClient } from "./client.ts";
+
 import type { GetTdkhResponseDto } from "./types.ts";
+
+import { sharedSeoClient } from "./client.ts";
 
 const fallbackTdkhResponse: GetTdkhResponseDto = {
   tdkh: {
@@ -15,8 +17,8 @@ const fallbackTdkhResponse: GetTdkhResponseDto = {
   },
 };
 
-export const getTdkh = async (req: GetTdkhRequest): Promise<GetTdkhResponseDto> => {
-  return callGrpcRequest<GetTdkhRequest, GetTdkhResponse, GetTdkhResponseDto>({
+export const getTdkh = (req: Readonly<GetTdkhRequest>): Promise<GetTdkhResponseDto> =>
+  callGrpcRequest<GetTdkhRequest, GetTdkhResponse, GetTdkhResponseDto>({
     name: "sharedSeo.getTdkh",
     method: sharedSeoClient.getTdkh.bind(sharedSeoClient),
     request: req,
@@ -32,4 +34,3 @@ export const getTdkh = async (req: GetTdkhRequest): Promise<GetTdkhResponseDto> 
       },
     }),
   });
-};

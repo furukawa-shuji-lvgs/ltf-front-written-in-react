@@ -1,17 +1,21 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, it } from "vitest";
+
 import { CRAWLER_HEADER_NAME, isCrawler } from "./isCrawler.ts";
 
-describe("isCrawler", () => {
-  test("x-crawler ヘッダーがある場合に true を返すこと", () => {
+describe(isCrawler, () => {
+  it("x-crawler ヘッダーがある場合に true を返すこと", () => {
+    expect.hasAssertions();
     const headers = new Headers({ [CRAWLER_HEADER_NAME]: "1" });
     expect(isCrawler(headers)).toBe(true);
   });
 
-  test("x-crawler ヘッダーがない場合に false を返すこと", () => {
+  it("x-crawler ヘッダーがない場合に false を返すこと", () => {
+    expect.hasAssertions();
     expect(isCrawler(new Headers())).toBe(false);
   });
 
-  test("headers が渡されない場合に false を返すこと", () => {
+  it("headers が渡されない場合に false を返すこと", () => {
+    expect.hasAssertions();
     expect(isCrawler()).toBe(false);
     expect(isCrawler(null)).toBe(false);
   });

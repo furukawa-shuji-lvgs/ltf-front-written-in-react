@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+
+import { requireValue } from "../../../tests/assertions.ts";
 import { createMetadataForRoute, listLegacyPageSources, resolvePageRoute } from "./routeMatcher.ts";
 import { pageDefinitions } from "./routes.ts";
 
@@ -57,29 +59,34 @@ const expectedLegacySources = [
 ];
 
 describe("routeCatalog", () => {
-  it("Nuxt の全ページファイルを route catalog に含めること", () => {
-    expect(listLegacyPageSources().sort()).toEqual(expectedLegacySources.sort());
+  it("nuxt の全ページファイルを route catalog に含めること", () => {
+    expect.hasAssertions();
+    expect(listLegacyPageSources().toSorted()).toStrictEqual(expectedLegacySources.toSorted());
   });
 
   it("route id が重複しないこと", () => {
+    expect.hasAssertions();
     const ids = pageDefinitions.map((definition) => definition.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("トップページを解決すること", () => {
-    const match = resolvePageRoute([]);
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute([]));
     expect(match?.definition.id).toBe("top");
     expect(match?.pathname).toBe("/");
   });
 
   it("接頭辞付きページネーションを解決すること", () => {
-    const match = resolvePageRoute(["guide", "tag", "12", "p3"]);
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute(["guide", "tag", "12", "p3"]));
     expect(match?.definition.id).toBe("guide-tag-tagId-ppage");
-    expect(match?.params).toEqual({ tagId: "12", page: "3" });
+    expect(match?.params).toStrictEqual({ tagId: "12", page: "3" });
     expect(match?.pathname).toBe("/guide/tag/12/p3/");
   });
 
   it("固定パスはカテゴリ動的ルートより優先して解決すること", () => {
+    expect.hasAssertions();
     expect(resolvePageRoute(["project", "search"])?.definition.id).toBe("project-search");
     expect(resolvePageRoute(["project", "closedsearch", "p2"])?.definition.id).toBe(
       "project-closedsearch-ppage",
@@ -87,24 +94,26 @@ describe("routeCatalog", () => {
   });
 
   it("カテゴリ動的ルートを解決すること", () => {
-    const match = resolvePageRoute(["project", "java", "remote", "p4"]);
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute(["project", "java", "remote", "p4"]));
     expect(match?.definition.id).toBe("project-category-cross-ppage");
-    expect(match?.params).toEqual({ category1: "java", category2: "remote", page: "4" });
+    expect(match?.params).toStrictEqual({ category1: "java", category2: "remote", page: "4" });
   });
 
   it("数値パラメータが不正なルートは解決しないこと", () => {
+    expect.hasAssertions();
     expect(resolvePageRoute(["guide", "detail", "abc"])).toBeNull();
     expect(resolvePageRoute(["word", "p0"])).toBeNull();
   });
 
   it("metadata に canonical を設定すること", () => {
-    const match = resolvePageRoute(["project", "search"]);
-    if (!match) {
-      throw new Error("project/search route should resolve");
-    }
+    expect.hasAssertions();
+    const match = requireValue(resolvePageRoute(["project", "search"]));
 
     const metadata = createMetadataForRoute(match);
     expect(metadata.title).toBe("フリーランス案件検索");
-    expect(metadata.alternates).toEqual({ canonical: "http://localhost:3000/project/search/" });
+    expect(metadata.alternates).toStrictEqual({
+      canonical: "http://localhost:3000/project/search/",
+    });
   });
 });

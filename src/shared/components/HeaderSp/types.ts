@@ -1,79 +1,91 @@
 export interface HeaderSpImage {
-  src: string;
-  width: number;
-  height: number;
-  alt?: string;
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+  readonly alt?: string;
 }
 
 export interface HeaderSpNavButton {
-  icon: HeaderSpImage;
-  href: string | null;
-  target: string;
-  rel: string;
-  text: string;
-  isCta: boolean;
-  isMenu: boolean;
-  dataClickLabel: string;
+  readonly icon: HeaderSpImage;
+  readonly href: string | null;
+  readonly target: string;
+  readonly rel: string;
+  readonly text: string;
+  readonly isCta: boolean;
+  readonly isMenu: boolean;
+  readonly dataClickLabel: string;
 }
 
 export interface HeaderSpMenuLink {
-  href: string;
-  text: string;
-  target: string;
-  dataClickLabel: string;
-  logo: HeaderSpImage | null;
+  readonly href: string;
+  readonly text: string;
+  readonly target: string;
+  readonly dataClickLabel: string;
+  readonly logo: HeaderSpImage | null;
 }
 
 export interface HeaderSpCommonMenu {
-  title: string;
-  links: HeaderSpMenuLink[];
+  readonly title: string;
+  readonly links: readonly HeaderSpMenuLink[];
 }
 
 /** Server Component 側で URL 解決済みの HeaderSp 表示データ */
 export interface HeaderSpViewData {
-  logo: {
-    href: string;
-    dataClickLabel: string;
-    image: HeaderSpImage;
+  readonly logo: {
+    readonly href: string;
+    readonly dataClickLabel: string;
+    readonly image: HeaderSpImage;
   };
-  leftButtons: HeaderSpNavButton[];
-  rightButtons: HeaderSpNavButton[];
-  navHead: {
-    logo: {
-      href: string;
-      dataClickLabel: string;
-      image: HeaderSpImage;
+  readonly leftButtons: readonly HeaderSpNavButton[];
+  readonly rightButtons: readonly HeaderSpNavButton[];
+  readonly navHead: {
+    readonly logo: {
+      readonly href: string;
+      readonly dataClickLabel: string;
+      readonly image: HeaderSpImage;
     };
-    register: {
-      href: string;
-      text: string;
-      dataClickLabel: string;
+    readonly register: {
+      readonly href: string;
+      readonly text: string;
+      readonly dataClickLabel: string;
     };
-    close: {
-      text: string;
-      dataClickLabel: string;
+    readonly close: {
+      readonly text: string;
+      readonly dataClickLabel: string;
     };
   };
-  projectMenu: {
-    title: string;
-    category: {
-      title: string;
-      links: { href: string; text: string; dataClickLabel: string }[];
-      cta: { href: string; text: string; dataClickLabel: string };
+  readonly projectMenu: {
+    readonly title: string;
+    readonly category: {
+      readonly title: string;
+      readonly links: readonly {
+        readonly href: string;
+        readonly text: string;
+        readonly dataClickLabel: string;
+      }[];
+      readonly cta: {
+        readonly href: string;
+        readonly text: string;
+        readonly dataClickLabel: string;
+      };
     };
-    link: { href: string; text: string; dataClickLabel: string };
+    readonly link: {
+      readonly href: string;
+      readonly text: string;
+      readonly dataClickLabel: string;
+    };
   };
-  serviceMenu: HeaderSpCommonMenu;
-  usefulMenu: HeaderSpCommonMenu;
-  companyLink: {
-    href: string;
-    text: string;
-    logo: HeaderSpImage;
-    dataClickLabel: string;
+  readonly serviceMenu: HeaderSpCommonMenu;
+  readonly usefulMenu: HeaderSpCommonMenu;
+  readonly companyLink: {
+    readonly href: string;
+    readonly text: string;
+    readonly logo: HeaderSpImage;
+    readonly dataClickLabel: string;
   };
-  login: {
-    href: string;
-    text: string;
-    dataClickLabel: string;
+  readonly login: {
+    readonly href: string;
+    readonly text: string;
+    readonly dataClickLabel: string;
   };
 }

@@ -1,12 +1,21 @@
 "use client";
 
-import { reportClientError } from "@shared/lib/clientErrorReporter.ts";
 import { useEffect } from "react";
 
-const ErrorPage = ({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) => {
+import { reportClientError } from "@shared/lib/clientErrorReporter.ts";
+
+const ErrorPage = ({
+  error,
+  reset,
+}: {
+  readonly error: Error & { readonly digest?: string };
+  readonly reset: () => void;
+}) => {
   useEffect(() => {
     reportClientError(
-      error.digest ? { message: error.message, digest: error.digest } : { message: error.message },
+      error.digest != null && error.digest !== ""
+        ? { message: error.message, digest: error.digest }
+        : { message: error.message },
     );
   }, [error]);
 

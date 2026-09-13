@@ -14,7 +14,7 @@ export const readLimitedRequestText = async (
   limitBytes: number,
 ): Promise<string> => {
   const contentLength = request.headers.get("content-length");
-  if (contentLength && Number(contentLength) > limitBytes) {
+  if (contentLength != null && contentLength !== "" && Number(contentLength) > limitBytes) {
     throw new RequestBodyTooLargeError(limitBytes);
   }
 

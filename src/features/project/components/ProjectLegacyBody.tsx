@@ -1,15 +1,21 @@
+import Link from "next/link";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import { SearchPanel, Section } from "@features/legacyVrt/components/LegacyVrtPageParts.tsx";
 import {
   LegacyFeatureGrid,
   LegacyInfoTable,
   legacyTechnologies,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
-import Link from "next/link";
-import { getProjectSummaries, type ProjectSummary } from "../api/projectSummaries.ts";
 
-const ProjectCard = ({ project }: { project: ProjectSummary }) => (
+import type { ProjectSummary } from "../api/projectSummaries.ts";
+
+import { getProjectSummaries } from "../api/projectSummaries.ts";
+
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+const ProjectCard = ({ project }: { readonly project: ProjectSummary }) => (
   <article className={styles.projectCard}>
     <h3>{project.title}</h3>
     <p>{project.price}</p>
@@ -22,7 +28,7 @@ const ProjectCard = ({ project }: { project: ProjectSummary }) => (
   </article>
 );
 
-const ProjectCardList = ({ projects }: { projects: ProjectSummary[] }) => (
+const ProjectCardList = ({ projects }: { readonly projects: readonly ProjectSummary[] }) => (
   <div className={styles.projectCardList}>
     {projects.map((project) => (
       <ProjectCard
@@ -81,7 +87,7 @@ const ProjectSearchBody = () => (
   </section>
 );
 
-const ProjectListBody = ({ paged }: { paged: boolean }) => (
+const ProjectListBody = ({ paged }: { readonly paged: boolean }) => (
   <section className={styles.projectListPage}>
     <div className={styles.contentInner}>
       <SearchPanel id="project-list-keyword" />
@@ -95,10 +101,10 @@ const ProjectListBody = ({ paged }: { paged: boolean }) => (
             >
               <h3>{title}</h3>
               {legacyTechnologies.slice(0, 4).map((item) => (
-                <label key={`${title}-${item}`}>
-                  <input type="checkbox" />
-                  {item}
-                </label>
+                <FilterCheckbox
+                  key={`${title}-${item}`}
+                  label={item}
+                />
               ))}
             </div>
           ))}
@@ -112,7 +118,7 @@ const ProjectListBody = ({ paged }: { paged: boolean }) => (
   </section>
 );
 
-const ProjectClosedBody = ({ paged }: { paged: boolean }) => (
+const ProjectClosedBody = ({ paged }: { readonly paged: boolean }) => (
   <section className={styles.closedProjectPage}>
     <div className={styles.contentInner}>
       <h2>募集終了の求人・案件一覧</h2>
@@ -178,12 +184,18 @@ const ProjectUndecidedBody = () => (
   </main>
 );
 
-export const ProjectLegacyBody = ({ match }: { match: PageRouteMatch }) => {
+export const ProjectLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
   const { definition } = match;
 
-  if (definition.id === "project-undecided") return <ProjectUndecidedBody />;
-  if (definition.id === "project-search") return <ProjectSearchBody />;
-  if (definition.id === "project-detail-id") return <ProjectDetailBody />;
+  if (definition.id === "project-undecided") {
+    return <ProjectUndecidedBody />;
+  }
+  if (definition.id === "project-search") {
+    return <ProjectSearchBody />;
+  }
+  if (definition.id === "project-detail-id") {
+    return <ProjectDetailBody />;
+  }
   if (definition.id === "project-closedsearch" || definition.id === "project-closedsearch-ppage") {
     return <ProjectClosedBody paged={definition.id.includes("ppage")} />;
   }
@@ -194,3 +206,10 @@ export const ProjectLegacyBody = ({ match }: { match: PageRouteMatch }) => {
     />
   );
 };
+
+const FilterCheckbox = ({ label }: { readonly label: string }) => (
+  <label>
+    <input type="checkbox" />
+    {label}
+  </label>
+);

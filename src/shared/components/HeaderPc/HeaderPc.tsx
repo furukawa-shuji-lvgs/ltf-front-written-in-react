@@ -1,15 +1,17 @@
 import { HeaderData } from "@shared/constants/header.ts";
 import { LtServices } from "@shared/constants/ltServices.ts";
 import { imageUrl } from "@shared/lib/image.ts";
-import { HeaderPcView } from "./HeaderPcView.tsx";
+
 import type { CommonNavData, HeaderPcViewData } from "./types.ts";
 
+import { HeaderPcView } from "./HeaderPcView.tsx";
+
 export interface HeaderPcProps {
-  h1: string;
-  isFixed?: boolean;
-  isSticky?: boolean;
-  size?: "-layout-l" | "";
-  isP?: boolean;
+  readonly h1: string;
+  readonly isFixed?: boolean;
+  readonly isSticky?: boolean;
+  readonly size?: "-layout-l" | "";
+  readonly isP?: boolean;
 }
 
 const headerData = HeaderData.pc;
@@ -20,10 +22,10 @@ const buildViewData = (): HeaderPcViewData => {
     throw new Error("HeaderData.pc.navLinks に project メニューが定義されていません");
   }
 
-  const commonNavs: CommonNavData[] = headerData.navLinks
+  const commonNavs: readonly CommonNavData[] = headerData.navLinks
     .filter((link) => link.menuKey !== "project")
     .map((link) => ({
-      menuKey: link.menuKey as CommonNavData["menuKey"],
+      menuKey: link.menuKey,
       name: link.name,
       dropdownHeaderName:
         ("dropdownHeaderName" in link ? link.dropdownHeaderName : undefined) ?? link.name,

@@ -1,31 +1,31 @@
 export interface Tdkh {
-  key: string;
-  title: string;
-  description: string;
-  keywords: string;
-  h1: string;
+  readonly key: string;
+  readonly title: string;
+  readonly description: string;
+  readonly keywords: string;
+  readonly h1: string;
 }
 
 export interface GetTdkhResponseDto {
-  tdkh: Tdkh;
+  readonly tdkh: Tdkh;
 }
 
 export interface SeoText {
-  title?: string;
-  text?: string;
-  secondTitle?: string;
-  secondText?: string;
+  readonly title?: string;
+  readonly text?: string;
+  readonly secondTitle?: string;
+  readonly secondText?: string;
 }
 
 export interface GetSeoTextResponseDto {
-  seoText: SeoText;
+  readonly seoText: SeoText;
 }
 
 export interface BreadCrumb {
-  text: string;
-  url: string;
+  readonly text: string;
+  readonly url: string;
 }
 
 export interface GetBreadCrumbsResponseDto {
-  breadCrumbs: BreadCrumb[];
+  readonly breadCrumbs: readonly BreadCrumb[];
 }

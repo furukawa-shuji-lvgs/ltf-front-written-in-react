@@ -1,11 +1,15 @@
-import { getLogger } from "@shared/lib/logger.ts";
 import { z } from "zod";
 
-const logger = getLogger("ownd-inflow-session");
-const fallbackOrigin = "https://freelance.levtech.jp";
+import { getLogger } from "@shared/lib/logger.ts";
 
+const fallbackOrigin = "https://freelance.levtech.jp";
 export const owndInflowCookieName = "ownd_inflow_session";
-export const owndInflowCookieMaxAgeSeconds = 60 * 60 * 24 * 30;
+const secondsPerDay = 86_400;
+const cookieLifetimeDays = 30;
+
+const logger = getLogger("ownd-inflow-session");
+
+export const owndInflowCookieMaxAgeSeconds = secondsPerDay * cookieLifetimeDays;
 
 export const sessionRequestSchema = z.object({
   fullPath: z.string().min(1),
@@ -32,7 +36,13 @@ export const inflowSessionSchema = z.object({
 });
 
 export type SessionRequest = z.infer<typeof sessionRequestSchema>;
-export type OwndInflowSession = z.infer<typeof inflowSessionSchema>;
+type InflowSessionData = z.infer<typeof inflowSessionSchema>;
+export type OwndInflowSession = Readonly<
+  Omit<InflowSessionData, "inflowInfo" | "accessHistories">
+> & {
+  readonly inflowInfo: Readonly<InflowSessionData["inflowInfo"]>;
+  readonly accessHistories: readonly Readonly<InflowSessionData["accessHistories"][number]>[];
+};
 
 const parseFullPath = (fullPath: string): URL => {
   try {
@@ -86,7 +96,9 @@ export const findOwndInflowSessionCookieValue = (cookieHeader: string | null): s
   const cookies = cookieHeader?.split(";").map((cookie) => cookie.trim()) ?? [];
   const cookie = cookies.find((entry) => entry.startsWith(`${owndInflowCookieName}=`));
 
-  return cookie ? decodeURIComponent(cookie.slice(owndInflowCookieName.length + 1)) : null;
+  return cookie != null && cookie !== ""
+    ? decodeURIComponent(cookie.slice(owndInflowCookieName.length + 1))
+    : null;
 };
 
 export const emptyOwndInflowSessionResponse = {

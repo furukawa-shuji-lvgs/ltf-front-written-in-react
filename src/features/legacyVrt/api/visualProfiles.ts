@@ -1,17 +1,18 @@
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 import type { CSSProperties } from "react";
 
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 export type VisualProfile = {
-  pc: number;
-  sp: number;
+  readonly pc: number;
+  readonly sp: number;
 };
 
 export type VisualStyle = CSSProperties & {
-  "--legacy-pc-height": string;
-  "--legacy-sp-height": string;
+  readonly "--legacy-pc-height": string;
+  readonly "--legacy-sp-height": string;
 };
 
-const visualProfiles: Record<string, VisualProfile> = {
+const visualProfiles: Readonly<Record<string, VisualProfile>> = {
   "achievement-interview-detail-id": { pc: 3066, sp: 3765 },
   "achievement-interview-list": { pc: 3635, sp: 4006 },
   "achievement-interview-list-pid": { pc: 3635, sp: 4006 },

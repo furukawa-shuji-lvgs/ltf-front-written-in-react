@@ -2,9 +2,11 @@ import { spawnSync } from "node:child_process";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-const projectRoot = fileURLToPath(new URL("..", import.meta.url));
 const bufInput = "contracts/grpc";
 const defaultAgainst = ".git#branch=main,subdir=contracts/grpc";
+
+const projectRoot = fileURLToPath(new URL("..", import.meta.url));
+
 const against = process.env.BUF_BREAKING_AGAINST ?? defaultAgainst;
 
 const hasHead =

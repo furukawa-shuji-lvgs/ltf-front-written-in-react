@@ -1,22 +1,27 @@
 "use client";
 
 import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
+
 import styles from "./FooterPc.module.scss";
 
 interface PageTopButtonProps {
-  image: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
+  readonly image: {
+    readonly src: string;
+    readonly width: number;
+    readonly height: number;
+    readonly alt: string;
   };
 }
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 export const PageTopButton = ({ image }: PageTopButtonProps) => (
   <button
     type="button"
     className={styles.pageTop}
-    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    onClick={scrollToTop}
   >
     <LegacyImage
       src={image.src}

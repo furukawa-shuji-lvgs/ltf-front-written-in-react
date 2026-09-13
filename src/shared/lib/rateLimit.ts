@@ -1,18 +1,18 @@
 interface RateLimitBucket {
   count: number;
-  resetAt: number;
+  readonly resetAt: number;
 }
 
 export interface RateLimitConfig {
-  max: number;
-  windowMs: number;
-  now?: () => number;
+  readonly max: number;
+  readonly windowMs: number;
+  readonly now?: () => number;
 }
 
 export interface RateLimitResult {
-  allowed: boolean;
-  remaining: number;
-  resetAt: number;
+  readonly allowed: boolean;
+  readonly remaining: number;
+  readonly resetAt: number;
 }
 
 const buckets = new Map<string, RateLimitBucket>();

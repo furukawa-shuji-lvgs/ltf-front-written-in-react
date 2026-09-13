@@ -35,7 +35,7 @@ src/
 
 - feature 間の import は原則禁止。例外は全ページ移行中の `routeCatalog` のみ。
 - `shared/` から `features/` への import は禁止。違反は `pnpm boundaries:check` で検出する。
-- barrel file は Biome で警告対象。必要なファイルを直接 import する。
+- barrel file は oxlint で警告対象。必要なファイルを直接 import する。
 - ページ数が多くても feature は「ドメイン」単位でまとめる（例: guide 配下 6 ルート → `features/guide` 1 つ）。
 - `LegacyVrtPageShell` は `legacyVrt` 専用の暫定 shell。旧 Nuxt の全ページ VRT が安定したら、各 feature の実装へ本文を段階的に移す。
 
@@ -60,24 +60,22 @@ src/
 移行元 `server/api/grpc/**/*.get.ts|post.ts` を `features/<f>/api/<name>.ts` に移植する。
 
 ```ts
-import "server-only"
+import "server-only";
 
-import { GetXxxRequest } from "@generated/xxx"
-import { XxxClient } from "@generated/xxx.grpc-client"
-import { Result } from "@generated/results/result"
-import { grpcCredentialOptions, grpcCredentials } from "@shared/lib/grpc/credentials"
-import { callGrpc } from "@shared/lib/grpc/call"
-import { getEnv } from "@shared/lib/env"
+import { GetXxxRequest } from "@generated/xxx";
+import { XxxClient } from "@generated/xxx.grpc-client";
+import { Result } from "@generated/results/result";
+import { grpcCredentialOptions, grpcCredentials } from "@shared/lib/grpc/credentials";
+import { callGrpc } from "@shared/lib/grpc/call";
+import { getEnv } from "@shared/lib/env";
 
-const client = new XxxClient(getEnv().GRPC_HOST, grpcCredentials, grpcCredentialOptions)
+const client = new XxxClient(getEnv().GRPC_HOST, grpcCredentials, grpcCredentialOptions);
 
 export const getXxx = async (req: GetXxxRequest): Promise<XxxDto> => {
-    const response = await callGrpc(client.getXxx.bind(client), req)
-    if (response.result !== Result.Success) return emptyDto
-    return {
-        /* protobuf → DTO のマッピング。?? でフォールバックする既存の流儀を踏襲 */
-    }
-}
+  const response = await callGrpc(client.getXxx.bind(client), req);
+  if (response.result !== Result.Success) return emptyDto;
+  return {/* protobuf → DTO のマッピング。?? でフォールバックする既存の流儀を踏襲 */};
+};
 ```
 
 - DTO interface は移行元の定義をそのまま移植し、`types.ts` に置く
@@ -95,12 +93,14 @@ export const getXxx = async (req: GetXxxRequest): Promise<XxxDto> => {
 ## テスト（テストピラミッド）
 
 多い順に:
+
 1. **ユニットテスト（最多・コロケーション）**: `src/**/*.test.ts(x)`。対象: `api/` の DTO マッピング（grpc-client をモック）、hooks、lib、ロジックを持つ関数すべて
 2. **コンポーネントテスト**: Testing Library で `*.test.tsx`。対象: インタラクティブなコンポーネント（フォーム、開閉 UI、ページネーション）と、表示分岐のあるコンポーネント
 3. **インテグレーションテスト（少数）**: `tests/integration/`。ページコンポーネントを api モックで render し、主要要素が揃うことを確認
 4. **E2E（最少・スモーク）**: `tests/e2e/*.spec.ts`。Playwright。主要ページが 200 で表示され、クリティカルパス（検索、フォーム送信 UI）が動くことのみ
 
 規約:
+
 - テスト名は日本語で `前提 / 検証: 振る舞い / 期待: 結果` の形式にする
 - テストケースは AAA（Arrange / Act / Assert）を空行で分け、Act は原則 1 回にする
 - 1 テスト 1 振る舞いに絞り、曖昧な `toBeTruthy()` ではなく具体的な matcher を使う
@@ -112,7 +112,8 @@ export const getXxx = async (req: GetXxxRequest): Promise<XxxDto> => {
 
 ## コードスタイル
 
-- インデント 2 スペース、ダブルクォート、セミコロンあり、複数行 trailing comma あり（`biome.json` 準拠）
+- インデント 2 スペース、ダブルクォート、セミコロンあり、複数行 trailing comma あり（`.oxfmtrc.json` 準拠）
+- lint は `.oxlintrc.json`、整形は `.oxfmtrc.json`。ルール方針とコマンドは [lint と format](./lint-format.md) を参照する。
 - アロー関数コンポーネント + named export（`export const XxxPage = ...`）。`src/app/**` の page/layout のみ default export（Next の要件）
 - 型は `interface` より `type` を優先しない — 移行元の定義に合わせる
 - コメント・テスト名は日本語可（移行元の流儀に合わせる）

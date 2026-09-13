@@ -1,8 +1,11 @@
-import { OwndInflowSessionRecorder } from "@shared/components/OwndInflowSessionRecorder/OwndInflowSessionRecorder.tsx";
-import { APP_ROOT_TEST_ID, LEGACY_APP_ROOT_ID } from "@shared/constants/appRoot.ts";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+import { OwndInflowSessionRecorder } from "@shared/components/OwndInflowSessionRecorder/OwndInflowSessionRecorder.tsx";
+import { APP_ROOT_TEST_ID, LEGACY_APP_ROOT_ID } from "@shared/constants/appRoot.ts";
+
 import { rootFontClassName } from "./fonts.ts";
+
 import "@shared/styles/globals.scss";
 
 const description =
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({ children }: { children: ReactNode }) => (
+const RootLayout = ({ children }: { readonly children: ReactNode }) => (
   <html
     lang="ja"
     className={rootFontClassName}

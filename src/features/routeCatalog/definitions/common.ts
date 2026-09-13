@@ -12,7 +12,7 @@ const primaryActions = {
   guide: { label: "ガイドを読む", href: "/guide/" },
   service: { label: "サービスを見る", href: "/service/" },
   word: { label: "用語を調べる", href: "/word/" },
-} satisfies Record<string, PageAction>;
+} satisfies Readonly<Record<string, PageAction>>;
 
 const featureSections = {
   achievement: [
@@ -131,7 +131,7 @@ const featureSections = {
       body: "用語に関連する求人・案件一覧へ移動し、具体的な募集内容を確認できます。",
     },
   ],
-} satisfies Record<RouteFeature, readonly PageSection[]>;
+} satisfies Readonly<Record<RouteFeature, readonly PageSection[]>>;
 
 const actionsByFeature = {
   achievement: [primaryActions.projectSearch, primaryActions.register],
@@ -146,7 +146,7 @@ const actionsByFeature = {
   service: [primaryActions.projectSearch, primaryActions.register],
   top: [primaryActions.projectSearch, primaryActions.register],
   word: [primaryActions.projectSearch, primaryActions.guide],
-} satisfies Record<RouteFeature, readonly PageAction[]>;
+} satisfies Readonly<Record<RouteFeature, readonly PageAction[]>>;
 
 export const definePage = ({
   feature,
@@ -156,10 +156,10 @@ export const definePage = ({
   ogType = feature === "top" ? "website" : "article",
   ...definition
 }: Omit<PageDefinition, "actions" | "layout" | "sections" | "ogType"> & {
-  actions?: readonly PageAction[];
-  layout?: RouteLayout;
-  sections?: readonly PageSection[];
-  ogType?: "article" | "website";
+  readonly actions?: readonly PageAction[];
+  readonly layout?: RouteLayout;
+  readonly sections?: readonly PageSection[];
+  readonly ogType?: "article" | "website";
 }): PageDefinition => ({
   ...definition,
   feature,

@@ -1,14 +1,19 @@
 import type { Device } from "@shared/lib/device.ts";
-import styles from "./PaginationListEllipsis.module.scss";
+
 import type { PaginationConstData, PaginationMeta } from "./pagination.ts";
+
 import { createEllipsisPagination, createPaginationPath } from "./pagination.ts";
 
+import styles from "./PaginationListEllipsis.module.scss";
+
+const mobileMaxCount = 6;
+
 export interface PaginationListEllipsisProps {
-  paginationMeta: PaginationMeta;
-  paginationConstData: PaginationConstData;
-  device: Device;
-  variant?: "-narrow" | "";
-  maxCount?: number;
+  readonly paginationMeta: PaginationMeta;
+  readonly paginationConstData: PaginationConstData;
+  readonly device: Device;
+  readonly variant?: "-narrow" | "";
+  readonly maxCount?: number;
 }
 
 const ChevronLeftIcon = () => (
@@ -40,9 +45,9 @@ const PageItem = ({
   currentPage,
   href,
 }: {
-  page: number;
-  currentPage: number;
-  href: string;
+  readonly page: number;
+  readonly currentPage: number;
+  readonly href: string;
 }) => (
   <li className={`${styles.paginationItem} ${page === currentPage ? styles.isCurrent : ""}`}>
     {page === currentPage ? (
@@ -68,7 +73,7 @@ export const PaginationListEllipsis = ({
 }: PaginationListEllipsisProps) => {
   const makePath = (page: number) => createPaginationPath(paginationConstData, page);
   // 両端の常に表示される数値を除いて表示される list アイテム数の最大値
-  const resolvedMaxCount = device === "sp" ? 6 : maxCount;
+  const resolvedMaxCount = device === "sp" ? mobileMaxCount : maxCount;
   const listClass = `${styles.paginationList} ${variant === "-narrow" ? styles.narrow : ""}`;
 
   return (
@@ -84,13 +89,12 @@ export const PaginationListEllipsis = ({
       </a>
       {paginationMeta.totalPages <= resolvedMaxCount ? (
         <ul className={listClass}>
-          {[...Array(paginationMeta.totalPages)].map((_, i) => (
+          {Array.from({ length: paginationMeta.totalPages }, (_, index) => (
             <PageItem
-              // biome-ignore lint/suspicious/noArrayIndexKey: ページ番号そのもののため
-              key={i + 1}
-              page={i + 1}
+              key={index + 1}
+              page={index + 1}
               currentPage={paginationMeta.currentPage}
-              href={makePath(i + 1)}
+              href={makePath(index + 1)}
             />
           ))}
         </ul>

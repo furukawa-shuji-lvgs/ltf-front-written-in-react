@@ -1,17 +1,19 @@
+import type { ReactNode } from "react";
+
 import { FooterPc } from "@shared/components/FooterPc/FooterPc.tsx";
 import { FooterSp } from "@shared/components/FooterSp/FooterSp.tsx";
 import { HeaderPc } from "@shared/components/HeaderPc/HeaderPc.tsx";
 import { HeaderSp } from "@shared/components/HeaderSp/HeaderSp.tsx";
 import { getDevice } from "@shared/lib/device.ts";
-import type { ReactNode } from "react";
+
 import styles from "./DefaultLayout.module.scss";
 
 export interface DefaultLayoutProps {
   /** TDKH の h1（移行元では layout 内で getTdkh していたが、ページ側で取得して渡す） */
-  h1: string;
-  /** h1 タグではなく p タグで見出しを表示するか（旧 route.meta.isP 相当） */
-  isP?: boolean;
-  children: ReactNode;
+  readonly h1: string;
+  /** H1 タグではなく p タグで見出しを表示するか（旧 route.meta.isP 相当） */
+  readonly isP?: boolean;
+  readonly children: ReactNode;
 }
 
 // 移行元: app/layouts/default.vue
@@ -28,7 +30,7 @@ export const DefaultLayout = async ({ h1, isP = false, children }: DefaultLayout
         />
         <HeaderPc
           h1={h1}
-          isFixed={true}
+          isFixed
         />
         {children}
         <FooterPc />

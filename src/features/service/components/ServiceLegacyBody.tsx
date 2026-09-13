@@ -1,3 +1,5 @@
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
 import { profileFor } from "@features/legacyVrt/api/visualProfiles.ts";
 import { Section } from "@features/legacyVrt/components/LegacyVrtPageParts.tsx";
 import {
@@ -7,10 +9,10 @@ import {
   LegacyProjectCardList,
   LegacyStepList,
 } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-const ServiceBody = ({ match }: { match: PageRouteMatch }) => {
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+const ServiceBody = ({ match }: { readonly match: PageRouteMatch }) => {
   const longPage = profileFor(match).pc > 7000;
   const pickup = match.definition.id === "service-pickup";
 
@@ -51,7 +53,7 @@ const ServiceBody = ({ match }: { match: PageRouteMatch }) => {
   );
 };
 
-const ServiceResponsiveBody = ({ match }: { match: PageRouteMatch }) => (
+const ServiceResponsiveBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <>
     <ServiceBody match={match} />
     <div className={styles.spReplacement}>
@@ -154,7 +156,7 @@ const ServiceOnsiteSpBody = () => (
   </section>
 );
 
-const ServiceAssessBody = ({ complete }: { complete: boolean }) => (
+const ServiceAssessBody = ({ complete }: { readonly complete: boolean }) => (
   <main className={complete ? styles.assessCompleteMain : styles.assessMain}>
     <section className={styles.assessHero}>
       <h1>{complete ? "診断結果" : "フリーランスエンジニア 単価診断"}</h1>
@@ -176,7 +178,7 @@ const ServiceAssessBody = ({ complete }: { complete: boolean }) => (
   </main>
 );
 
-export const ServiceLegacyBody = ({ match }: { match: PageRouteMatch }) => {
+export const ServiceLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => {
   const { definition } = match;
 
   if (definition.id === "service-assess" || definition.id === "service-assess-complete") {

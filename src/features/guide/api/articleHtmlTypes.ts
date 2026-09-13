@@ -1,14 +1,14 @@
 type HeaderItem = {
-  title: string;
-  id: number;
+  readonly title: string;
+  readonly id: number;
 };
 
 export interface TableOfContentsItem {
-  h2: HeaderItem;
-  h3: HeaderItem[];
+  readonly h2: HeaderItem;
+  readonly h3: readonly HeaderItem[];
 }
 
 export interface ProcessedArticleHtml {
-  html: string | null;
-  toc: TableOfContentsItem[];
+  readonly html: string | null;
+  readonly toc: readonly TableOfContentsItem[];
 }

@@ -6,8 +6,12 @@ const root = process.cwd();
 const scanDirs = ["src", "tests"].map((dir) => path.join(root, dir));
 const extensions = new Set([".ts", ".tsx", ".js", ".jsx"]);
 const generatedRelativePattern =
-  /(?:import|export)\s+(?:type\s+)?(?:[^"']*?\s+from\s+)?["'](?:\.\.\/)+contracts\/grpc\/generated\/[^"']+["']/g;
+  /(?:import|export)\s+(?:type\s+)?(?:[^"']*?\s+from\s+)?["'](?:\.\.\/)+contracts\/grpc\/generated\/[^"']+["']/gu;
 
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 const collectFiles = (dir) => {
   const entries = readdirSync(dir);
   const files = [];
@@ -16,7 +20,9 @@ const collectFiles = (dir) => {
     const fullPath = path.join(dir, entry);
     const stats = statSync(fullPath);
     if (stats.isDirectory()) {
-      if (entry === "node_modules") continue;
+      if (entry === "node_modules") {
+        continue;
+      }
       files.push(...collectFiles(fullPath));
       continue;
     }
@@ -29,7 +35,12 @@ const collectFiles = (dir) => {
   return files;
 };
 
+/** @param {string} value */
 const toPosix = (value) => value.split(path.sep).join("/");
+/**
+ * @param {string} source
+ * @param {number} index
+ */
 const lineNumberAt = (source, index) => source.slice(0, index).split("\n").length;
 const violations = [];
 

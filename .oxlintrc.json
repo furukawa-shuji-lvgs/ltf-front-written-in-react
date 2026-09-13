@@ -1,0 +1,550 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc",
+    "import",
+    "jsdoc",
+    "react",
+    "react-perf",
+    "nextjs",
+    "jsx-a11y",
+    "promise",
+    "node"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "options": {
+    "typeAware": true,
+    "reportUnusedDisableDirectives": "error"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "19.2",
+      "linkComponents": [
+        {
+          "name": "Link",
+          "linkAttribute": "href"
+        }
+      ]
+    },
+    "next": {
+      "rootDir": "."
+    },
+    "jsx-a11y": {
+      "components": {
+        "Link": "a",
+        "Image": "img"
+      }
+    }
+  },
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/.turbo/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/dist/**",
+    "**/generated/**",
+    "**/out/**",
+    "**/playwright-report/**",
+    "**/test-results/**",
+    "next-env.d.ts",
+    "public/browserMonitoringPrd.js",
+    "public/browserMonitoringStg.js",
+    "**/.agents/**",
+    "**/.codex/**"
+  ],
+  "rules": {
+    "eslint/array-callback-return": "error",
+    "eslint/eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "eslint/no-alert": "error",
+    "eslint/no-console": "error",
+    "eslint/no-debugger": "error",
+    "eslint/no-duplicate-imports": [
+      "error",
+      {
+        "allowSeparateTypeImports": true
+      }
+    ],
+    "eslint/no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "eslint/no-implicit-globals": "error",
+    "eslint/no-param-reassign": "warn",
+    "eslint/no-proto": "error",
+    "eslint/no-regex-spaces": "error",
+    "eslint/no-sequences": "error",
+    "eslint/no-ternary": "off",
+    "eslint/no-var": "error",
+    "eslint/one-var": ["warn", "never"],
+    "eslint/prefer-const": "error",
+    "eslint/sort-imports": "off",
+    "eslint/sort-keys": "off",
+    "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
+    "import/exports-last": "off",
+    "import/group-exports": "off",
+    "import/no-amd": "error",
+    "import/no-commonjs": "warn",
+    "import/no-cycle": "error",
+    "import/no-default-export": "warn",
+    "import/no-dynamic-require": "error",
+    "import/no-named-export": "off",
+    "import/no-nodejs-modules": "off",
+    "import/no-unassigned-import": [
+      "warn",
+      {
+        "allow": ["**/*.css", "**/*.scss", "server-only", "@testing-library/jest-dom/**"]
+      }
+    ],
+    "import/no-webpack-loader-syntax": "error",
+    "import/prefer-default-export": "off",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
+    "node/handle-callback-err": "error",
+    "node/no-new-require": "error",
+    "node/no-path-concat": "error",
+    "node/no-process-env": "warn",
+    "oxc/no-barrel-file": "warn",
+    "oxc/no-const-enum": "error",
+    "promise/catch-or-return": "error",
+    "react/button-has-type": "error",
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
+    "react/jsx-boolean-value": ["warn", "never"],
+    "react/jsx-no-target-blank": "error",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-danger": "error",
+    "react/no-unknown-property": "error",
+    "react/prefer-function-component": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/rules-of-hooks": "error",
+    "nextjs/no-img-element": "warn",
+    "typescript/consistent-type-definitions": "off",
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
+    ],
+    "typescript/no-empty-object-type": "error",
+    "typescript/no-explicit-any": "warn",
+    "typescript/no-import-type-side-effects": "error",
+    "typescript/no-invalid-void-type": "error",
+    "typescript/no-misused-promises": "error",
+    "typescript/no-namespace": "error",
+    "typescript/no-non-null-asserted-nullish-coalescing": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-require-imports": "error",
+    "typescript/no-var-requires": "error",
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/use-unknown-in-catch-callback-variable": "warn",
+    "unicorn/filename-case": [
+      "warn",
+      {
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true,
+          "kebabCase": true
+        }
+      }
+    ],
+    "unicorn/no-abusive-eslint-disable": "error",
+    "unicorn/no-anonymous-default-export": "warn",
+    "unicorn/no-magic-array-flat-depth": "warn",
+    "unicorn/no-null": "off",
+    "unicorn/no-useless-error-capture-stack-trace": "warn",
+    "unicorn/prefer-modern-math-apis": "warn",
+    "unicorn/prefer-module": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/prefer-number-properties": "warn",
+    "eslint/no-magic-numbers": [
+      "warn",
+      {
+        "ignore": [-1, 0, 1, 2],
+        "ignoreArrayIndexes": true,
+        "ignoreDefaultValues": true,
+        "ignoreEnums": true,
+        "ignoreNumericLiteralTypes": true,
+        "ignoreTypeIndexes": true
+      }
+    ],
+    "eslint/max-lines": [
+      "warn",
+      {
+        "max": 500,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "eslint/max-lines-per-function": [
+      "warn",
+      {
+        "max": 100,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "eslint/max-statements": [
+      "warn",
+      {
+        "max": 30
+      }
+    ],
+    "eslint/max-params": [
+      "warn",
+      {
+        "max": 5
+      }
+    ],
+    "react/jsx-max-depth": [
+      "warn",
+      {
+        "max": 5
+      }
+    ],
+    "eslint/id-length": [
+      "warn",
+      {
+        "min": 2,
+        "checkGeneric": false,
+        "properties": "never",
+        "exceptions": ["_", "$"]
+      }
+    ],
+    "eslint/no-continue": "off",
+    "import/max-dependencies": [
+      "warn",
+      {
+        "max": 20
+      }
+    ],
+    "typescript/prefer-readonly-parameter-types": [
+      "warn",
+      {
+        "ignoreInferredTypes": true,
+        "treatMethodsAsReadonly": true,
+        "allow": [
+          {
+            "from": "lib",
+            "name": [
+              "Error",
+              "Request",
+              "Response",
+              "Headers",
+              "URL",
+              "URLSearchParams",
+              "Date",
+              "RegExp",
+              "HTMLElement",
+              "KeyboardEvent"
+            ]
+          },
+          {
+            "from": "package",
+            "package": "react",
+            "name": [
+              "ReactNode",
+              "ReactElement",
+              "RefObject",
+              "MouseEvent",
+              "FocusEvent",
+              "KeyboardEvent",
+              "Dispatch"
+            ]
+          },
+          {
+            "from": "package",
+            "package": "next",
+            "name": ["NextRequest", "NextResponse", "Metadata"]
+          },
+          {
+            "from": "package",
+            "package": "cheerio",
+            "name": ["CheerioAPI", "Cheerio"]
+          },
+          {
+            "from": "package",
+            "package": "@playwright/test",
+            "name": ["Page", "Locator", "Route", "BrowserContext"]
+          },
+          {
+            "from": "package",
+            "package": "@grpc/grpc-js",
+            "name": [
+              "Metadata",
+              "ServiceError",
+              "CallOptions",
+              "ClientOptions",
+              "ChannelCredentials"
+            ]
+          },
+          {
+            "from": "lib",
+            "name": ["Location"]
+          },
+          {
+            "from": "package",
+            "package": "playwright-core",
+            "name": ["Page"]
+          },
+          {
+            "from": "package",
+            "package": "react",
+            "name": ["ImgHTMLAttributes", "AnchorHTMLAttributes"]
+          }
+        ]
+      }
+    ],
+    "eslint/func-style": [
+      "warn",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "unicorn/max-nested-calls": [
+      "warn",
+      {
+        "max": 5
+      }
+    ],
+    "jsdoc/require-param": [
+      "warn",
+      {
+        "ignoreWhenAllParamsMissing": true,
+        "interfaceExemptsParamsCheck": true
+      }
+    ],
+    "eslint/require-await": "off",
+    "typescript/require-await": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.{ts,tsx,mts,cts}"],
+      "rules": {
+        "jsdoc/check-tag-names": [
+          "warn",
+          {
+            "typed": true,
+            "definedTags": ["remarks"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/lib/logger.ts", "scripts/**", "tools/**"],
+      "rules": {
+        "eslint/no-console": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.config.{js,cjs,mjs,ts,cts,mts}",
+        "**/instrumentation.{js,ts}",
+        "**/middleware.{js,ts}",
+        "src/shared/lib/runtimeEnv.ts",
+        "scripts/**",
+        "tools/**",
+        "**/app/**/route.{js,ts}",
+        "**/pages/api/**/*.{js,ts}"
+      ],
+      "rules": {
+        "import/no-default-export": "off",
+        "node/no-process-env": "off"
+      }
+    },
+    {
+      "files": [
+        "env/**/*.ts",
+        "**/app/**/{default,error,global-error,layout,loading,not-found,page,template}.{js,jsx,ts,tsx}",
+        "**/app/**/{manifest,robots,sitemap,icon,apple-icon,opengraph-image,twitter-image}.{js,ts,tsx}",
+        "src/types/**/*.d.ts",
+        "**/pages/**/*.{js,jsx,ts,tsx}"
+      ],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx}"],
+      "excludeFiles": ["tests/e2e/**"],
+      "plugins": ["vitest"],
+      "rules": {
+        "vitest/no-focused-tests": "error",
+        "vitest/no-importing-vitest-globals": "off",
+        "vitest/no-hooks": "off",
+        "vitest/prefer-importing-vitest-globals": "error",
+        "vitest/prefer-to-be-falsy": "off",
+        "vitest/prefer-to-be-truthy": "off",
+        "vitest/valid-title": [
+          "error",
+          {
+            "ignoreTypeOfDescribeName": true
+          }
+        ],
+        "vitest/prefer-called-times": "off",
+        "vitest/max-expects": [
+          "warn",
+          {
+            "max": 15
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx}", "tests/**", "tools/grpc-mock-server/**"],
+      "rules": {
+        "eslint/no-magic-numbers": "off"
+      }
+    },
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx}"],
+      "rules": {
+        "eslint/max-lines-per-function": "off",
+        "eslint/max-statements": "off",
+        "vitest/max-expects": [
+          "warn",
+          {
+            "max": 15
+          }
+        ],
+        "eslint/new-cap": [
+          "warn",
+          {
+            "capIsNewExceptions": ["GET", "POST", "DefaultLayout", "Page"]
+          }
+        ],
+        "react-perf/jsx-no-new-function-as-prop": "off",
+        "react-perf/jsx-no-new-object-as-prop": "off",
+        "react-perf/jsx-no-new-array-as-prop": "off",
+        "eslint/max-lines": "off"
+      }
+    },
+    {
+      "files": ["scripts/**", "tools/**"],
+      "rules": {
+        "node/no-sync": "off",
+        "jsdoc/require-param-description": "off",
+        "jsdoc/require-returns-description": "off",
+        "jsdoc/require-returns": "off"
+      }
+    },
+    {
+      "files": [
+        "src/shared/lib/grpc/call.ts",
+        "src/shared/lib/grpc/request.test.ts",
+        "src/shared/api/seo/*.test.ts",
+        "src/shared/components/HeaderPc/HeaderPcShellClient.test.tsx",
+        "tools/grpc-mock-server/server.mjs"
+      ],
+      "rules": {
+        "promise/prefer-await-to-callbacks": "off"
+      }
+    },
+    {
+      "files": ["tools/grpc-mock-server/**"],
+      "rules": {
+        "typescript/prefer-readonly-parameter-types": "off",
+        "eslint/no-inline-comments": "off"
+      }
+    },
+    {
+      "files": ["src/features/legacyVrt/**", "src/features/**/components/*LegacyBody.tsx"],
+      "rules": {
+        "eslint/no-magic-numbers": "off"
+      }
+    },
+    {
+      "files": ["src/shared/constants/**"],
+      "rules": {
+        "eslint/max-lines": "off"
+      }
+    },
+    {
+      "files": ["src/shared/lib/localAssets.test.ts", "tests/integration/security-headers.test.ts"],
+      "rules": {
+        "node/no-sync": "off"
+      }
+    },
+    {
+      "files": ["src/shared/api/seo/*.test.ts"],
+      "rules": {
+        "typescript/prefer-readonly-parameter-types": "off"
+      }
+    },
+    {
+      "files": [
+        "src/shared/components/LegacyImage/LegacyImage.tsx",
+        "src/shared/components/LoginInflowLink/LoginInflowLink.tsx"
+      ],
+      "rules": {
+        "typescript/prefer-readonly-parameter-types": "off"
+      }
+    },
+    {
+      "files": [
+        "src/shared/components/HeaderPc/HeaderPcShellClient.tsx",
+        "src/shared/components/HeaderSp/useDialogFocusTrap.ts",
+        "tools/grpc-mock-server/server.mjs"
+      ],
+      "rules": {
+        "typescript/consistent-return": "off"
+      }
+    },
+    {
+      "files": ["tests/setup.ts"],
+      "plugins": ["vitest"],
+      "rules": {
+        "vitest/require-top-level-describe": "off",
+        "vitest/no-hooks": "off",
+        "vitest/no-importing-vitest-globals": "off",
+        "vitest/prefer-importing-vitest-globals": "error"
+      }
+    },
+    {
+      "files": ["tools/grpc-mock-server/server.mjs"],
+      "rules": {
+        "eslint/no-underscore-dangle": [
+          "warn",
+          {
+            "allow": ["__isError", "__error"]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,3 +1,7 @@
+import type { NextRequest } from "next/server";
+
+import { NextResponse } from "next/server";
+
 import { requestIdHeaderName } from "@shared/lib/requestHeaders.ts";
 import { getConsultingDetailRedirect } from "@shared/redirects/consultingDetailRedirects.ts";
 import { getFreelanceOldPageRedirect } from "@shared/redirects/freelanceOldPageRedirects.ts";
@@ -11,7 +15,8 @@ import {
   cspReportOnlyHeaderName,
   nonceHeaderName,
 } from "@shared/security/csp.ts";
-import { type NextRequest, NextResponse } from "next/server";
+
+const permanentRedirectStatus = 301;
 
 const resolveRequestId = (request: NextRequest): string =>
   request.headers.get(requestIdHeaderName) ?? crypto.randomUUID();
@@ -24,8 +29,8 @@ const withResponseHeaders = (
     requestId,
     nonce,
   }: {
-    requestId: string;
-    nonce: string;
+    readonly requestId: string;
+    readonly nonce: string;
   },
 ): NextResponse => {
   response.headers.set(requestIdHeaderName, requestId);
@@ -39,13 +44,16 @@ const withResponseHeaders = (
 
 /**
  * Nuxt のグローバルミドルウェア（ファイル名のアルファベット順に実行）を同じ順序で適用する
- * 1. redirectConsultingDetailOldPage.global.ts
- * 2. redirectFreelanceOldPage.global.ts
- * 3. redirectGuideDetailPage.global.ts
- * 4. redirectGuideDetailPageToBrandUri.global.ts
- * 5. redirectOldProjectSearch.global.ts
- * 6. session.global.ts（クライアント側の OwndInflowSessionRecorder と API Route で移植）
- * 7. trailingSlashRedirect.global.ts
+ *
+ * 1. RedirectConsultingDetailOldPage.global.ts
+ * 2. RedirectFreelanceOldPage.global.ts
+ * 3. RedirectGuideDetailPage.global.ts
+ * 4. RedirectGuideDetailPageToBrandUri.global.ts
+ * 5. RedirectOldProjectSearch.global.ts
+ * 6. Session.global.ts（クライアント側の OwndInflowSessionRecorder と API Route で移植）
+ * 7. TrailingSlashRedirect.global.ts
+ *
+ * @returns リダイレクトまたはセキュリティヘッダーを付与したレスポンス。
  */
 export const middleware = (request: NextRequest) => {
   const { pathname, searchParams } = request.nextUrl;
@@ -60,11 +68,14 @@ export const middleware = (request: NextRequest) => {
     getOldProjectSearchRedirect(pathname) ??
     getTrailingSlashRedirect(pathname, searchParams);
 
-  if (destination) {
-    return withResponseHeaders(NextResponse.redirect(new URL(destination, request.url), 301), {
-      requestId,
-      nonce,
-    });
+  if (destination != null && destination !== "") {
+    return withResponseHeaders(
+      NextResponse.redirect(new URL(destination, request.url), permanentRedirectStatus),
+      {
+        requestId,
+        nonce,
+      },
+    );
   }
 
   const requestHeaders = new Headers(request.headers);
@@ -79,6 +90,7 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config = {
-  // api・Next.js 内部アセット・画像・拡張子付きファイルは対象外
+  // Api・Next.js 内部アセット・画像・拡張子付きファイルは対象外
+  // oxlint-disable-next-line unicorn/prefer-string-raw -- Next.js は matcher を文字列リテラルとして静的解析する。
   matcher: ["/((?!api|_next/static|_next/image|images|.*\\..*).*)"],
 };

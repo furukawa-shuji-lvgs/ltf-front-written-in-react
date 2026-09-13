@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const loginInflowCookieName = "login_inflow_info";
-export const loginInflowCookieMaxAgeSeconds = 60 * 30;
+const secondsPerMinute = 60;
+const cookieLifetimeMinutes = 30;
+
+export const loginInflowCookieMaxAgeSeconds = secondsPerMinute * cookieLifetimeMinutes;
 
 export const loginInflowSchema = z.object({
   startPage: z.string().min(1),

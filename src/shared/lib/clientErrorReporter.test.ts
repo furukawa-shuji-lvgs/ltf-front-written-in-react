@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+import { requireString, requireValue } from "../../../tests/assertions.ts";
 import { buildClientErrorReportPayload, reportClientError } from "./clientErrorReporter.ts";
 
-const fetchMock = vi.fn();
+const fetchMock = vi.fn<typeof fetch>();
 
 describe("clientErrorReporter > Client Error > 送信", () => {
   afterEach(() => {
@@ -10,16 +12,19 @@ describe("clientErrorReporter > Client Error > 送信", () => {
   });
 
   it("エラー情報 / 検証: report / 期待: client-errors APIへPOST", () => {
+    expect.hasAssertions();
     // Arrange
     vi.stubGlobal("fetch", fetchMock.mockResolvedValue(new Response(null, { status: 204 })));
-    window.history.replaceState(null, "", "/guide/?sip=e2e");
+    globalThis.history.replaceState(null, "", "/guide/?sip=e2e");
 
     // Act
     reportClientError({ message: "failed", digest: "digest-1" });
 
     // Assert
-    const [, requestInit] = fetchMock.mock.calls[0] ?? [];
-    const body = JSON.parse(String((requestInit as RequestInit).body));
+    const [, requestInit] = requireValue(fetchMock.mock.calls[0]);
+    const requestBody = requireString(requestInit?.body);
+    expect(requestBody).toBeTypeOf("string");
+    const body: unknown = JSON.parse(requestBody);
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/client-errors",
       expect.objectContaining({
@@ -30,11 +35,12 @@ describe("clientErrorReporter > Client Error > 送信", () => {
       message: "failed",
       digest: "digest-1",
       path: "/guide/?sip=e2e",
-      userAgent: window.navigator.userAgent,
+      userAgent: globalThis.navigator.userAgent,
     });
   });
 
   it("指定済みpayload / 検証: payload生成 / 期待: pathとuserAgentを上書きしない", () => {
+    expect.hasAssertions();
     // Arrange
     const report = {
       message: "failed",
@@ -46,7 +52,7 @@ describe("clientErrorReporter > Client Error > 送信", () => {
     const payload = buildClientErrorReportPayload(report);
 
     // Assert
-    expect(payload).toEqual({
+    expect(payload).toStrictEqual({
       message: "failed",
       path: "/custom/",
       userAgent: "custom-agent",

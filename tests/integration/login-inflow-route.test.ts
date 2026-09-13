@@ -1,18 +1,24 @@
 import { describe, expect, it, vi } from "vitest";
+
+import type { Logger } from "@shared/lib/logger.ts";
+
 import { POST } from "@/app/api/grpc/login/postLoginInflowInfo/route.ts";
 
 const { infoMock } = vi.hoisted(() => ({
-  infoMock: vi.fn(),
+  infoMock: vi.fn<Logger["info"]>(),
 }));
 
-vi.mock("@shared/lib/logger", () => ({
-  getLogger: vi.fn(() => ({
+vi.mock(import("@shared/lib/logger"), () => ({
+  getLogger: vi.fn<() => Logger>(() => ({
     info: infoMock,
+    warn: vi.fn<Logger["warn"]>(),
+    error: vi.fn<Logger["error"]>(),
   })),
 }));
 
-describe("Login Inflow API > ログイン流入 > 経路", () => {
+describe("login Inflow API > ログイン流入 > 経路", () => {
   it("有効payload / 検証: 受付 / 期待: Successを返してCookieに保存", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/grpc/login/postLoginInflowInfo", {
       method: "POST",
@@ -45,6 +51,7 @@ describe("Login Inflow API > ログイン流入 > 経路", () => {
   });
 
   it("不正payload / 検証: 受付 / 期待: 400を返す", async () => {
+    expect.hasAssertions();
     // Arrange
     const request = new Request("http://localhost/api/grpc/login/postLoginInflowInfo", {
       method: "POST",

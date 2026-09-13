@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 import {
   encodeLoginInflowCookie,
   loginInflowCookieMaxAgeSeconds,
@@ -6,14 +8,13 @@ import {
 } from "@features/inflow/api/loginInflowInfo.ts";
 import { getCustomEnv } from "@shared/lib/env.ts";
 import { getLogger } from "@shared/lib/logger.ts";
-import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
 const logger = getLogger("login-inflow");
 
 export const POST = async (request: Request) => {
-  const body = await request.json().catch(() => null);
+  const body: unknown = await request.json().catch(() => null);
   const parsed = loginInflowSchema.safeParse(body);
 
   if (!parsed.success) {

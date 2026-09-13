@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 const projectRoot = fileURLToPath(new URL("..", import.meta.url));
@@ -18,7 +18,7 @@ export default defineConfig({
       "@features": fileURLToPath(new URL("../src/features", import.meta.url)),
       "@shared": fileURLToPath(new URL("../src/shared", import.meta.url)),
       "@generated": fileURLToPath(new URL("../contracts/grpc/generated", import.meta.url)),
-      "server-only": fileURLToPath(new URL("./stubs/server-only.ts", import.meta.url)),
+      "server-only": fileURLToPath(new URL("stubs/server-only.ts", import.meta.url)),
       "@": fileURLToPath(new URL("../src", import.meta.url)),
     },
   },

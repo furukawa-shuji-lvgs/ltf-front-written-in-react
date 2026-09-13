@@ -1,11 +1,13 @@
 import { HeaderData } from "@shared/constants/header.ts";
 import { LtServices } from "@shared/constants/ltServices.ts";
 import { imageUrl } from "@shared/lib/image.ts";
-import { HeaderSpView } from "./HeaderSpView.tsx";
+
 import type { HeaderSpNavButton, HeaderSpViewData } from "./types.ts";
 
+import { HeaderSpView } from "./HeaderSpView.tsx";
+
 export interface HeaderSpProps {
-  isStatic?: boolean;
+  readonly isStatic?: boolean;
 }
 
 const headerData = HeaderData.sp;
@@ -14,7 +16,11 @@ type SourceNavButton =
   | (typeof headerData.globalNavLeftButtons)[number]
   | (typeof headerData.globalNavLRightButtons)[number];
 
-const buildNavButton = (button: SourceNavButton): HeaderSpNavButton => ({
+type ReadonlySourceNavButton = Readonly<Omit<SourceNavButton, "icon">> & {
+  readonly icon: Readonly<SourceNavButton["icon"]>;
+};
+
+const buildNavButton = (button: ReadonlySourceNavButton): HeaderSpNavButton => ({
   icon: { ...button.icon, src: imageUrl(button.icon.src) },
   href: button.isBrand ? new URL(button.path ?? "", LtServices.LT_URL).href : button.path,
   target: button.target,
@@ -25,20 +31,34 @@ const buildNavButton = (button: SourceNavButton): HeaderSpNavButton => ({
   dataClickLabel: button.dataClickLabel,
 });
 
-const buildViewData = (): HeaderSpViewData => {
-  const globalNav = headerData.globalNav;
-  const headButtons = headerData.globalNavLHeadButtons;
+const buildCommonMenu = (menu: {
+  readonly title: string;
+  readonly links: readonly {
+    readonly path: string;
+    readonly isBrand: boolean;
+    readonly text: string;
+    readonly target: string;
+    readonly dataClickLabel: string;
+    readonly logo: {
+      readonly src: string;
+      readonly width: number;
+      readonly height: number;
+    } | null;
+  }[];
+}) => ({
+  title: menu.title,
+  links: menu.links.map((link) => ({
+    href: link.isBrand ? new URL(link.path, LtServices.LT_URL).href : link.path,
+    text: link.text,
+    target: link.target,
+    dataClickLabel: link.dataClickLabel,
+    logo: link.logo ? { ...link.logo, src: imageUrl(link.logo.src) } : null,
+  })),
+});
 
-  const buildCommonMenu = (menu: typeof globalNav.serviceMenu) => ({
-    title: menu.title,
-    links: menu.links.map((link) => ({
-      href: link.isBrand ? new URL(link.path, LtServices.LT_URL).href : link.path,
-      text: link.text,
-      target: link.target,
-      dataClickLabel: link.dataClickLabel,
-      logo: link.logo ? { ...link.logo, src: imageUrl(link.logo.src) } : null,
-    })),
-  });
+const buildViewData = (): HeaderSpViewData => {
+  const { globalNav } = headerData;
+  const headButtons = headerData.globalNavLHeadButtons;
 
   return {
     logo: {

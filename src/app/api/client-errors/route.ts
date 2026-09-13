@@ -1,3 +1,6 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+
 import { trackError } from "@shared/lib/errorTracking.ts";
 import { checkRateLimit } from "@shared/lib/rateLimit.ts";
 import { RequestBodyTooLargeError, readLimitedRequestJson } from "@shared/lib/requestBody.ts";
@@ -6,26 +9,28 @@ import {
   requestIdFromHeaders,
   requestIpKeyFor,
 } from "@shared/lib/requestHeaders.ts";
-import { NextResponse } from "next/server";
-import { z } from "zod";
 
 export const runtime = "nodejs";
+const CLIENT_ERROR_MAX_BODY_BYTES = 8192;
+const maxMessageOrPathLength = 2048;
+const maxDigestLength = 256;
+const maxUserAgentLength = 512;
+const millisecondsPerSecond = 1000;
 
-const CLIENT_ERROR_MAX_BODY_BYTES = 8_192;
 const clientErrorRateLimit = {
   max: 30,
   windowMs: 60_000,
 };
 
 const clientErrorSchema = z.object({
-  message: z.string().min(1).max(2_048),
-  digest: z.string().max(256).optional(),
-  path: z.string().max(2048).optional(),
-  userAgent: z.string().max(512).optional(),
+  message: z.string().min(1).max(maxMessageOrPathLength),
+  digest: z.string().max(maxDigestLength).optional(),
+  path: z.string().max(maxMessageOrPathLength).optional(),
+  userAgent: z.string().max(maxUserAgentLength).optional(),
 });
 
 const retryAfterSeconds = (resetAt: number): string =>
-  String(Math.max(1, Math.ceil((resetAt - Date.now()) / 1_000)));
+  String(Math.max(1, Math.ceil((resetAt - Date.now()) / millisecondsPerSecond)));
 
 export const POST = async (request: Request) => {
   const rateLimit = checkRateLimit(requestIpKeyFor(request.headers), clientErrorRateLimit);
@@ -42,7 +47,7 @@ export const POST = async (request: Request) => {
     );
   }
 
-  let body: unknown;
+  let body: unknown = null;
   try {
     body = await readLimitedRequestJson(request, CLIENT_ERROR_MAX_BODY_BYTES);
   } catch (error) {

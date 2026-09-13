@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
+import { z } from "zod";
 
 const readProductionHeaders = (): { key: string; value: string }[] => {
   const output = execFileSync(
@@ -16,11 +17,24 @@ const readProductionHeaders = (): { key: string; value: string }[] => {
     { encoding: "utf8" },
   );
 
-  return JSON.parse(output)[0].headers;
+  const headerRules = z
+    .array(
+      z.object({
+        headers: z.array(z.object({ key: z.string(), value: z.string() })),
+      }),
+    )
+    .nonempty()
+    .parse(JSON.parse(output));
+  const [firstRule] = headerRules;
+  if (firstRule === undefined) {
+    throw new Error("Production headers are missing");
+  }
+  return firstRule.headers;
 };
 
-describe("Security Headers > 静的ヘッダー > 設定", () => {
+describe("security Headers > 静的ヘッダー > 設定", () => {
   it("共通ヘッダー / 検証: Referrer-Policy / 期待: strict-origin-when-cross-originを返す", () => {
+    expect.hasAssertions();
     // Arrange
     const headers = readProductionHeaders();
 
@@ -32,6 +46,7 @@ describe("Security Headers > 静的ヘッダー > 設定", () => {
   });
 
   it("共通ヘッダー / 検証: X-Content-Type-Options / 期待: nosniffを返す", () => {
+    expect.hasAssertions();
     // Arrange
     const headers = readProductionHeaders();
 
@@ -42,7 +57,8 @@ describe("Security Headers > 静的ヘッダー > 設定", () => {
     expect(header?.value).toBe("nosniff");
   });
 
-  it("CSP / 検証: next.config / 期待: nonceが必要なCSPを静的headerに置かない", () => {
+  it("cSP / 検証: next.config / 期待: nonceが必要なCSPを静的headerに置かない", () => {
+    expect.hasAssertions();
     // Arrange
     const headers = readProductionHeaders();
 

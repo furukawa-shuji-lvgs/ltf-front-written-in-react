@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const securityHeaders = [
   {
     key: "Referrer-Policy",
@@ -18,7 +18,7 @@ const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   trailingSlash: true,
-  async headers() {
+  headers() {
     return [
       {
         source: "/:path*",

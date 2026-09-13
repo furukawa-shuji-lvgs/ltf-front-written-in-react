@@ -9,7 +9,9 @@ export const projectSummarySchema = z.object({
   status: z.enum(["open", "closed"]),
 });
 
-export type ProjectSummary = z.infer<typeof projectSummarySchema>;
+export type ProjectSummary = Readonly<Omit<z.infer<typeof projectSummarySchema>, "tags">> & {
+  readonly tags: readonly string[];
+};
 
 const openProjectSummaries = [
   {
@@ -36,7 +38,7 @@ const openProjectSummaries = [
     detailPath: "/project/detail/1003/",
     status: "open",
   },
-] satisfies [ProjectSummary, ...ProjectSummary[]];
+] satisfies readonly [ProjectSummary, ...(readonly ProjectSummary[])];
 
 const closedProjectSummaries = [
   {
@@ -47,22 +49,24 @@ const closedProjectSummaries = [
     detailPath: "/project/detail/9001/",
     status: "closed",
   },
-] satisfies [ProjectSummary, ...ProjectSummary[]];
+] satisfies readonly [ProjectSummary, ...(readonly ProjectSummary[])];
 
 const projectSummariesByStatus = {
   open: openProjectSummaries,
   closed: closedProjectSummaries,
-} satisfies Record<ProjectSummary["status"], [ProjectSummary, ...ProjectSummary[]]>;
+} satisfies Readonly<
+  Record<ProjectSummary["status"], readonly [ProjectSummary, ...(readonly ProjectSummary[])]>
+>;
 
 export interface GetProjectSummariesParams {
-  count: number;
-  status?: ProjectSummary["status"];
+  readonly count: number;
+  readonly status?: ProjectSummary["status"];
 }
 
 const buildRepeatedSummaries = (
-  summaries: [ProjectSummary, ...ProjectSummary[]],
+  summaries: readonly [ProjectSummary, ...(readonly ProjectSummary[])],
   count: number,
-): ProjectSummary[] =>
+): readonly ProjectSummary[] =>
   Array.from({ length: count }, (_, index) => {
     const summary = summaries[index % summaries.length] ?? summaries[0];
     return {
@@ -74,7 +78,7 @@ const buildRepeatedSummaries = (
 export const getProjectSummaries = ({
   count,
   status = "open",
-}: GetProjectSummariesParams): ProjectSummary[] => {
+}: GetProjectSummariesParams): readonly ProjectSummary[] => {
   const summaries = projectSummariesByStatus[status];
 
   return projectSummarySchema.array().parse(buildRepeatedSummaries(summaries, count));

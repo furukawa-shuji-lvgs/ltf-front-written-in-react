@@ -1,7 +1,9 @@
 export const requestIdHeaderName = "x-request-id";
 
-export const firstHeaderValue = (value: string | null): string | undefined =>
-  value?.split(",")[0]?.trim() || undefined;
+export const firstHeaderValue = (value: string | null): string | undefined => {
+  const firstValue = value?.split(",")[0]?.trim();
+  return firstValue === "" ? undefined : firstValue;
+};
 
 export const requestIdFromHeaders = (headers: Headers): string | undefined =>
   headers.get(requestIdHeaderName) ?? undefined;

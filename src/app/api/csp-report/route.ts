@@ -1,13 +1,15 @@
+import { NextResponse } from "next/server";
+
 import { getLogger } from "@shared/lib/logger.ts";
 import { checkRateLimit } from "@shared/lib/rateLimit.ts";
 import { RequestBodyTooLargeError, readLimitedRequestText } from "@shared/lib/requestBody.ts";
 import { requestIdFromHeaders, requestIpKeyFor } from "@shared/lib/requestHeaders.ts";
-import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
 const CSP_REPORT_MAX_BODY_BYTES = 16_384;
+const millisecondsPerSecond = 1000;
+
 const cspReportRateLimit = {
   max: 120,
   windowMs: 60_000,
@@ -16,7 +18,7 @@ const cspReportRateLimit = {
 const logger = getLogger("csp-report");
 
 const retryAfterSeconds = (resetAt: number): string =>
-  String(Math.max(1, Math.ceil((resetAt - Date.now()) / 1_000)));
+  String(Math.max(1, Math.ceil((resetAt - Date.now()) / millisecondsPerSecond)));
 
 export const POST = async (request: Request) => {
   const rateLimit = checkRateLimit(requestIpKeyFor(request.headers), cspReportRateLimit);
@@ -34,7 +36,7 @@ export const POST = async (request: Request) => {
   }
 
   const contentType = request.headers.get("content-type") ?? "";
-  let text: string;
+  let text = "";
   try {
     text = await readLimitedRequestText(request, CSP_REPORT_MAX_BODY_BYTES);
   } catch (error) {

@@ -1,11 +1,13 @@
+import type { ReactNode } from "react";
+
 import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
 import { HeaderData } from "@shared/constants/header.ts";
 import { imageUrl } from "@shared/lib/image.ts";
-import type { ReactNode } from "react";
+
 import styles from "./MaintenanceLayout.module.scss";
 
 export interface MaintenanceLayoutProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 // 移行元: app/layouts/maintenance.vue

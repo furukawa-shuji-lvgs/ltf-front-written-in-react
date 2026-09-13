@@ -1,6 +1,7 @@
-import { LegacyArticleBody } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
 import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
 
-export const ConsultationLegacyBody = ({ match }: { match: PageRouteMatch }) => (
+import { LegacyArticleBody } from "@features/legacyVrt/components/LegacyVrtParts.tsx";
+
+export const ConsultationLegacyBody = ({ match }: { readonly match: PageRouteMatch }) => (
   <LegacyArticleBody match={match} />
 );

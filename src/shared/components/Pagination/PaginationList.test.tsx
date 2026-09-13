@@ -1,8 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import type { PaginationMeta } from "./pagination.ts";
+
 import { PaginationList } from "./PaginationList.tsx";
 import { PaginationListEllipsis } from "./PaginationListEllipsis.tsx";
-import type { PaginationMeta } from "./pagination.ts";
 
 const createMeta = (currentPage: number, totalPages: number): PaginationMeta => ({
   itemCount: 20,
@@ -18,8 +20,9 @@ const constData = {
   slash: "/",
 };
 
-describe("PaginationList", () => {
+describe(PaginationList, () => {
   it("現在のページはリンクにならないこと", () => {
+    expect.hasAssertions();
     render(
       <PaginationList
         paginationMeta={createMeta(3, 10)}
@@ -35,6 +38,7 @@ describe("PaginationList", () => {
   });
 
   it("1ページ目では最初のページへのリンクが表示されないこと", () => {
+    expect.hasAssertions();
     render(
       <PaginationList
         paginationMeta={createMeta(1, 10)}
@@ -51,6 +55,7 @@ describe("PaginationList", () => {
   });
 
   it("最終ページでは最後のページへのリンクが表示されないこと", () => {
+    expect.hasAssertions();
     render(
       <PaginationList
         paginationMeta={createMeta(10, 10)}
@@ -66,7 +71,8 @@ describe("PaginationList", () => {
     );
   });
 
-  it("PC では Prev / Next のテキストが表示されること", () => {
+  it("pC では Prev / Next のテキストが表示されること", () => {
+    expect.hasAssertions();
     render(
       <PaginationList
         paginationMeta={createMeta(3, 10)}
@@ -79,7 +85,8 @@ describe("PaginationList", () => {
     expect(screen.getByText("Next")).toBeInTheDocument();
   });
 
-  it("SP では Prev / Next のテキストが表示されず最大4ページ表示になること", () => {
+  it("sP では Prev / Next のテキストが表示されず最大4ページ表示になること", () => {
+    expect.hasAssertions();
     render(
       <PaginationList
         paginationMeta={createMeta(1, 10)}
@@ -95,8 +102,9 @@ describe("PaginationList", () => {
   });
 });
 
-describe("PaginationListEllipsis", () => {
+describe(PaginationListEllipsis, () => {
   it("トータルページ数が maxCount 以下の場合は全ページを表示すること", () => {
+    expect.hasAssertions();
     render(
       <PaginationListEllipsis
         paginationMeta={createMeta(3, 10)}
@@ -113,6 +121,7 @@ describe("PaginationListEllipsis", () => {
   });
 
   it("中間ページでは両側に三点リーダーが表示されること", () => {
+    expect.hasAssertions();
     render(
       <PaginationListEllipsis
         paginationMeta={createMeta(15, 30)}
@@ -132,6 +141,7 @@ describe("PaginationListEllipsis", () => {
   });
 
   it("1ページ目では前のページリンクが無効になること", () => {
+    expect.hasAssertions();
     render(
       <PaginationListEllipsis
         paginationMeta={createMeta(1, 30)}
@@ -145,6 +155,7 @@ describe("PaginationListEllipsis", () => {
   });
 
   it("最終ページでは次のページリンクが無効になること", () => {
+    expect.hasAssertions();
     render(
       <PaginationListEllipsis
         paginationMeta={createMeta(30, 30)}
@@ -157,6 +168,7 @@ describe("PaginationListEllipsis", () => {
   });
 
   it("query がある場合はリンクにクエリ文字列が付与されること", () => {
+    expect.hasAssertions();
     render(
       <PaginationListEllipsis
         paginationMeta={createMeta(3, 10)}

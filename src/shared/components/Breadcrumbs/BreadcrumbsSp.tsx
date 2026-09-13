@@ -1,17 +1,19 @@
-import type { BreadCrumb } from "@shared/api/seo/types.ts";
 import Link from "next/link";
+
+import type { BreadCrumb } from "@shared/api/seo/types.ts";
+
 import styles from "./BreadcrumbsSp.module.scss";
 
 export interface BreadcrumbsSpProps {
-  breadcrumbs: BreadCrumb[];
-  variant?: "-silver" | "";
+  readonly breadcrumbs: readonly BreadCrumb[];
+  readonly variant?: "-silver" | "";
 }
 
-// schema.org/BreadcrumbList の microdata 構造化データを含む（移行元と同じ）
+// Schema.org/BreadcrumbList の microdata 構造化データを含む（移行元と同じ）
 export const BreadcrumbsSp = ({ breadcrumbs, variant = "" }: BreadcrumbsSpProps) => (
   <ol
     className={`${styles.breadcrumbList} ${variant === "-silver" ? styles.silver : ""}`}
-    itemScope={true}
+    itemScope
     itemType="https://schema.org/BreadcrumbList"
   >
     {breadcrumbs.map((breadcrumb, index) => (
@@ -19,7 +21,7 @@ export const BreadcrumbsSp = ({ breadcrumbs, variant = "" }: BreadcrumbsSpProps)
         key={breadcrumb.url}
         className={styles.item}
         itemProp="itemListElement"
-        itemScope={true}
+        itemScope
         itemType="https://schema.org/ListItem"
       >
         {index === breadcrumbs.length - 1 ? (

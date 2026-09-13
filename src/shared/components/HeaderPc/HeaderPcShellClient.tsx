@@ -1,19 +1,22 @@
 "use client";
 
 import type { ReactNode } from "react";
+
 import { useEffect, useRef, useState } from "react";
 
+const fixedHeaderThresholdPx = 600;
+
 interface HeaderPcShellClientProps {
-  children: ReactNode;
-  isFixed: boolean;
-  isSticky: boolean;
-  isLayoutL: boolean;
-  classNames: {
-    baseHeader: string;
-    isFixed: string;
-    isShow: string;
-    isSticky: string;
-    layoutL: string;
+  readonly children: ReactNode;
+  readonly isFixed: boolean;
+  readonly isSticky: boolean;
+  readonly isLayoutL: boolean;
+  readonly classNames: {
+    readonly baseHeader: string;
+    readonly isFixed: string;
+    readonly isShow: string;
+    readonly isSticky: string;
+    readonly layoutL: string;
   };
 }
 
@@ -28,16 +31,20 @@ export const HeaderPcShellClient = ({
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!isFixed) return;
+    if (!isFixed) {
+      return;
+    }
 
     const updateHeaderVisibility = () => {
-      setIsShow(window.scrollY >= (isSticky ? window.innerHeight : 600));
+      setIsShow(window.scrollY >= (isSticky ? window.innerHeight : fixedHeaderThresholdPx));
       animationFrameRef.current = null;
     };
 
     const toggleHeaderNav = () => {
-      if (animationFrameRef.current !== null) return;
-      animationFrameRef.current = window.requestAnimationFrame(updateHeaderVisibility);
+      if (animationFrameRef.current !== null) {
+        return;
+      }
+      animationFrameRef.current = globalThis.requestAnimationFrame(updateHeaderVisibility);
     };
 
     updateHeaderVisibility();
@@ -46,7 +53,7 @@ export const HeaderPcShellClient = ({
     return () => {
       window.removeEventListener("scroll", toggleHeaderNav);
       if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current);
+        globalThis.cancelAnimationFrame(animationFrameRef.current);
       }
     };
   }, [isFixed, isSticky]);

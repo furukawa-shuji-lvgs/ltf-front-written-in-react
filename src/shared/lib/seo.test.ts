@@ -1,8 +1,10 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, it } from "vitest";
+
 import { createDataLayerInnerHtml } from "./seo.ts";
 
-describe("createDataLayerInnerHtml", () => {
-  test("指定した値が対応するキーに埋め込まれること", () => {
+describe(createDataLayerInnerHtml, () => {
+  it("指定した値が対応するキーに埋め込まれること", () => {
+    expect.hasAssertions();
     const result = createDataLayerInnerHtml({
       entryId: "e-1",
       inflowParam: "inflow",
@@ -34,19 +36,22 @@ describe("createDataLayerInnerHtml", () => {
     expect(result).toContain('dataLayer.push({"site_type": "pc"})');
   });
 
-  test("basketstatus_rtb は配列リテラルとして埋め込まれること", () => {
+  it("basketstatus_rtb は配列リテラルとして埋め込まれること", () => {
+    expect.hasAssertions();
     const result = createDataLayerInnerHtml({ basketstatusRtb: '"a","b"' });
     expect(result).toContain('dataLayer.push({"basketstatus_rtb": ["a","b"]})');
   });
 
-  test("未指定の値は空文字で埋め込まれること", () => {
+  it("未指定の値は空文字で埋め込まれること", () => {
+    expect.hasAssertions();
     const result = createDataLayerInnerHtml({});
     expect(result).toContain('dataLayer.push({"entry_id": ""})');
     expect(result).toContain('dataLayer.push({"basketstatus_rtb": []})');
     expect(result).toContain('dataLayer.push({"site_type": ""})');
   });
 
-  test("dataLayer の初期化コードが先頭に含まれること", () => {
+  it("dataLayer の初期化コードが先頭に含まれること", () => {
+    expect.hasAssertions();
     const result = createDataLayerInnerHtml({});
     expect(result.startsWith("window.dataLayer = window.dataLayer || [];")).toBe(true);
   });

@@ -6,7 +6,7 @@ const messageFrom = (fallback: string, cause: unknown): string =>
   cause instanceof Error && cause.message ? cause.message : fallback;
 
 export const register = () => {
-  // biome-ignore lint/style/noProcessEnv: Next.js instrumentation exposes runtime via NEXT_RUNTIME.
+  // Next.js instrumentation exposes runtime via NEXT_RUNTIME.
   if (process.env.NEXT_RUNTIME !== "nodejs" || processErrorHandlersRegistered) {
     return;
   }

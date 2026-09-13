@@ -2,7 +2,9 @@ import { createMapRedirectResolver } from "./redirectResolver.ts";
 
 const guideUri = "/guide/detail/";
 const partnerUri = "/partner/guide/article/detail/";
-export const guideDetailBrandRedirectMap: Record<string, string> = {
+const brandOrigin = "https://levtech.jp";
+
+export const guideDetailBrandRedirectMap: Readonly<Record<string, string>> = {
   [`${guideUri}942/`]: `${partnerUri}34/`,
   [`${guideUri}943/`]: `${partnerUri}64/`,
   [`${guideUri}944/`]: `${partnerUri}61/`,
@@ -117,11 +119,9 @@ export const guideDetailBrandRedirectMap: Record<string, string> = {
   [`${guideUri}1391/`]: `${partnerUri}51/`,
 };
 
-const brandOrigin = "https://levtech.jp";
-
 /**
- * ガイド詳細ページ → Brand（levtech.jp）ページへの301リダイレクト（外部リダイレクト）
- * 移行元: ltf-front app/middleware/redirectGuideDetailPageToBrandUri.global.ts
+ * ガイド詳細ページ → Brand（levtech.jp）ページへの301リダイレクト（外部リダイレクト） 移行元: ltf-front
+ * app/middleware/redirectGuideDetailPageToBrandUri.global.ts
  */
 export const getGuideDetailBrandRedirect = createMapRedirectResolver(
   guideDetailBrandRedirectMap,

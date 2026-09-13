@@ -1,7 +1,4 @@
-/**
- * 各ページ用のTDKHのkey設定（アルファベット順）
- * ページが追加されたら記述を追加(route名からMapping)
- */
+/** 各ページ用のTDKHのkey設定（アルファベット順） ページが追加されたら記述を追加(route名からMapping) */
 const Tdkh = {
   "achievement-interview-list": "interview_top",
   "achievement-interview-list-pid": "interview_top",
@@ -53,7 +50,7 @@ const Tdkh = {
 type TdkhKey = keyof typeof Tdkh;
 const isTdkhKey = (key: string): key is TdkhKey => key in Tdkh;
 
-export const tdkhMapping = (routeName: TdkhKey | string): string => {
+export const tdkhMapping = (routeName: string): string => {
   if (isTdkhKey(routeName)) {
     return Tdkh[routeName];
   }

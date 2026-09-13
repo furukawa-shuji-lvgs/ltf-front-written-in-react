@@ -1,21 +1,19 @@
+import { describe, expect, vi, it } from "vitest";
+
 import type { Logger } from "@shared/lib/logger.ts";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+
 import { safeRouteForNonRootPage } from "./safeRouteForNonRootPage.ts";
 
 const createLogger = (): Logger => ({
-  info: vi.fn(),
-  warn: vi.fn(),
-  error: vi.fn(),
+  info: vi.fn<Logger["info"]>(),
+  warn: vi.fn<Logger["warn"]>(),
+  error: vi.fn<Logger["error"]>(),
 });
 
-describe("safeRouteForNonRootPage", () => {
-  let logger: Logger;
-
-  beforeEach(() => {
-    logger = createLogger();
-  });
-
-  test("path・fullPath・params がすべて有効な場合はそのまま返し、ログを出さないこと", () => {
+describe(safeRouteForNonRootPage, () => {
+  it("path・fullPath・params がすべて有効な場合はそのまま返し、ログを出さないこと", () => {
+    expect.hasAssertions();
+    const logger = createLogger();
     const route = {
       path: "/guide/detail/1/",
       fullPath: "/guide/detail/1/?p=1",
@@ -31,11 +29,13 @@ describe("safeRouteForNonRootPage", () => {
       () => ({ id: "fallback" }),
     );
 
-    expect(result).toEqual(route);
+    expect(result).toStrictEqual(route);
     expect(logger.error).not.toHaveBeenCalled();
   });
 
-  test("path が '/' の場合は requestURL.pathname にフォールバックし、error ログを出すこと", () => {
+  it("path が '/' の場合は requestURL.pathname にフォールバックし、error ログを出すこと", () => {
+    expect.hasAssertions();
+    const logger = createLogger();
     const route = { path: "/", fullPath: "/guide/", params: {} };
     const requestUrl = new URL("https://freelance.levtech.jp/guide/");
 
@@ -48,10 +48,12 @@ describe("safeRouteForNonRootPage", () => {
     );
 
     expect(result.path).toBe("/guide/");
-    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledOnce();
   });
 
-  test("fullPath が '/' の場合は requestURL の pathname + search にフォールバックすること", () => {
+  it("fullPath が '/' の場合は requestURL の pathname + search にフォールバックすること", () => {
+    expect.hasAssertions();
+    const logger = createLogger();
     const route = { path: "/guide/", fullPath: "/", params: {} };
     const requestUrl = new URL("https://freelance.levtech.jp/guide/?p=2");
 
@@ -64,10 +66,12 @@ describe("safeRouteForNonRootPage", () => {
     );
 
     expect(result.fullPath).toBe("/guide/?p=2");
-    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledOnce();
   });
 
-  test("必須の params が欠けている場合はフォールバックの params を返すこと", () => {
+  it("必須の params が欠けている場合はフォールバックの params を返すこと", () => {
+    expect.hasAssertions();
+    const logger = createLogger();
     const route = { path: "/guide/detail/1/", fullPath: "/guide/detail/1/", params: {} };
     const requestUrl = new URL("https://freelance.levtech.jp/guide/detail/1/");
 
@@ -79,11 +83,13 @@ describe("safeRouteForNonRootPage", () => {
       () => ({ id: "1" }),
     );
 
-    expect(result.params).toEqual({ id: "1" });
-    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(result.params).toStrictEqual({ id: "1" });
+    expect(logger.error).toHaveBeenCalledOnce();
   });
 
-  test("path と fullPath の両方が '/' の場合は両方フォールバックし、error ログが2回出ること", () => {
+  it("path と fullPath の両方が '/' の場合は両方フォールバックし、error ログが2回出ること", () => {
+    expect.hasAssertions();
+    const logger = createLogger();
     const route = { path: "/", fullPath: "/", params: {} };
     const requestUrl = new URL("https://freelance.levtech.jp/word/?p=3");
 

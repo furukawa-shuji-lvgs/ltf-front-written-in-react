@@ -1,24 +1,26 @@
 export interface DataLayer {
-  entryId?: string;
-  inflowParam?: string;
-  jobId?: string;
-  viewBasketLogicad?: string;
-  rtbJobId?: string;
-  freelanceExperience?: string;
-  engineerExperience?: string;
-  basketstatusRtb?: string;
-  projectStatus?: string;
-  category1Id?: string;
-  sha256PhoneNumber?: string;
-  sha256EmailAddress?: string;
-  projectId?: string;
-  siteType?: string;
+  readonly entryId?: string;
+  readonly inflowParam?: string;
+  readonly jobId?: string;
+  readonly viewBasketLogicad?: string;
+  readonly rtbJobId?: string;
+  readonly freelanceExperience?: string;
+  readonly engineerExperience?: string;
+  readonly basketstatusRtb?: string;
+  readonly projectStatus?: string;
+  readonly category1Id?: string;
+  readonly sha256PhoneNumber?: string;
+  readonly sha256EmailAddress?: string;
+  readonly projectId?: string;
+  readonly siteType?: string;
 }
 
 /**
  * DataLayer 用 innerHTML を作成
+ *
  * @remarks
- * -  IPアドレスは 旧app/plugins/publicIp.client.ts 相当のクライアント処理で dataLayer にセットする
+ *   - IPアドレスは 旧app/plugins/publicIp.client.ts 相当のクライアント処理で dataLayer にセットする
+ * @returns DataLayer を設定するスクリプト本文。
  */
 export const createDataLayerInnerHtml = (
   dataLayer: DataLayer,

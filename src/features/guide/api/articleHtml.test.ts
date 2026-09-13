@@ -1,10 +1,13 @@
+import { load as loadHtml } from "cheerio";
+import { beforeEach, describe, expect, vi, it } from "vitest";
+
 import type { Logger } from "@shared/lib/logger.ts";
-import * as cheerio from "cheerio";
-import type { Mock } from "vitest";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+
+import { requireString } from "../../../../tests/assertions.ts";
+import { getToc, processArticleContentForRender, processArticleHtml } from "./articleHtml.ts";
 
 type WarnArgs = Parameters<Logger["warn"]>;
-type WarnLogger = (...args: WarnArgs) => void;
+type WarnLogger = (...args: Readonly<WarnArgs>) => void;
 
 type TableOfContentsItem = {
   h2: { title: string; id: number };
@@ -12,24 +15,25 @@ type TableOfContentsItem = {
 };
 
 // Create a mock function that we can access later
-let mockWarn: Mock<WarnLogger>;
+const { mockWarn } = vi.hoisted(() => ({ mockWarn: vi.fn<WarnLogger>() }));
 
-vi.mock("@shared/lib/logger", () => ({
-  getLogger: vi.fn(() => ({
-    warn: (...args: WarnArgs) => mockWarn(...args),
+vi.mock(import("@shared/lib/logger"), () => ({
+  getLogger: vi.fn<() => Logger>(() => ({
+    warn: (...args: Readonly<WarnArgs>) => {
+      mockWarn(...args);
+    },
+    info: vi.fn<Logger["info"]>(),
+    error: vi.fn<Logger["error"]>(),
   })),
 }));
 
-import * as utils from "./articleHtml.ts";
-
-describe("processArticleHtml", () => {
-  const { processArticleHtml } = utils;
-
+describe(processArticleHtml, () => {
   beforeEach(() => {
-    mockWarn = vi.fn<WarnLogger>();
+    mockWarn.mockReset();
   });
 
-  test("記事HTML / 検証: 目次生成とID付与 / 期待: 同じ解析結果でtocと描画HTMLを返す", () => {
+  it("記事HTML / 検証: 目次生成とID付与 / 期待: 同じ解析結果でtocと描画HTMLを返す", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
       <h2 class="article__ttlL">見出し1</h2>
@@ -41,8 +45,8 @@ describe("processArticleHtml", () => {
     const result = processArticleHtml(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result.html ?? "");
-    expect(result.toc).toEqual([
+    const $ = loadHtml(requireString(result.html));
+    expect(result.toc).toStrictEqual([
       {
         h2: { title: "見出し1", id: 1 },
         h3: [{ title: "小見出し1", id: 2 }],
@@ -58,15 +62,14 @@ describe("processArticleHtml", () => {
   });
 });
 
-describe("processArticleContentForRender", () => {
-  const { processArticleContentForRender } = utils;
-
+describe(processArticleContentForRender, () => {
   // Initialize the mock function
   beforeEach(() => {
-    mockWarn = vi.fn<WarnLogger>();
+    mockWarn.mockReset();
   });
 
-  test("空文字が渡された場合に、問題なく対応できること", () => {
+  it("空文字が渡された場合に、問題なく対応できること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "";
 
@@ -77,7 +80,8 @@ describe("processArticleContentForRender", () => {
     expect(result).toBe("");
   });
 
-  test("無効なHTMLが渡された場合に、warningを表示しつつ、問題なく対応できること", () => {
+  it("無効なHTMLが渡された場合に、warningを表示しつつ、問題なく対応できること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<div><span>Test";
 
@@ -91,7 +95,8 @@ describe("processArticleContentForRender", () => {
     );
   });
 
-  test("imgを含むaタグにanchorWithImageクラスが付与されること", () => {
+  it("imgを含むaタグにanchorWithImageクラスが付与されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<a href='#'><img src='test.jpg' alt='Test'></a>";
 
@@ -99,14 +104,15 @@ describe("processArticleContentForRender", () => {
     const result = processArticleContentForRender(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result ?? "");
+    const $ = loadHtml(requireString(result));
     const $anchor = $("a");
     expect($anchor.hasClass("anchorWithImage")).toBe(true);
     expect($anchor.find("img").attr("src")).toBe("test.jpg");
     expect($anchor.find("img").attr("alt")).toBe("Test");
   });
 
-  test("画像のないアンカーは保持される", () => {
+  it("画像のないアンカーは保持される", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<a href='#'>テキストのみリンク</a>";
 
@@ -114,13 +120,14 @@ describe("processArticleContentForRender", () => {
     const result = processArticleContentForRender(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result ?? "");
+    const $ = loadHtml(requireString(result));
     const $anchor = $("a");
     expect($anchor.hasClass("anchorWithImage")).toBe(false);
     expect($anchor.text()).toBe("テキストのみリンク");
   });
 
-  test("記事HTML / 検証: scriptタグ除去 / 期待: 本文テキストだけを保持", () => {
+  it("記事HTML / 検証: scriptタグ除去 / 期待: 本文テキストだけを保持", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<section><p>本文</p><script>alert('xss')</script></section>";
 
@@ -128,12 +135,13 @@ describe("processArticleContentForRender", () => {
     const result = processArticleContentForRender(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result ?? "");
-    expect($("script").length, "scriptタグは描画HTMLへ残さない").toBe(0);
+    const $ = loadHtml(requireString(result));
+    expect($("script")).toHaveLength(0);
     expect($("section").text()).toBe("本文");
   });
 
-  test("記事HTML / 検証: イベント属性除去 / 期待: 安全な属性だけを保持", () => {
+  it("記事HTML / 検証: イベント属性除去 / 期待: 安全な属性だけを保持", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<img src='test.jpg' alt='Test' onerror='alert(1)'>";
 
@@ -141,13 +149,14 @@ describe("processArticleContentForRender", () => {
     const result = processArticleContentForRender(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result ?? "");
+    const $ = loadHtml(requireString(result));
     expect($("img").attr("onerror"), "イベント属性は描画HTMLへ残さない").toBeUndefined();
     expect($("img").attr("src")).toBe("test.jpg");
     expect($("img").attr("alt")).toBe("Test");
   });
 
-  test("記事HTML / 検証: 危険URL除去 / 期待: javascriptリンクをhrefなしで返す", () => {
+  it("記事HTML / 検証: 危険URL除去 / 期待: javascriptリンクをhrefなしで返す", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "<a href='javascript:alert(1)'>危険なリンク</a>";
 
@@ -155,16 +164,15 @@ describe("processArticleContentForRender", () => {
     const result = processArticleContentForRender(inputHtml);
 
     // Assert
-    const $ = cheerio.load(result ?? "");
+    const $ = loadHtml(requireString(result));
     expect($("a").attr("href"), "javascript URLはhrefから除去する").toBeUndefined();
     expect($("a").text()).toBe("危険なリンク");
   });
 });
 
-describe("getToc", () => {
-  const { getToc } = utils;
-
-  test("空文字が渡された場合に、空の配列を返すこと", () => {
+describe(getToc, () => {
+  it("空文字が渡された場合に、空の配列を返すこと", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = "";
 
@@ -172,10 +180,11 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([] as TableOfContentsItem[]);
+    expect(result).toStrictEqual([] as TableOfContentsItem[]);
   });
 
-  test("h2のみの場合、h3が空配列のTOCが生成されること", () => {
+  it("h2のみの場合、h3が空配列のTOCが生成されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml =
       "<h2 class='article__ttlL'><span id='1'>見出し1</span></h2><h2 class='article__ttlL'><span id='2'>見出し2</span></h2>";
@@ -184,13 +193,14 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       { h2: { title: "見出し1", id: 1 }, h3: [] },
       { h2: { title: "見出し2", id: 2 }, h3: [] },
     ] as TableOfContentsItem[]);
   });
 
-  test("h2とh3の組み合わせで正しくTOCが生成されること", () => {
+  it("h2とh3の組み合わせで正しくTOCが生成されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h2 class="article__ttlL"><span id="1">メイン見出し1</span></h2>
@@ -204,7 +214,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "メイン見出し1", id: 1 },
         h3: [
@@ -219,7 +229,8 @@ describe("getToc", () => {
     ] as TableOfContentsItem[]);
   });
 
-  test("h3にarticle__ttlLクラスが使われた場合も正しく処理されること", () => {
+  it("h3にarticle__ttlLクラスが使われた場合も正しく処理されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h2 class="article__ttlL"><span id="1">メイン見出し</span></h2>
@@ -231,7 +242,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "メイン見出し", id: 1 },
         h3: [
@@ -242,7 +253,8 @@ describe("getToc", () => {
     ] as TableOfContentsItem[]);
   });
 
-  test("h3がh2より前にある場合、無視されること", () => {
+  it("h3がh2より前にある場合、無視されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h3 class="article__ttlM">先頭のh3</h3>
@@ -254,7 +266,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "メイン見出し", id: 1 },
         h3: [{ title: "正常なh3", id: 2 }],
@@ -262,7 +274,8 @@ describe("getToc", () => {
     ] as TableOfContentsItem[]);
   });
 
-  test("タイトルにHTMLタグが含まれる場合、テキストのみが抽出されること", () => {
+  it("タイトルにHTMLタグが含まれる場合、テキストのみが抽出されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h2 class="article__ttlL"><span id="1">見出し<strong>太字</strong>テキスト</span></h2>
@@ -273,7 +286,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "見出し太字テキスト", id: 1 },
         h3: [{ title: "サブ見出し強調部分", id: 2 }],
@@ -281,7 +294,8 @@ describe("getToc", () => {
     ] as TableOfContentsItem[]);
   });
 
-  test("前後に空白がある場合、trimされること", () => {
+  it("前後に空白がある場合、trimされること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h2 class="article__ttlL"><span id="1">  見出し  </span></h2>
@@ -292,7 +306,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "見出し", id: 1 },
         h3: [{ title: "サブ見出し", id: 2 }],
@@ -300,7 +314,8 @@ describe("getToc", () => {
     ] as TableOfContentsItem[]);
   });
 
-  test("空のタイトルを持つ要素も処理されること", () => {
+  it("空のタイトルを持つ要素も処理されること", () => {
+    expect.hasAssertions();
     // Arrange
     const inputHtml = `
             <h2 class="article__ttlL"><span id="1"></span></h2>
@@ -312,7 +327,7 @@ describe("getToc", () => {
     const result = getToc(inputHtml);
 
     // Assert
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         h2: { title: "", id: 1 },
         h3: [{ title: "", id: 2 }],
@@ -326,30 +341,30 @@ describe("getToc", () => {
 });
 
 describe("processArticleContentForRender: 付加処理の詳細", () => {
-  const { processArticleContentForRender } = utils;
-
   beforeEach(() => {
-    mockWarn = vi.fn<WarnLogger>();
+    mockWarn.mockReset();
   });
 
-  test("article__tableOfContents ブロックは削除される", () => {
+  it("article__tableOfContents ブロックは削除される", () => {
+    expect.hasAssertions();
     const inputHtml = `
       <div class="article__tableOfContents">ここは消える</div>
       <p>残るテキスト</p>
     `;
-    const result = processArticleContentForRender(inputHtml) ?? "";
-    const $ = cheerio.load(result);
-    expect($(".article__tableOfContents").length).toBe(0);
+    const result = requireString(processArticleContentForRender(inputHtml));
+    const $ = loadHtml(result);
+    expect($(".article__tableOfContents")).toHaveLength(0);
     expect($("p").text()).toBe("残るテキスト");
   });
 
-  test("h2/h3 の既存 id と子 span の id/name は一旦除去（toc無し）", () => {
+  it("h2/h3 の既存 id と子 span の id/name は一旦除去（toc無し）", () => {
+    expect.hasAssertions();
     const inputHtml = `
       <h2 class="article__ttlL" id="old">H2 <span id="s1" name="s1">title</span></h2>
       <h3 class="article__ttlM" id="old3">H3 <span id="s2" name="s2">sub</span></h3>
     `;
-    const result = processArticleContentForRender(inputHtml) ?? "";
-    const $ = cheerio.load(result);
+    const result = requireString(processArticleContentForRender(inputHtml));
+    const $ = loadHtml(result);
 
     const $h2 = $("h2.article__ttlL");
 
@@ -366,7 +381,8 @@ describe("processArticleContentForRender: 付加処理の詳細", () => {
     expect($("h3.article__ttlM span").attr("name")).toBeUndefined();
   });
 
-  test("TOC を渡すと h2/h3 に ID を付与（span の有無に関わらず h2/h3 本体に付与）", () => {
+  it("tOC を渡すと h2/h3 に ID を付与（span の有無に関わらず h2/h3 本体に付与）", () => {
+    expect.hasAssertions();
     const inputHtml = `
       <h2 class="article__ttlL"><span>見出し1</span></h2>
       <h3 class="article__ttlM"><span>小見出し1-1</span></h3>
@@ -388,8 +404,8 @@ describe("processArticleContentForRender: 付加処理の詳細", () => {
       },
     ];
 
-    const result = processArticleContentForRender(inputHtml, toc) ?? "";
-    const $ = cheerio.load(result);
+    const result = requireString(processArticleContentForRender(inputHtml, toc));
+    const $ = loadHtml(result);
 
     const $h2s = $("h2.article__ttlL");
     const $h3s = $("h3.article__ttlM, h3.article__ttlL");
@@ -402,7 +418,8 @@ describe("processArticleContentForRender: 付加処理の詳細", () => {
     expect($h3s.eq(2).attr("id")).toBe("202");
   });
 
-  test("TOC 先頭一致位置から順に割当（見つからなければ0から）", () => {
+  it("tOC 先頭一致位置から順に割当（見つからなければ0から）", () => {
+    expect.hasAssertions();
     const inputHtml = `
             <h3 class="article__ttlM">これはスキップされるH3</h3>
             <h2 class="article__ttlL"><span>期待するH2</span></h2>
@@ -412,8 +429,8 @@ describe("processArticleContentForRender: 付加処理の詳細", () => {
       { h2: { title: "期待するH2", id: 900 }, h3: [{ title: "次のH3", id: 901 }] },
     ];
 
-    const result = processArticleContentForRender(inputHtml, toc) ?? "";
-    const $ = cheerio.load(result);
+    const result = requireString(processArticleContentForRender(inputHtml, toc));
+    const $ = loadHtml(result);
 
     expect($("h2.article__ttlL").attr("id")).toBe("900");
 

@@ -1,14 +1,18 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { HeaderPcView } from "./HeaderPcView.tsx";
+
+import type { postLoginInflowInfo } from "@shared/lib/loginInflow.ts";
+
 import type { HeaderImage, HeaderPcViewData } from "./types.ts";
 
+import { HeaderPcView } from "./HeaderPcView.tsx";
+
 const { postLoginInflowInfoMock } = vi.hoisted(() => ({
-  postLoginInflowInfoMock: vi.fn().mockResolvedValue(undefined),
+  postLoginInflowInfoMock: vi.fn<typeof postLoginInflowInfo>().mockResolvedValue(),
 }));
 
-vi.mock("@shared/lib/loginInflow.ts", () => ({
+vi.mock(import("@shared/lib/loginInflow.ts"), () => ({
   postLoginInflowInfo: postLoginInflowInfoMock,
 }));
 
@@ -87,8 +91,9 @@ const buildViewData = (): HeaderPcViewData => ({
   },
 });
 
-describe("HeaderPcView > グローバルナビ > 表示", () => {
-  it("PCヘッダー / 検証: 初期表示 / 期待: h1と無料登録導線を表示", () => {
+describe("headerPcView > グローバルナビ > 表示", () => {
+  it("pCヘッダー / 検証: 初期表示 / 期待: h1と無料登録導線を表示", () => {
+    expect.hasAssertions();
     const data = buildViewData();
 
     render(
@@ -103,13 +108,14 @@ describe("HeaderPcView > グローバルナビ > 表示", () => {
     );
 
     expect(screen.getByRole("heading", { level: 1, name: "テスト見出し" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /無料登録/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /無料登録/u })).toHaveAttribute(
       "href",
       "/member/input/chat",
     );
   });
 
-  it("PCヘッダー / 検証: 案件検索ホバー / 期待: Java案件リンクを表示", async () => {
+  it("pCヘッダー / 検証: 案件検索ホバー / 期待: Java案件リンクを表示", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
     const data = buildViewData();
 
@@ -119,17 +125,18 @@ describe("HeaderPcView > グローバルナビ > 表示", () => {
         isFixed={false}
         isSticky={false}
         isLayoutL={false}
-        isP={true}
+        isP
         data={data}
       />,
     );
 
-    await user.hover(screen.getByRole("link", { name: /案件検索/ }));
+    await user.hover(screen.getByRole("link", { name: /案件検索/u }));
 
     expect(screen.getByRole("link", { name: "Java" })).toHaveAttribute("href", "/project/skill-3");
   });
 
-  it("PCヘッダー / 検証: ログイン押下 / 期待: ログイン流入情報を送信", async () => {
+  it("pCヘッダー / 検証: ログイン押下 / 期待: ログイン流入情報を送信", async () => {
+    expect.hasAssertions();
     const user = userEvent.setup();
     const data = buildViewData();
 
@@ -144,8 +151,38 @@ describe("HeaderPcView > グローバルナビ > 表示", () => {
       />,
     );
 
-    await user.click(screen.getByRole("link", { name: /ログイン/ }));
+    await user.click(screen.getByRole("link", { name: /ログイン/u }));
 
     expect(postLoginInflowInfoMock).toHaveBeenCalledWith("#login");
+  });
+
+  it("メニュー内外のフォーカス移動 / 検証: 開閉状態 / 期待: メニュー内では開き外へ移ると閉じる", () => {
+    expect.hasAssertions();
+    render(
+      <HeaderPcView
+        h1="テスト見出し"
+        isFixed={false}
+        isSticky={false}
+        isLayoutL={false}
+        isP={false}
+        data={buildViewData()}
+      />,
+    );
+    const projectLink = screen.getByRole("link", { name: /案件検索/u });
+
+    act(() => {
+      projectLink.focus();
+    });
+    expect(projectLink).toHaveAttribute("aria-expanded", "true");
+
+    act(() => {
+      screen.getByRole("link", { name: "Java" }).focus();
+    });
+    expect(projectLink).toHaveAttribute("aria-expanded", "true");
+
+    act(() => {
+      screen.getByRole("link", { name: /無料登録/u }).focus();
+    });
+    expect(projectLink).toHaveAttribute("aria-expanded", "false");
   });
 });

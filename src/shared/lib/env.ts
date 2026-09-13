@@ -1,8 +1,9 @@
 import "server-only";
-
 import { z } from "zod";
-import envMap from "../../../env/index.ts";
+
 import type { CustomEnv } from "../types/env.ts";
+
+import envMap from "../../../env/index.ts";
 import { getRuntimeEnv } from "./runtimeEnv.ts";
 
 const logLevelSchema = z.enum(["trace", "debug", "info", "warn", "error", "fatal", "silent"]);
@@ -36,8 +37,8 @@ export const getCustomEnv = (): CustomEnv => {
   return env;
 };
 
-const validatedEnvMap = Object.fromEntries(
-  Object.entries(envMap).map(([envName, envValue]) => [envName, envSchema.parse(envValue)]),
-) as Record<CustomEnv, AppEnv>;
+const validatedEnvMap = z
+  .record(z.enum(["local", "development", "staging", "production"]), envSchema)
+  .parse(envMap);
 
 export const getEnv = (): AppEnv => validatedEnvMap[getCustomEnv()];

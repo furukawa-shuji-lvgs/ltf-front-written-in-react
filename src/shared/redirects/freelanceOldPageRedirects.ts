@@ -1,14 +1,17 @@
 import { createMapRedirectResolver } from "./redirectResolver.ts";
 
-// リダイレクト先: /guide/tag/1/
 const guideTagUri = "/guide/tag/1/";
-const buildFreelanceRedirectMap = (): Record<string, string> => {
+const lastLegacyDetailNumber = 29;
+
+// リダイレクト先: /guide/tag/1/
+
+const buildFreelanceRedirectMap = (): Readonly<Record<string, string>> => {
   // リダイレクト対象: /freelance/
   const map: Record<string, string> = {
     "/freelance/": guideTagUri,
   };
   // リダイレクト対象: /freelance/detail/{1..29}/
-  for (let detailNumber = 1; detailNumber <= 29; detailNumber++) {
+  for (let detailNumber = 1; detailNumber <= lastLegacyDetailNumber; detailNumber++) {
     map[`/freelance/detail/${detailNumber}/`] = guideTagUri;
   }
   return map;

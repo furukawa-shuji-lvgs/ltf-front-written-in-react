@@ -1,9 +1,12 @@
-import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
-import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
-const paramLabels: Record<string, string> = {
+import Link from "next/link";
+
+import type { PageRouteMatch } from "@features/routeCatalog/types.ts";
+
+import styles from "@features/legacyVrt/components/LegacyVrtShell.module.scss";
+
+const paramLabels: Readonly<Record<string, string>> = {
   category1: "カテゴリ",
   category2: "追加カテゴリ",
   id: "ID",
@@ -11,12 +14,14 @@ const paramLabels: Record<string, string> = {
   tagId: "タグ",
 };
 
-export const classNames = (...classes: Array<string | false | null | undefined>) =>
+export const classNames = (...classes: readonly (string | false | null | undefined)[]) =>
   classes.filter(Boolean).join(" ");
 
-export const RouteParams = ({ params }: { params: PageRouteMatch["params"] }) => {
+export const RouteParams = ({ params }: { readonly params: PageRouteMatch["params"] }) => {
   const entries = Object.entries(params);
-  if (entries.length === 0) return null;
+  if (entries.length === 0) {
+    return null;
+  }
 
   return (
     <dl
@@ -40,8 +45,8 @@ export const SearchPanel = ({
   id = "keyword",
   inputLabel,
 }: {
-  id?: string;
-  inputLabel?: string;
+  readonly id?: string;
+  readonly inputLabel?: string;
 }) => (
   <search>
     <form
@@ -75,7 +80,7 @@ export const SearchPanel = ({
   </search>
 );
 
-export const Actions = ({ match }: { match: PageRouteMatch }) => (
+export const Actions = ({ match }: { readonly match: PageRouteMatch }) => (
   <div className={styles.actions}>
     {match.definition.actions.map((action) => (
       <Link
@@ -94,9 +99,9 @@ export const Section = ({
   children,
   tone = "white",
 }: {
-  title: string;
-  children: ReactNode;
-  tone?: "white" | "blue" | "gray";
+  readonly title: string;
+  readonly children: ReactNode;
+  readonly tone?: "white" | "blue" | "gray";
 }) => (
   <section className={`${styles.sectionBand} ${styles[tone]}`}>
     <div className={styles.contentInner}>

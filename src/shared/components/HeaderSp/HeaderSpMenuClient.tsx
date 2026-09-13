@@ -1,14 +1,20 @@
 "use client";
 
-import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
-import { LoginInflowLink } from "@shared/components/LoginInflowLink/LoginInflowLink.tsx";
+import type { RefObject } from "react";
+
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
-import styles from "./HeaderSp.module.scss";
+
+import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
+import { LoginInflowLink } from "@shared/components/LoginInflowLink/LoginInflowLink.tsx";
+
+import type { HeaderSpNavButton, HeaderSpViewData } from "./types.ts";
+
 import { HeaderSpGlobalMenuCommon } from "./HeaderSpGlobalMenuCommon.tsx";
 import { CloseIcon, EditSquareIcon } from "./HeaderSpIcons.tsx";
-import type { HeaderSpNavButton, HeaderSpViewData } from "./types.ts";
 import { useDialogFocusTrap } from "./useDialogFocusTrap.ts";
+
+import styles from "./HeaderSp.module.scss";
 
 type HeaderSpMenuData = Pick<
   HeaderSpViewData,
@@ -16,15 +22,22 @@ type HeaderSpMenuData = Pick<
 >;
 
 interface HeaderSpMenuClientProps {
-  button: HeaderSpNavButton;
-  menu: HeaderSpMenuData;
+  readonly button: HeaderSpNavButton;
+  readonly menu: HeaderSpMenuData;
 }
 
 export const HeaderSpMenuClient = ({ button, menu }: HeaderSpMenuClientProps) => {
   const [spMenuOpened, setSpMenuOpened] = useState(false);
   const [projectMenuOpened, setProjectMenuOpened] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const toggleSpMenu = useCallback(() => {
+    setSpMenuOpened((opened) => !opened);
+  }, []);
+  const toggleProjectMenu = useCallback(() => {
+    setProjectMenuOpened((opened) => !opened);
+  }, []);
 
   const closeSpMenu = useCallback(() => {
     setSpMenuOpened(false);
@@ -46,7 +59,7 @@ export const HeaderSpMenuClient = ({ button, menu }: HeaderSpMenuClientProps) =>
         type="button"
         data-click-label={button.dataClickLabel}
         className={className}
-        onClick={() => setSpMenuOpened((opened) => !opened)}
+        onClick={toggleSpMenu}
       >
         <LegacyImage
           src={button.icon.src}
@@ -66,115 +79,25 @@ export const HeaderSpMenuClient = ({ button, menu }: HeaderSpMenuClientProps) =>
             className={styles.globalNavMask}
             onClick={closeSpMenu}
           />
-          <div
+          <dialog
             ref={dialogRef}
-            role="dialog"
+            open
             aria-modal="true"
             aria-label="グローバルメニュー"
             className={styles.globalNav}
           >
             <nav aria-label="グローバルメニュー">
-              <div className={styles.globalNavHead}>
-                <Link
-                  href={menu.navHead.logo.href}
-                  data-click-label={menu.navHead.logo.dataClickLabel}
-                >
-                  <LegacyImage
-                    src={menu.navHead.logo.image.src}
-                    width={menu.navHead.logo.image.width}
-                    height={menu.navHead.logo.image.height}
-                    alt={menu.navHead.logo.image.alt}
-                  />
-                </Link>
-                <div className={styles.buttons}>
-                  <a
-                    href={menu.navHead.register.href}
-                    data-click-label={menu.navHead.register.dataClickLabel}
-                    className={styles.ctaButton}
-                  >
-                    <EditSquareIcon />
-                    {menu.navHead.register.text}
-                  </a>
-                  <button
-                    ref={closeButtonRef}
-                    type="button"
-                    data-click-label={menu.navHead.close.dataClickLabel}
-                    className={styles.close}
-                    onClick={closeSpMenu}
-                  >
-                    <CloseIcon />
-                    {menu.navHead.close.text}
-                  </button>
-                </div>
-              </div>
-              <div className={styles.globalMenuList}>
-                <div className={styles.globalMenuProject}>
-                  <p className={styles.title}>{menu.projectMenu.title}</p>
-                  <button
-                    type="button"
-                    className={`${styles.projectMenuTitle} ${projectMenuOpened ? styles.isOpened : ""}`}
-                    onClick={() => setProjectMenuOpened(!projectMenuOpened)}
-                  >
-                    {menu.projectMenu.category.title}
-                  </button>
-                  {projectMenuOpened && (
-                    <div className={styles.projectCategoryLinks}>
-                      {menu.projectMenu.category.links.map((link) => (
-                        <a
-                          key={link.text}
-                          href={link.href}
-                          data-click-label={link.dataClickLabel}
-                          className={styles.link}
-                          onClick={closeSpMenu}
-                        >
-                          {link.text}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  <div className={styles.cta}>
-                    <a
-                      href={menu.projectMenu.category.cta.href}
-                      data-click-label={menu.projectMenu.category.cta.dataClickLabel}
-                      className={styles.ctaLink}
-                      onClick={closeSpMenu}
-                    >
-                      {menu.projectMenu.category.cta.text}
-                    </a>
-                  </div>
-                  <a
-                    href={menu.projectMenu.link.href}
-                    data-click-label={menu.projectMenu.link.dataClickLabel}
-                    className={styles.link}
-                  >
-                    {menu.projectMenu.link.text}
-                  </a>
-                </div>
-                <HeaderSpGlobalMenuCommon
-                  menu={menu.serviceMenu}
-                  onClickLink={closeSpMenu}
-                />
-                <HeaderSpGlobalMenuCommon
-                  menu={menu.usefulMenu}
-                  onClickLink={closeSpMenu}
-                />
-                <a
-                  href={menu.companyLink.href}
-                  data-click-label={menu.companyLink.dataClickLabel}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.link}
-                >
-                  {menu.companyLink.text}
-                  <LegacyImage
-                    src={menu.companyLink.logo.src}
-                    width={menu.companyLink.logo.width}
-                    height={menu.companyLink.logo.height}
-                    alt=""
-                    className={styles.logoIcon}
-                  />
-                </a>
-              </div>
+              <MenuHead
+                menu={menu}
+                closeButtonRef={closeButtonRef}
+                closeSpMenu={closeSpMenu}
+              />
+              <MenuList
+                menu={menu}
+                projectMenuOpened={projectMenuOpened}
+                toggleProjectMenu={toggleProjectMenu}
+                closeSpMenu={closeSpMenu}
+              />
               <LoginInflowLink
                 href={menu.login.href}
                 data-click-label={menu.login.dataClickLabel}
@@ -183,9 +106,153 @@ export const HeaderSpMenuClient = ({ button, menu }: HeaderSpMenuClientProps) =>
                 {menu.login.text}
               </LoginInflowLink>
             </nav>
-          </div>
+          </dialog>
         </>
       )}
     </>
   );
 };
+
+const MenuHead = ({
+  menu,
+  closeButtonRef,
+  closeSpMenu,
+}: {
+  readonly menu: HeaderSpMenuData;
+  readonly closeButtonRef: RefObject<HTMLButtonElement | null>;
+  readonly closeSpMenu: () => void;
+}) => (
+  <div className={styles.globalNavHead}>
+    <Link
+      href={menu.navHead.logo.href}
+      data-click-label={menu.navHead.logo.dataClickLabel}
+    >
+      <LegacyImage
+        src={menu.navHead.logo.image.src}
+        width={menu.navHead.logo.image.width}
+        height={menu.navHead.logo.image.height}
+        alt={menu.navHead.logo.image.alt}
+      />
+    </Link>
+    <div className={styles.buttons}>
+      <a
+        href={menu.navHead.register.href}
+        data-click-label={menu.navHead.register.dataClickLabel}
+        className={styles.ctaButton}
+      >
+        <EditSquareIcon />
+        {menu.navHead.register.text}
+      </a>
+      <button
+        ref={closeButtonRef}
+        type="button"
+        data-click-label={menu.navHead.close.dataClickLabel}
+        className={styles.close}
+        onClick={closeSpMenu}
+      >
+        <CloseIcon />
+        {menu.navHead.close.text}
+      </button>
+    </div>
+  </div>
+);
+
+const ProjectMenu = ({
+  menu,
+  projectMenuOpened,
+  toggleProjectMenu,
+  closeSpMenu,
+}: {
+  readonly menu: HeaderSpMenuData;
+  readonly projectMenuOpened: boolean;
+  readonly toggleProjectMenu: () => void;
+  readonly closeSpMenu: () => void;
+}) => (
+  <div className={styles.globalMenuProject}>
+    <p className={styles.title}>{menu.projectMenu.title}</p>
+    <button
+      type="button"
+      className={`${styles.projectMenuTitle} ${projectMenuOpened ? styles.isOpened : ""}`}
+      onClick={toggleProjectMenu}
+    >
+      {menu.projectMenu.category.title}
+    </button>
+    {projectMenuOpened && (
+      <div className={styles.projectCategoryLinks}>
+        {menu.projectMenu.category.links.map((link) => (
+          <a
+            key={link.text}
+            href={link.href}
+            data-click-label={link.dataClickLabel}
+            className={styles.link}
+            onClick={closeSpMenu}
+          >
+            {link.text}
+          </a>
+        ))}
+      </div>
+    )}
+    <div className={styles.cta}>
+      <a
+        href={menu.projectMenu.category.cta.href}
+        data-click-label={menu.projectMenu.category.cta.dataClickLabel}
+        className={styles.ctaLink}
+        onClick={closeSpMenu}
+      >
+        {menu.projectMenu.category.cta.text}
+      </a>
+    </div>
+    <a
+      href={menu.projectMenu.link.href}
+      data-click-label={menu.projectMenu.link.dataClickLabel}
+      className={styles.link}
+    >
+      {menu.projectMenu.link.text}
+    </a>
+  </div>
+);
+
+const MenuList = ({
+  menu,
+  projectMenuOpened,
+  toggleProjectMenu,
+  closeSpMenu,
+}: {
+  readonly menu: HeaderSpMenuData;
+  readonly projectMenuOpened: boolean;
+  readonly toggleProjectMenu: () => void;
+  readonly closeSpMenu: () => void;
+}) => (
+  <div className={styles.globalMenuList}>
+    <ProjectMenu
+      menu={menu}
+      projectMenuOpened={projectMenuOpened}
+      toggleProjectMenu={toggleProjectMenu}
+      closeSpMenu={closeSpMenu}
+    />
+    <HeaderSpGlobalMenuCommon
+      menu={menu.serviceMenu}
+      onClickLink={closeSpMenu}
+    />
+    <HeaderSpGlobalMenuCommon
+      menu={menu.usefulMenu}
+      onClickLink={closeSpMenu}
+    />
+    <a
+      href={menu.companyLink.href}
+      data-click-label={menu.companyLink.dataClickLabel}
+      target="_blank"
+      rel="noreferrer"
+      className={styles.link}
+    >
+      {menu.companyLink.text}
+      <LegacyImage
+        src={menu.companyLink.logo.src}
+        width={menu.companyLink.logo.width}
+        height={menu.companyLink.logo.height}
+        alt=""
+        className={styles.logoIcon}
+      />
+    </a>
+  </div>
+);

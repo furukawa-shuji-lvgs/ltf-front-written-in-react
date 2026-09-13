@@ -4,9 +4,10 @@ import process from "node:process";
 
 const projectRoot = process.cwd();
 const fixturePath = path.join(projectRoot, "tests/e2e/fixtures/allPages.ts");
-const ltfFrontRoot = process.env.LTF_FRONT_ROOT
-  ? path.resolve(process.env.LTF_FRONT_ROOT)
-  : path.resolve(projectRoot, "..", "ltf-front");
+const ltfFrontRoot =
+  process.env.LTF_FRONT_ROOT != null && process.env.LTF_FRONT_ROOT !== ""
+    ? path.resolve(process.env.LTF_FRONT_ROOT)
+    : path.resolve(projectRoot, "..", "ltf-front");
 const snapshotDir = path.join(
   ltfFrontRoot,
   "tests/e2e/visual/specs/all-pages/all-pages.visual.spec.ts-snapshots",
@@ -14,9 +15,10 @@ const snapshotDir = path.join(
 const suffixes = ["pc", "sp"];
 
 const fixtureSource = readFileSync(fixturePath, "utf8");
-const slugs = Array.from(fixtureSource.matchAll(/slug:\s*"([^"]+)"/g), (match) => match[1]).filter(
-  Boolean,
-);
+const slugs = Array.from(
+  fixtureSource.matchAll(/slug:\s*"(?<snapshot>[^"]+)"/gu),
+  (match) => match[1],
+).filter(Boolean);
 const duplicateSlugs = slugs.filter((slug, index) => slugs.indexOf(slug) !== index);
 const missingSnapshots = slugs.flatMap((slug) =>
   suffixes

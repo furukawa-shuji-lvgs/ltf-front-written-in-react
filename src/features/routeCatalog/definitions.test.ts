@@ -1,4 +1,7 @@
 import { describe, expect, it } from "vitest";
+
+import type { PageDefinition, RouteFeature } from "./types.ts";
+
 import { achievementPageDefinitions } from "./definitions/achievement.ts";
 import { consultationPageDefinitions } from "./definitions/consultation.ts";
 import { entryPageDefinitions } from "./definitions/entry.ts";
@@ -12,7 +15,6 @@ import { servicePageDefinitions } from "./definitions/service.ts";
 import { topPageDefinitions } from "./definitions/top.ts";
 import { wordPageDefinitions } from "./definitions/word.ts";
 import { pageDefinitions } from "./routes.ts";
-import type { PageDefinition, RouteFeature } from "./types.ts";
 
 const definitionGroups = [
   { feature: "achievement", definitions: achievementPageDefinitions },
@@ -32,9 +34,11 @@ const definitionGroups = [
   definitions: readonly PageDefinition[];
 }[];
 
-describe("Route Catalog Definitions > Feature分割 > 経路", () => {
-  for (const { feature, definitions } of definitionGroups) {
-    it(`${feature} / 検証: feature所有 / 期待: 自featureの定義だけを持つ`, () => {
+describe("route Catalog Definitions > Feature分割 > 経路", () => {
+  it.each(definitionGroups)(
+    "$feature / 検証: feature所有 / 期待: 自featureの定義だけを持つ",
+    ({ feature, definitions }) => {
+      expect.hasAssertions();
       // Arrange
       const features = definitions.map((definition) => definition.feature);
 
@@ -44,20 +48,21 @@ describe("Route Catalog Definitions > Feature分割 > 経路", () => {
       );
 
       // Assert
-      expect(unexpectedFeatures).toEqual([]);
-    });
-  }
+      expect(unexpectedFeatures).toStrictEqual([]);
+    },
+  );
 
   it("集約定義 / 検証: feature分割 / 期待: routes.tsの定義と一致する", () => {
+    expect.hasAssertions();
     // Arrange
     const groupedIds = definitionGroups
       .flatMap(({ definitions }) => definitions.map((definition) => definition.id))
-      .sort();
+      .toSorted();
 
     // Act
-    const aggregateIds = pageDefinitions.map((definition) => definition.id).sort();
+    const aggregateIds = pageDefinitions.map((definition) => definition.id).toSorted();
 
     // Assert
-    expect(groupedIds).toEqual(aggregateIds);
+    expect(groupedIds).toStrictEqual(aggregateIds);
   });
 });

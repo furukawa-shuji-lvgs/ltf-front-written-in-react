@@ -1,23 +1,24 @@
 import "server-only";
-
 import { cache } from "react";
-import { createMetadataForRoute, resolvePageRoute } from "../routeMatcher.ts";
+
 import type { PageRouteMatch } from "../types.ts";
+
+import { createMetadataForRoute, resolvePageRoute } from "../routeMatcher.ts";
 
 export type RoutePageData =
   | {
-      match: PageRouteMatch;
-      metadata: ReturnType<typeof createMetadataForRoute>;
+      readonly match: PageRouteMatch;
+      readonly metadata: ReturnType<typeof createMetadataForRoute>;
     }
   | {
-      match: null;
-      metadata: null;
+      readonly match: null;
+      readonly metadata: null;
     };
 
 export const toRouteSlugKey = (slug?: readonly string[]): string =>
   (slug ?? []).filter((segment) => segment.length > 0).join("/");
 
-const splitRouteSlugKey = (slugKey: string): string[] =>
+const splitRouteSlugKey = (slugKey: string): readonly string[] =>
   slugKey.length === 0 ? [] : slugKey.split("/").filter((segment) => segment.length > 0);
 
 export const getRoutePageDataBySlugKey = cache((slugKey: string): RoutePageData => {

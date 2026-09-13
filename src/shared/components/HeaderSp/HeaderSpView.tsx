@@ -1,15 +1,19 @@
-import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
 import Link from "next/link";
-import styles from "./HeaderSp.module.scss";
-import { HeaderSpMenuClient } from "./HeaderSpMenuClient.tsx";
+
+import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
+
 import type { HeaderSpNavButton, HeaderSpViewData } from "./types.ts";
 
+import { HeaderSpMenuClient } from "./HeaderSpMenuClient.tsx";
+
+import styles from "./HeaderSp.module.scss";
+
 interface HeaderSpViewProps {
-  isStatic: boolean;
-  data: HeaderSpViewData;
+  readonly isStatic: boolean;
+  readonly data: HeaderSpViewData;
 }
 
-const HeaderSpNavButtonLink = ({ button }: { button: HeaderSpNavButton }) => {
+const HeaderSpNavButtonLink = ({ button }: { readonly button: HeaderSpNavButton }) => {
   if (button.href === null) {
     return null;
   }
@@ -41,9 +45,9 @@ const HeaderSpNavButtonGroup = ({
   menu,
   menuData,
 }: {
-  buttons: HeaderSpNavButton[];
-  menu?: HeaderSpNavButton | undefined;
-  menuData?: HeaderSpViewData | undefined;
+  readonly buttons: readonly HeaderSpNavButton[];
+  readonly menu?: HeaderSpNavButton | undefined;
+  readonly menuData?: HeaderSpViewData | undefined;
 }) => (
   <div className={styles.globalNavButtons}>
     {buttons.map((button) => (
@@ -55,6 +59,7 @@ const HeaderSpNavButtonGroup = ({
     {menu && menuData ? (
       <HeaderSpMenuClient
         button={menu}
+        // oxlint-disable-next-line react-perf/jsx-no-new-object-as-prop -- Server Component でクライアントに渡すデータを必要な項目に絞る。
         menu={{
           navHead: menuData.navHead,
           projectMenu: menuData.projectMenu,
@@ -69,7 +74,6 @@ const HeaderSpNavButtonGroup = ({
 );
 
 export const HeaderSpView = ({ isStatic, data }: HeaderSpViewProps) => {
-  const rightLinkButtons = data.rightButtons.filter((button) => button.href !== null);
   const menuButton = data.rightButtons.find((button) => button.href === null && button.isMenu);
 
   return (
@@ -88,7 +92,7 @@ export const HeaderSpView = ({ isStatic, data }: HeaderSpViewProps) => {
         />
       </Link>
       <HeaderSpNavButtonGroup
-        buttons={rightLinkButtons}
+        buttons={data.rightButtons}
         menu={menuButton}
         menuData={data}
       />

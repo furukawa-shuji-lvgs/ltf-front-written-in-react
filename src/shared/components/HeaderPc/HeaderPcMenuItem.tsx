@@ -1,37 +1,41 @@
 "use client";
 
+import type { FocusEvent, ReactNode } from "react";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { createContext, useContext, useState } from "react";
-import styles from "./HeaderPc.module.scss";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+
 import type { CommonNavData } from "./types.ts";
+
+import styles from "./HeaderPc.module.scss";
 
 type HeaderPcMenuKey = "project" | CommonNavData["menuKey"];
 
 interface HeaderPcMenuContextValue {
-  activeMenuKey: HeaderPcMenuKey | null;
-  setActiveMenuKey: (menuKey: HeaderPcMenuKey | null) => void;
+  readonly activeMenuKey: HeaderPcMenuKey | null;
+  readonly setActiveMenuKey: (menuKey: HeaderPcMenuKey | null) => void;
 }
 
 const HeaderPcMenuContext = createContext<HeaderPcMenuContextValue | null>(null);
 
-export const HeaderPcMenuList = ({ children }: { children: ReactNode }) => {
+export const HeaderPcMenuList = ({ children }: { readonly children: ReactNode }) => {
   const [activeMenuKey, setActiveMenuKey] = useState<HeaderPcMenuKey | null>(null);
+  const menuContext = useMemo(() => ({ activeMenuKey, setActiveMenuKey }), [activeMenuKey]);
 
   return (
-    <HeaderPcMenuContext.Provider value={{ activeMenuKey, setActiveMenuKey }}>
+    <HeaderPcMenuContext.Provider value={menuContext}>
       <ul className={styles.globalNav}>{children}</ul>
     </HeaderPcMenuContext.Provider>
   );
 };
 
 interface HeaderPcMenuItemProps {
-  menuKey: HeaderPcMenuKey;
-  href: string;
-  dataClickLabel: string;
-  label: string;
-  badge?: ReactNode;
-  children: ReactNode;
+  readonly menuKey: HeaderPcMenuKey;
+  readonly href: string;
+  readonly dataClickLabel: string;
+  readonly label: string;
+  readonly badge?: ReactNode;
+  readonly children: ReactNode;
 }
 
 const ExpandMoreIcon = () => (
@@ -58,6 +62,20 @@ export const HeaderPcMenuItem = ({
   const [localActiveMenuKey, setLocalActiveMenuKey] = useState<HeaderPcMenuKey | null>(null);
   const activeMenuKey = menuContext?.activeMenuKey ?? localActiveMenuKey;
   const setActiveMenuKey = menuContext?.setActiveMenuKey ?? setLocalActiveMenuKey;
+  const openMenu = useCallback(() => {
+    setActiveMenuKey(menuKey);
+  }, [menuKey, setActiveMenuKey]);
+  const closeMenu = useCallback(() => {
+    setActiveMenuKey(null);
+  }, [setActiveMenuKey]);
+  const handleBlur = useCallback(
+    (event: FocusEvent<HTMLDivElement>) => {
+      if (!event.currentTarget.contains(event.relatedTarget)) {
+        closeMenu();
+      }
+    },
+    [closeMenu],
+  );
   const isActive = activeMenuKey === menuKey;
   const hasBadge = badge !== undefined && badge !== null;
   const link = (
@@ -74,26 +92,24 @@ export const HeaderPcMenuItem = ({
   );
 
   return (
-    <li
-      className={`${styles.menu} ${isActive ? styles.isOpen : ""}`}
-      onMouseEnter={() => setActiveMenuKey(menuKey)}
-      onMouseLeave={() => setActiveMenuKey(null)}
-      onFocus={() => setActiveMenuKey(menuKey)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          setActiveMenuKey(null);
-        }
-      }}
-    >
-      {hasBadge ? (
-        <div className={styles.labelLinkWrapper}>
-          {badge}
-          {link}
-        </div>
-      ) : (
-        link
-      )}
-      {children}
+    <li className={`${styles.menu} ${isActive ? styles.isOpen : ""}`}>
+      <div
+        className={styles.menuContent}
+        onMouseEnter={openMenu}
+        onMouseLeave={closeMenu}
+        onFocus={openMenu}
+        onBlur={handleBlur}
+      >
+        {hasBadge ? (
+          <div className={styles.labelLinkWrapper}>
+            {badge}
+            {link}
+          </div>
+        ) : (
+          link
+        )}
+        {children}
+      </div>
     </li>
   );
 };

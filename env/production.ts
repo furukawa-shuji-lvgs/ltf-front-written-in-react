@@ -1,6 +1,6 @@
 import type { LogLevelType } from "../src/shared/types/env.ts";
 
-export default {
+const productionEnv = {
   BASE_URL: "freelance.levtech.jp",
   LTID_BASE_URL: "https://auth.levtech.jp",
 
@@ -20,3 +20,5 @@ export default {
   OWND_INFLOW_REDIS_URL:
     "redis://ltf-front-cache-rg-v1.sfvaih.clustercfg.apne1.cache.amazonaws.com:6379",
 };
+
+export default productionEnv;

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
+
 import { detectDevice } from "./device.ts";
 
-describe("detectDevice", () => {
+describe(detectDevice, () => {
   it.each([
     [
       "iPhone",
@@ -12,6 +13,7 @@ describe("detectDevice", () => {
       "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
     ],
   ])("%s の UA は sp と判定する", (_label, ua) => {
+    expect.hasAssertions();
     expect(detectDevice(ua)).toBe("sp");
   });
 
@@ -25,10 +27,12 @@ describe("detectDevice", () => {
       "Mozilla/5.0 (Linux; Android 14; SM-X910) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     ],
   ])("%s の UA は pc と判定する", (_label, ua) => {
+    expect.hasAssertions();
     expect(detectDevice(ua)).toBe("pc");
   });
 
-  it("UA が null のときは pc と判定する", () => {
+  it("uA が null のときは pc と判定する", () => {
+    expect.hasAssertions();
     expect(detectDevice(null)).toBe("pc");
   });
 });

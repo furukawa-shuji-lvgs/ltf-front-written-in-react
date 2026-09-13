@@ -7,7 +7,7 @@ export const createMapRedirectResolver =
   (path: string): string | null => {
     const destination = redirectMap[path];
 
-    return destination ? mapDestination(destination) : null;
+    return destination != null && destination !== "" ? mapDestination(destination) : null;
   };
 
 export const createPrefixRedirectResolver =

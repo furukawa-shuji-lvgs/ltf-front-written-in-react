@@ -1,22 +1,28 @@
+import { useCallback, useState } from "react";
+
 import { LegacyImage } from "@shared/components/LegacyImage/LegacyImage.tsx";
-import { useState } from "react";
-import styles from "./HeaderSp.module.scss";
+
 import type { HeaderSpCommonMenu } from "./types.ts";
 
+import styles from "./HeaderSp.module.scss";
+
 interface HeaderSpGlobalMenuCommonProps {
-  menu: HeaderSpCommonMenu;
-  onClickLink: () => void;
+  readonly menu: HeaderSpCommonMenu;
+  readonly onClickLink: () => void;
 }
 
 export const HeaderSpGlobalMenuCommon = ({ menu, onClickLink }: HeaderSpGlobalMenuCommonProps) => {
   const [isOpened, setIsOpened] = useState(false);
+  const toggleMenu = useCallback(() => {
+    setIsOpened((opened) => !opened);
+  }, []);
 
   return (
     <div className={styles.globalMenuCommon}>
       <button
         type="button"
         className={`${styles.title} ${isOpened ? styles.isOpened : ""}`}
-        onClick={() => setIsOpened(!isOpened)}
+        onClick={toggleMenu}
       >
         {menu.title}
       </button>

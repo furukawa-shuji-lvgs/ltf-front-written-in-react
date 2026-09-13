@@ -1,6 +1,6 @@
 import type { LogLevelType } from "../src/shared/types/env.ts";
 
-export default {
+const developmentEnv = {
   BASE_URL: "localhost:3000",
   LTID_BASE_URL: "",
 
@@ -20,3 +20,5 @@ export default {
 
   OWND_INFLOW_REDIS_URL: "redis://localhost:6379",
 };
+
+export default developmentEnv;

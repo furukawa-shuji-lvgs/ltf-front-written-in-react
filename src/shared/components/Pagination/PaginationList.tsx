@@ -1,12 +1,15 @@
 import type { Device } from "@shared/lib/device.ts";
-import styles from "./PaginationList.module.scss";
+
 import type { PaginationConstData, PaginationMeta } from "./pagination.ts";
+
 import { createPaginationPath, createPaginationRange } from "./pagination.ts";
 
+import styles from "./PaginationList.module.scss";
+
 export interface PaginationListProps {
-  paginationMeta: PaginationMeta;
-  paginationConstData: PaginationConstData;
-  device: Device;
+  readonly paginationMeta: PaginationMeta;
+  readonly paginationConstData: PaginationConstData;
+  readonly device: Device;
 }
 
 // 移行元: app/components/Molecules/Pagination/PaginationList.vue
